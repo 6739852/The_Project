@@ -21,12 +21,12 @@ function App() {
         <NavBar/>
         <CategoryTab/>
         <HomePage/>
-        {/* <SignIn/> */}
+        <SignIn/>
         {/* <ExistGroup/> */}
         <ViewPurchasingGroup/>
         {/* <AddGroup/> */}
         {/* <SuggestGroup/> */}
-        {/* <SignUp/> */}
+        <SignUp/>
         {/* <SignUpSupplier/> */}
         <Footer/>
     </>
