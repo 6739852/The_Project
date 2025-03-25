@@ -59,8 +59,9 @@ function parseJwt() {
 // });
 
 // תפקיד: להוסיף משתמש חדש למערכת
-export const registerSupplier = createAsyncThunk("supplier/register", async (user, thunkApi) => {
-  const response = await fetch("https://localhost:7022/api/User/SignUp", {
+export const registerSupplier = createAsyncThunk("supplier/register", async (supplier, thunkApi) => {
+    debugger
+    const response = await fetch("https://localhost:7022/api/Supplier/SignUp", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -68,8 +69,12 @@ export const registerSupplier = createAsyncThunk("supplier/register", async (use
     body: JSON.stringify(supplier),
   });
   if (response.ok) {
-    const data = await response.json();
-    return data;
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("numOfGroup", data.numOfGroup);
+        localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+        return data;
   }
 });
 

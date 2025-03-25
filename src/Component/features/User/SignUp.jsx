@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import { TextField, Button, Checkbox, FormControlLabel, Container, Typography } from '@mui/material';
 import { register } from './UserSlice';
 import ViewPurchasingGroup from '../PurchasingGroup/ViewpurchasingGroup';
-import SignUPSupplier from '../Supplier/SignUpSupplier'
 import {Link} from 'react-router-dom'
 
 const SignUp = () => {

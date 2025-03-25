@@ -2,21 +2,21 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextField, Button, Checkbox, FormControlLabel, Container, Typography } from '@mui/material';
 import { registerSupplier } from './SupplierSlice';
+import { useNavigate } from 'react-router-dom';
 
 const SignUpSupplier = () => {
 
-    const [flag, setFlag] = useState(false);
-
     const dispatch = useDispatch();
+    const navigate=useNavigate();
     const [formData, setFormData] = useState({
+        tz: '',
         name: '',
-        email: '',
         password: '',
+        email: '',
         confirmPassword: '',
         alert: false,
         authorized: false,
         phone: '',
-        tz: ''
     });
 
     const handleChange = (e) => {
@@ -39,17 +39,21 @@ const SignUpSupplier = () => {
 
         // שליחת הנתונים ל- Redux
         dispatch(registerSupplier({ 
+            tz: formData.tz,
             name: formData.name, 
-            email: formData.email, 
-            password: formData.password, 
-            alert: formData.alert,
-            authorized: formData.authorized,
+            password: formData.password,
+            numOfCurrentGroup:0, 
             phone: formData.phone,
-            tz: formData.tz
+            email: formData.email, 
+            authorized: formData.authorized,
+            rating:0,
+            alert: formData.alert,
         }));
 
         alert(`User ${formData.name} registered successfully!`);
-        setFlag(true);
+        if (localStorage.getItem("token")) {
+            navigate('/HomePage'); // ניתוב לדף החדש
+          }
     };
 
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -60,10 +64,7 @@ const SignUpSupplier = () => {
 
     return (
         <>
-            {flag ? (
-                <ViewPurchasingGroup />
-            ) : (
-                <Container maxWidth="sm">
+          <Container maxWidth="sm">
                     <Typography 
                         variant="h4" 
                         component="h1" 
@@ -160,7 +161,6 @@ const SignUpSupplier = () => {
                         </Button>
                     </form>
                 </Container>
-            )}
         </>
     );
 };

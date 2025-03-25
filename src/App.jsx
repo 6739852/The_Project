@@ -14,6 +14,7 @@ import HomePage from './Component/HomePage.jsx'
 import CategoryTab from './Component/features/Category/CategoryTab.jsx'
 import SignUpSupplier from './Component/features/Supplier/SignUpSupplier.jsx'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import GroupModel from './Component/features/PurchasingGroup/GroupModel.jsx'
 import Routing  from './Component/Routing.jsx'
 function App() {
   return (
@@ -21,7 +22,6 @@ function App() {
         <NavBar/>
         <CategoryTab/>
         <Routing/>
-
         {/* <HomePage/> */}
         {/* <SignIn/> */}
         {/* <ExistGroup/> */}
