@@ -5,28 +5,30 @@ import './App.css'
 import NavBar from './Component/AppBarr.jsx'
 import ViewPurchasingGroup from './Component/features/PurchasingGroup/ViewpurchasingGroup.jsx'
 import SignIn from './Component/features/User/SignIn'
-// import AddGroup from './Component/features/Supplier/AddGroup'
+import AddGroup from './Component/features/Supplier/AddGroup'
 import SuggestGroup from './Component/features/User/SuggestGroup'
 import SignUp from './Component/features/User/SignUp.jsx'
-import ExistGroup  from './Component/features/User/Card.jsx'
+import Card from './Component/features/User/Cart.jsx'
 import Footer from './Component/Footer.jsx'
 import HomePage from './Component/HomePage.jsx'
 import CategoryTab from './Component/features/Category/CategoryTab.jsx'
-// import SignUpSupplier from './Component/features/Supplier/SignUpSupplier.jsx'
+import SignUpSupplier from './Component/features/Supplier/SignUpSupplier.jsx'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import Routing  from './Component/Routing.jsx'
 function App() {
   return (
     <>
         <NavBar/>
         <CategoryTab/>
-        <HomePage/>
-        <SignIn/>
+        <Routing/>
+
+        {/* <HomePage/> */}
+        {/* <SignIn/> */}
         {/* <ExistGroup/> */}
-        <ViewPurchasingGroup/>
+        {/* <ViewPurchasingGroup/> */}
         {/* <AddGroup/> */}
         {/* <SuggestGroup/> */}
-        <SignUp/>
+        {/* <SignUp/> */}
         {/* <SignUpSupplier/> */}
         <Footer/>
     </>

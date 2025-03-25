@@ -4,6 +4,8 @@ import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCategories } from './CategorySlice';
+import {Link} from 'react-router-dom'
+import { bgcolor } from '@mui/system';
 
 export default function CategoryTab() {
  
@@ -29,9 +31,10 @@ return (
             bgcolor: 'background.paper',
             position: 'sticky',
             top: 64, // Adjusted to stick below the toolbar (assuming toolbar height is 64px)
-             // Ensure it appears above other content
-             width: '100%', // Set width to 100% of the viewport width
-             left: 0, // Align to the left edge of the viewport
+            width: '100%', // Set width to 100% of the viewport width
+            left: 0, // Align to the left edge of the viewport
+            marginBottom: 6,
+            bgcolor: 'white', 
         }}
     >
         <Tabs
@@ -40,14 +43,9 @@ return (
             variant="scrollable"
             scrollButtons
             aria-label="visible arrows tabs example"
-            sx={{
-                [`& .${tabsClasses.scrollButtons}`]: {
-                    '&.Mui-disabled': { opacity: 0.3 },
-                },
-            }}
         >
             {categories.map((category, index) => (
-                <Tab key={index} label={category.name} />
+                <Link to={category.name}><Tab key={index} label={category.name} sx={{ minWidth: 'auto' }}/></Link>
             ))}
         </Tabs>
     </Box>

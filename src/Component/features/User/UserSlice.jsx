@@ -1,26 +1,101 @@
 import { LineAxisOutlined } from "@mui/icons-material";
 import { createAsyncThunk, current, createSlice } from "@reduxjs/toolkit";
+import axios from 'axios';
 
-//תפקיד: להכניס את המשתמש שנכנס למערכת
-export const signInServer = createAsyncThunk("user/login", async (user, thunkApi) => {
-  const response = await fetch("https://localhost:7022/api/User/SignIn", {
-    // : "include", // חובה כדי לשלוח ולהחזיר Cookies
-    method: "POST",
-    headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify(user),
-  });
-  if (response.ok) {
-     const data = await response.json();
-     console.log("data",data)
-     return data;
+
+// תפקיד: להכניס את המשתמש שנכנס למערכת
+// export const signInServer = createAsyncThunk("user/login", async (user, thunkApi) => {
+//   const response = await fetch("https://localhost:7022/api/User/SignIn", {
+//     // : "include", // חובה כדי לשלוח ולהחזיר Cookies
+//     method: "POST",
+//     headers: {
+//     "Content-Type": "application/json",
+//   },
+//   body: JSON.stringify(user),
+//   });
+//   if (response.ok) {
+//      const data = await response.json();
+//      console.log("data",data)
+//      return data;
+//   }
+
+//     // let {data}=await axios.post("https://localhost:7022/api/User/SignIn",user)
+//     // console.log("data",data)
+//     // return data
+// });
+
+export const signInServer = createAsyncThunk(
+  "user-SignIn",
+  async (user, thunkApi) => {
+    try {
+      let { data } = await axios.post(
+        "https://localhost:7022/api/User/SignIn",
+        user
+      );
+      console.log(data);
+      if (data) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("name", data.name);
+        localStorage.setItem("numOfGroup", data.numOfGroup);
+        localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+      } else {
+        console.log("Token not received:", data);
+      }
+      return data;
+    } catch (error) {
+      console.error("Error during SignIn:", error);
+      throw error;
+    }
+  }
+);
+//פונקציה שמחלצת את הנתונים מהטוקן
+function parseJwt() {
+  const t = localStorage.getItem("token");
+  if (!t) {
+    console.error("No token found in localStorage");
+    return null;
   }
 
-    // let {data}=await axios.post("https://localhost:7022/api/User/SignIn",user)
-    // console.log("data",data)
-    // return data
-});
+  try {
+    const base64Url = t.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(function (c) {
+          return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join("")
+    );
+    return JSON.parse(jsonPayload);
+  } catch (error) {
+    console.error("Error parsing token:", error);
+    return null;
+  }
+}
+// function parseJwt() {
+//   const t = localStorage.getItem("token");
+//   if (!t) {
+//     console.error("No token found in localStorage");
+//     return null;
+//   }
+//   try {
+//     const base64Url = t.split(".")[1];
+//     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+//     const jsonPayload = decodeURIComponent(
+//       atob(base64)
+//         .split("")
+//         .map((c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+//         .join("")
+//     );
+//     const payload = JSON.parse(jsonPayload);
+//     console.log("Decoded JWT Payload:", payload);
+//     return payload;
+//   } catch (error) {
+//     console.error("Error parsing token:", error);
+//     return null;
+//   }
+// }
 
 //תפקיד: להוציא את המשתמש שיצא מהמערכת
 // export const logout = createAsyncThunk("user/logout", async () => {
@@ -41,25 +116,36 @@ export const register = createAsyncThunk("user/register", async (user, thunkApi)
   });
   if (response.ok) {
     const data = await response.json();
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("name", data.name);
+    localStorage.setItem("numOfGroup", data.numOfGroup);
+    localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
     return data;
   }
 });
 
 export const userSlice = createSlice({
-  initialState: {
-    currentUser: null,
-  },
   name: 'user',
-  status: null,
-  groups: [],
-  message: null,
-  token: null,
+  initialState: {
+    currentUser: parseJwt() || null,
+    token: localStorage.getItem("token") || null,
+    numOfGroups: localStorage.getItem("numOfGroups") || null,
+    nupOfWaitingGroups: localStorage.getItem("nupOfWaitingGroups") || null,
+    name: localStorage.getItem("name") || "אורח",
+    status: null,
+    groups: [],
+    message: null,
+  },
   reducers: {
   },
 
 extraReducers: (builder) => {
     builder.addCase(signInServer.fulfilled, (state, action) => {
-      state.currentUser = action.payload;
+      state.token = action.payload.token; // שמירת הטוקן בסטור
+      // state.currentUser = parseJwt(); // חילוץ המשתמש מהטוקן ושמירתו
+      const payload = parseJwt(); // חילוץ הנתונים מהטוקן
+      console.log("Parsed User Payload:", payload); // ודאי שהפענוח עובד
+      state.currentUser = payload; // שמירת הנתונים ב-Redux
       state.message = "התחברת בהצלחה";
       state.status = "success";
     }).addCase(signInServer.rejected, (state, action) => {

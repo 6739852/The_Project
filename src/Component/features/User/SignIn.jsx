@@ -6,7 +6,13 @@ import { useTheme } from '@mui/material/styles';
 import { login, signInServer } from './UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import ViewPurchasingGroup from '../PurchasingGroup/ViewpurchasingGroup';
-// import { useNavigate } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom'; 
+import SignUp from './SignUp'
+import { useNavigate } from 'react-router-dom';
+import HomePage from '../../HomePage';
+
+
 
 //הגדרת משתני כניסה למערכת
 const providers = [{ id: 'credentials', name: 'Email and Password' }];
@@ -18,6 +24,7 @@ export default function Login() {
   //הגדרת משתנה לניווט בין הדפים
   // const navigate = useNavigate();
   //הגדרת משתנה לקבלת הודעות מהסטור
+  const navigate = useNavigate();
   const message=useSelector(s=>s.user.message)
   //הגדרת משתנה לשליחת פעולות לסטור
   const dispatch = useDispatch();
@@ -51,31 +58,43 @@ export default function Login() {
     // //העלמת הקומפוננטה וטעינת קומפוננטה של הקבוצות רכישה
     // document.getElementById("login").style.display="none"
     // document.getElementById("view-purchasing-group").style.display="block"
-    
+    if (localStorage.getItem("token")) {
+      navigate('/HomePage'); // ניתוב לדף החדש
+    }
   };
 
+  const BRANDING = {
+    logo: (
+      <Link to="/SignUp" style={{ textDecoration: 'none', color: '#1976d2' }}>
+      להרשמה
+    </Link>
+    ),
+  };
   return (
     <>
      {/* {flag ? (
                 <ViewPurchasingGroup />
             ) : ( */}
-    <AppProvider theme={theme}>
+    <AppProvider theme={theme} branding={BRANDING} >
       <SignInPage
+      sx={{marginTop:0}}
       //מקבל את הפונקציה handleSignIn לטיפול באירוע הכניסה למערכת
         signIn={handleSignIn}
         slotProps={{
           emailField: { variant: 'standard', autoFocus: false },
           passwordField: { variant: 'standard' },
           submitButton: { variant: 'outlined' },
-          rememberMe: { sx: { display: 'none' } }, // הסתרת ה-Checkbox rememberMe: null, // ניסיון להסיר את ה-Checkbox
-          footer: (
-            <a href="/SignUp" style={{ textDecoration: 'none', color: '#1976d2' }}>
-              צור חשבון חדש
-            </a>)
-          // },
+          rememberMe: { sx: { display: 'none' } }, // הסתרת ה-Checkbox בכוח
+          
         }}
         providers={providers}
       />
+       {/* הוספת קישור להרשמה
+       <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+        <Link to="/sign-up" style={{ textDecoration: 'none', color: '#1976d2' }}>
+          אין לך חשבון? הירשם כאן
+        </Link>
+      </Typography> */}
     </AppProvider>
     {/* )} */}
     </>

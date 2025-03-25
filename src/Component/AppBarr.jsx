@@ -5,47 +5,52 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import Badge from '@mui/material/Badge';
-import Card from './features/User/Card'
+import Card from './features/User/Cart'
 import Fave from './features/User/Fave'
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button } from "@mui/material";
 import { height } from '@mui/system';
+import SignIn from './features/User/SignIn'
 import Profil from './features/User/Profil'
+import {Link} from 'react-router-dom'
+import Routing from './Routing';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 function MyBar() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const [openCard, setOpenCard] = useState(false);
-  const [openFave, setOpenFave] = useState(false);
-  const [openProfil, setOpenProfil] = useState(false);
-
-
-//   const [badgeContentCard,setBadgeContentCard]=useState(1)
-//   const [badgeContentFave,setbBadgeContentFave]=useState(0)
+  const [numOfGroups, setnumOfGroups] = useState(localStorage.getItem('numOfGroups'));
+  const [numOfWaitingGroups, setnumOfWaitingGroups] = useState(localStorage.getItem('numOfWaitingGroups'));
+  
+  // const [openCard, setOpenCard] = useState(false);
+  // const [openFave, setOpenFave] = useState(false);
+  // const [openProfil, setOpenProfil] = useState(false);
+  // const [badgeContentCard,setBadgeContentCard]=useState(1)
+  // const [badgeContentFave,setbBadgeContentFave]=useState(0)
 
   const handleSearch = () => {
     // כאן תוסיף את הלוגיקה לביצוע חיפוש עם searchTerm
     console.log('חיפוש:', searchTerm);
     // לדוגמה, תוכל להשתמש ב-fetch או axios כדי לבצע בקשת API לחיפוש
   };
-  const handleProfil = () => {
-    setOpenProfil(true); 
-  };
-  const handleCloseProfil = () => {
-    setOpenProfil(false); 
-  };
-  const handleFave = () => {
-    setOpenFave(true); 
-  };
-  const handleCloseFave = () => {
-    setOpenFave(false); 
-  };
-  const handleCard = () => {
-    setOpenCard(true); 
-  };
-  const handleCloseCard = () => {
-    setOpenCard(false); 
-  };
+  // const handleProfil = () => {
+  //   // setOpenProfil(true); 
+  // };
+  // const handleCloseProfil = () => {
+  //   setOpenProfil(false); 
+  // };
+  // const handleFave = () => {
+  //   setOpenFave(true); 
+  // };
+  // const handleCloseFave = () => {
+  //   setOpenFave(false); 
+  // };
+  // const handleCard = () => {
+  //   setOpenCard(true); 
+  // };
+  // const handleCloseCard = () => {
+  //   setOpenCard(false); 
+  // };
 
 const [openGroups, setOpenGroups] = useState(false);
 
@@ -55,21 +60,32 @@ return (
                 <Toolbar>
                         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
                                 <IconButton edge="start" color="primary" aria-label="menu" component="a" href="/">
-                                        <img src="../Images/logo_1.jpg" alt="Flag" style={{ width: 50, height: 50 }} />
+                                        <img src="../Images/logo_1.jpg" alt="Flag" style={{ width: 50, height: 50 , margin:1}} />
                                 </IconButton>
-                                <IconButton color="inherit" aria-label="cart" onClick={handleCard} sx={{ ml: 2 }}>
-                                <Badge badgeContent={9} color="error">
+                                <Link to='/Cart'>
+                                <IconButton color="inherit" aria-label="cart"  sx={{ ml: 2 ,margin:1}}>
+                                <Badge badgeContent={numOfGroups} color="error">
                                 <ShoppingCartOutlinedIcon />    
-                               </Badge>
+                                </Badge>
                                 </IconButton>
-                                <IconButton color="inherit" aria-label="favorites" onClick={handleFave}>
-                                <Badge badgeContent={8} color="error">
+                                </Link>
+                               <Link to='/Fave'>
+                                <IconButton color="inherit" aria-label="favorites"  sx={{ ml: 2 ,margin:1}}>
+                                <Badge badgeContent={numOfWaitingGroups} color="error">
                                         <FavoriteBorderOutlinedIcon />
                                         </Badge>
                                 </IconButton>
-                                <IconButton color="inherit" aria-label="profile" onClick={handleProfil}>
+                                </Link>
+                                <Link to='./SignIn'>
+                                <IconButton color="inherit" aria-label="profile"  sx={{ ml: 2 ,margin:1}}>
                                         <PersonOutlineOutlinedIcon />
                                 </IconButton>
+                                </Link>
+                                <Link to='./SuggestGroup'>
+                                <IconButton color="inherit" aria-label="profile"  sx={{ ml: 2 ,margin:1}}>
+                                        <AddShoppingCartIcon />
+                                </IconButton>
+                                </Link>
                         </Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1, backgroundColor: '#f5f5f5', borderRadius: '20px', padding: 'px 10px', maxWidth: '300px' }}>
                                 <IconButton onClick={handleSearch} sx={{ color: 'action.active', ml: 1 }}>
@@ -89,11 +105,11 @@ return (
                 </Toolbar>
                 {openGroups && <GroupsComponent />}
         </AppBar>
-        <Dialog open={openCard} onClose={handleCloseCard}>
+        {/* <Dialog open={openCard} onClose={handleCloseCard}>
         <DialogTitle>עגלת קניות</DialogTitle>
         <DialogContent>
           <Card />  {/* הקומפוננטה שלך */}
-        </DialogContent>
+        {/* </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseCard} color="primary">סגור</Button>
         </DialogActions>
@@ -101,21 +117,20 @@ return (
        <Dialog open={openFave} onClose={handleCloseFave} sx={{ height:'300px' }}>
         <DialogTitle>מה באלי לקנות מחר....</DialogTitle>
         <DialogContent>
-          <Fave />  {/* הקומפוננטה שלך */}
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseFave} color="primary">סגור</Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog open={openProfil} onClose={handleCloseProfil} sx={{ height:'300px' }}>
-        <DialogTitle>הפרופיל שלי</DialogTitle>
-        <DialogContent>
-          <Profil />  {/* הקומפוננטה שלך */}
-        </DialogContent>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleCloseFave} color="primary">סגור</Button>
+            </DialogActions>
+                </Dialog>
+                <Dialog fullScreen open={openProfil} onClose={handleCloseProfil} sx={{ height:'100%' }}>
+            <DialogTitle>הפרופיל שלי</DialogTitle>
+            <DialogContent>
+              <SignIn />  {/* הקומפוננטה שלך */}
+        {/* </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseProfil} color="primary">סגור</Button>
         </DialogActions>
-      </Dialog>
+      // </Dialog> */} 
         </>
 );
 }

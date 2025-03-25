@@ -3,6 +3,8 @@ import { useDispatch } from 'react-redux';
 import { TextField, Button, Checkbox, FormControlLabel, Container, Typography } from '@mui/material';
 import { register } from './UserSlice';
 import ViewPurchasingGroup from '../PurchasingGroup/ViewpurchasingGroup';
+import SignUPSupplier from '../Supplier/SignUpSupplier'
+import {Link} from 'react-router-dom'
 
 const SignUp = () => {
 
@@ -74,9 +76,9 @@ const SignUp = () => {
                     gutterBottom 
                     style={{ color: 'blue', textAlign: 'right', marginBottom: '20px' }}
                 >
-                    <a href="/supplier-signup" style={{ textDecoration: 'none', color: 'blue' }}>
+                    <Link to="/SignUpSupplier" style={{ textDecoration: 'none', color: 'blue' }}>
                          --הרשמה לספקים  
-                    </a>
+                    </Link>
                 </Typography>
                 <form onSubmit={handleSubmit}>
                     <TextField
