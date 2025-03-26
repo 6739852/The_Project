@@ -9,6 +9,7 @@ import SignIn from './features/User/SignIn';
 import SignUp from './features/User/SignUp';
 import SignUpSupplier from './features/Supplier/SignUpSupplier'
 import WantToOpen from './features/WantToOpen/WantToOpen'
+import AddGroup from './features/Supplier/AddGroup';
 
 
 const Routing = () => {
@@ -25,6 +26,7 @@ const Routing = () => {
                     <Route path="/HomePage" element={<HomePage/>} />
                     <Route path="/SignUpSupplier" element={<SignUpSupplier/>}/>
                     <Route path="/WantToOpen" element={<WantToOpen/>} />
+                    <Route path="/AddGroup" element={<AddGroup/>} />
                 </Routes>
         
     );

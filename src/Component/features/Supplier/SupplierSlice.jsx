@@ -58,6 +58,37 @@ function parseJwt() {
 //   }
 // });
 
+// export const addtGroup = createAsyncThunk("supplier/WantToOpen", async , thunkApi) => {
+//   const response = await fetch("https://localhost:7022/api/PurchasingGroup", {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(purchasingGroup),
+//   });
+
+//   if (!response.ok) {
+//     return thunkApi.rejectWithValue("שגיאה בשליחת הבקשה");
+//   }
+
+//   return response.json(); // החזרת הנתונים
+// });
+export const addPurchasingGroup = createAsyncThunk("user/PurchasingGroup", async (purchasingGroup, thunkApi) => {
+  const response = await fetch("https://localhost:7022/api/PurchasingGroup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(PurchasingGroup),
+  });
+
+  if (!response.ok) {
+    return thunkApi.rejectWithValue("שגיאה בשליחת הבקשה");
+  }
+
+  return response.json(); // החזרת הנתונים
+});
+
 // תפקיד: להוסיף משתמש חדש למערכת
 export const registerSupplier = createAsyncThunk("supplier/register", async (supplier, thunkApi) => {
     debugger
@@ -118,6 +149,5 @@ extraReducers: (builder) => {
     })
   } 
 });
-
 export const { login } = supplierSlice.actions
 export default supplierSlice.reducer

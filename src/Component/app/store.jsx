@@ -1,14 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import purchasingGroupSlice from '../features/PurchasingGroup/PurchasingGroupSlice';
-import useSlice from '../features/User/UserSlice'
-import categorySice from '../features/Category/CategorySlice'
+import PurchasingGroupSlice from '../features/PurchasingGroup/PurchasingGroupSlice';
+import UseSlice from '../features/User/UserSlice'
+import CategorySlice from '../features/Category/CategorySlice'
 import { Category } from '@mui/icons-material';
+import SupplierSlice from '../features/Supplier/SupplierSlice'
+import WantToOpenSlice from '../features/WantToOpen/WantToOpenSlice';
 
 const store = configureStore({
     reducer: {
-        purchasingGroups: purchasingGroupSlice,
-        user: useSlice,
-        category: categorySice
+        purchasingGroups: PurchasingGroupSlice,
+        user: UseSlice,
+        category: CategorySlice,
+        supplier: SupplierSlice,
+        wantToOpen: WantToOpenSlice
     }
 });
 
