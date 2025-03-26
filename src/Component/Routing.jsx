@@ -8,7 +8,7 @@ import Profil from './features/User/Profil';
 import SignIn from './features/User/SignIn';
 import SignUp from './features/User/SignUp';
 import SignUpSupplier from './features/Supplier/SignUpSupplier'
-import SuggestGroup from './features/User/SuggestGroup'
+import WantToOpen from './features/WantToOpen/WantToOpen'
 
 
 const Routing = () => {
@@ -24,7 +24,7 @@ const Routing = () => {
                     <Route path="/ViewPurchasingGroup" element={<ViewPurchasingGroup/>} />
                     <Route path="/HomePage" element={<HomePage/>} />
                     <Route path="/SignUpSupplier" element={<SignUpSupplier/>}/>
-                    <Route path="/SuggestGroup" element={<SuggestGroup/>} />
+                    <Route path="/WantToOpen" element={<WantToOpen/>} />
                 </Routes>
         
     );

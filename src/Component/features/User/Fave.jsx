@@ -14,7 +14,7 @@ export default function Fave(){
   return (
     <Container maxWidth="md" sx={{ mt: 4, direction: 'rtl' }}>
       <Typography variant="h4" component="h1" gutterBottom textAlign="center" color="primary.main">
-        המורים המועדפים עלי
+        מה שבאלך שיפתח- ואנחנו עובדים של זה בשבילך...
       </Typography>
       <Grid container spacing={3}>
         {favoriteTeachers.map((teacher) => (

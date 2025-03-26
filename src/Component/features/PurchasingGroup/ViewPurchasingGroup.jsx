@@ -18,7 +18,8 @@ export default function ViewPurchasingGroup() {
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(fetchPurchasingGroups());
-  }, [dispatch]);
+  }, [
+  ]);
 
   return (
     <div style={{ paddingTop: '60px' }}>

@@ -24,6 +24,31 @@ import axios from 'axios';
 //     // return data
 // });
 
+// export const signInServer = createAsyncThunk(
+//   "user-SignIn",
+//   async (user, thunkApi) => {
+//     try {
+//       let { data } = await axios.post(
+//         "https://localhost:7022/api/User/SignIn",
+//         user
+//       );
+//       console.log(data);
+//       if (data) {
+//         localStorage.setItem("token", data.token);
+//         localStorage.setItem("name", data.name);
+//         localStorage.setItem("numOfGroup", data.numOfGroup);
+//         localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+//         localStorage.setItem("role", data.role);
+//       } else {
+//         console.log("Token not received:", data);
+//       }
+//       return data;
+//     } catch (error) {
+//       console.error("Error during SignIn:", error);
+//       throw error;
+//     }
+//   }
+// );
 export const signInServer = createAsyncThunk(
   "user-SignIn",
   async (user, thunkApi) => {
@@ -32,22 +57,47 @@ export const signInServer = createAsyncThunk(
         "https://localhost:7022/api/User/SignIn",
         user
       );
-      console.log(data);
+
       if (data) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("name", data.name);
-        localStorage.setItem("numOfGroup", data.numOfGroup);
-        localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+        saveUserData(data);
+        return data;
       } else {
-        console.log("Token not received:", data);
+        console.log("User not found in main SignIn. Trying supplier SignIn...");
       }
-      return data;
     } catch (error) {
-      console.error("Error during SignIn:", error);
-      throw error;
+      console.error("Error during User SignIn:", error);
+    }
+
+    // ניסיון נוסף עבור ספקים אם הכניסה הרגילה נכשלה
+    try {
+      let { data } = await axios.post(
+        "https://localhost:7022/api/Supplier/SignIn",
+        user
+      );
+
+      if (data) {
+        saveUserData(data);
+        return data;
+      } else {
+        console.log("Supplier not found either.");
+        return thunkApi.rejectWithValue("User or Supplier not found");
+      }
+    } catch (error) {
+      console.error("Error during Supplier SignIn:", error);
+      return thunkApi.rejectWithValue("Error during SignIn process");
     }
   }
 );
+
+// פונקציה לשמירת הנתונים ב-localStorage
+const saveUserData = (data) => {
+  localStorage.setItem("token", data.token);
+  localStorage.setItem("name", data.name);
+  localStorage.setItem("numOfGroup", data.numOfGroup);
+  localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+  localStorage.setItem("role", data.role);
+};
+
 //פונקציה שמחלצת את הנתונים מהטוקן
 function parseJwt() {
   const t = localStorage.getItem("token");
@@ -132,6 +182,7 @@ export const userSlice = createSlice({
     numOfGroups: localStorage.getItem("numOfGroups") || null,
     nupOfWaitingGroups: localStorage.getItem("nupOfWaitingGroups") || null,
     name: localStorage.getItem("name") || "אורח",
+    waitingGroup:[],
     status: null,
     groups: [],
     message: null,

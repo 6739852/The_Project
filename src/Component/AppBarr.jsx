@@ -81,7 +81,7 @@ return (
                                         <PersonOutlineOutlinedIcon />
                                 </IconButton>
                                 </Link>
-                                <Link to='./SuggestGroup'>
+                                <Link to='./WantToOpen'>
                                 <IconButton color="inherit" aria-label="profile"  sx={{ ml: 2 ,margin:1}}>
                                         <AddShoppingCartIcon />
                                 </IconButton>
