@@ -4,14 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Box, TextField, InputLabel, MenuItem, FormControl, Select, Button, Typography, Checkbox, FormControlLabel } from '@mui/material';
 import { addPurchasingGroup } from './SupplierSlice';
 import { useNavigate } from 'react-router-dom';
-import { supplierSlice } from './SupplierSlice';
+import {fetchCategories} from '../Category/CategorySlice'
 
-const getUserIdFromToken = (token, supplier) => {
+//פונקציה שמחלצץ את הטוקן
+const getUserIdFromToken = (token) => {
   if (!token) {
       console.error("טוקן לא קיים או ריק.");
       return null;
   }
-
   try {
       const payloadBase64 = token.split('.')[1]; 
       const decodedPayload = atob(payloadBase64);
@@ -36,31 +36,34 @@ const getUserIdFromToken = (token, supplier) => {
 export default function AddGroup() {
 
     const navigate=useNavigate()
-    const supplier=useSelector(state=>state.supplier.currentUser)
-    const dispatch=useDispatch();
+    const dispatch1=useDispatch();
+    const dispatch2=useDispatch();
     const categories = useSelector(state=>state.category.categories)
+    const [selectedCategory, setselectedCategory] = useState('');
+    
         
     React.useEffect(() => {
-    dispatch(fetchCategories());
-      }, [dispatch]);
-    const [groupData, setGroupData] = useState({
+    dispatch1(fetchCategories());
+      }, [dispatch1]);
+
+    //אוביקט שמכיל את הנתונים של טופס ההוספה
+      const [groupData, setGroupData] = useState({
         productName: '',
         description: '',
         price: '',
-        supplierId: '',
-        Status: '',
-        OpeningDate: '',
-        ClosedDate: '',
-        AmountMin: null,
-        Scope: false,
-        Description:true
+        minPeople: '',
+        closingDate: '',
+        packageTerms: '',
+        image:null
     });
 
+    //עדכון האוביקט
     const handleChange = (event) => {
         const { name, value } = event.target;
         setGroupData(prev => ({ ...prev, [name]: value }));
     };
 
+    //פונקציה של טעינת התמונה
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -68,41 +71,103 @@ export default function AddGroup() {
         }
     };
 
-    const handleSubmit = (e) => {
-       e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
     
-       // שליחת הנתונים ל- Redux
-       const token = localStorage.getItem('token'); // שליפת הטוקן מה- localStorage
-       console.log(token);
-                
-       const userId = getUserIdFromToken(token,user );
-       console.log(userId);
-
-       dispatch(addGroup({ 
-            name: '',
-            imageUrl: '',
-            categoryId: '',
-            price: '',
-            closingDate: '',
-            packageTerms: '',
-            category: '',
-            image: null,
-            agreeToTerms: false,
-            supplierId:supplierId,
-            status:true,
-            scope:0,
-            openingDate: new Date().toISOString(),
-            currentAmount:0
-            // categoryId: selectedCategory,
-            // approvalDate: new Date().toISOString(),
-            // userId: userId,
-            // name: productName, 
-            // description: details
-              }));
+        const token = localStorage.getItem('token');      
+        const supplierId = getUserIdFromToken(token);
+    
+        const formData = new FormData();
+        formData.append("name", groupData.productName);
+        formData.append("categoryId", selectedCategory);
+        formData.append("price", groupData.price);
+        formData.append("closedDate", groupData.closingDate);
+        formData.append("description", groupData.packageTerms);
+        formData.append("supplierId", supplierId);
+        formData.append("status", true);
+        formData.append("scope", 0);
+        formData.append("openingDate", new Date().toISOString());
+        formData.append("currentAmount", 0);
+        formData.append("amountMin", groupData.minPeople);
         
-                alert(`הבקשה נשלחה בהצלחה!`);
-                navigate('/')
-            };
+        // 🟢 וודא שהתמונה לא null
+        if (groupData.image) {
+            formData.append("ImageFile", groupData.image);  
+        } else {
+            console.error("🚨 שגיאה: התמונה לא נבחרה!");
+            return;
+        }
+    
+        console.log("נשלח FormData:", formData);
+    
+        try {
+            const response = await fetch("https://localhost:7022/api/PurchasingGroup", {
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${token}`, // ללא Content-Type! הדפדפן מוסיף לבד
+                },
+                body: formData, // שליחת הנתונים בפורמט FormData
+            });
+    
+            if (!response.ok) {
+                throw new Error("שגיאה בשליחת הבקשה");
+            }
+    
+            alert(`הבקשה נשלחה בהצלחה!`);
+            navigate('/');
+        } catch (error) {
+            console.error("שגיאה בשליחת הבקשה:", error);
+            alert("אירעה שגיאה בשליחת הבקשה. אנא נסה שנית.");
+        }
+    };
+    
+    
+    //פונקציה שמתרחשת כאשר לוחצים על כפתור השליחה ומוסיפה את הקבוצה
+    // const handleSubmit = async(e) => {
+    //    e.preventDefault();
+    
+    //    const token = localStorage.getItem('token');      
+    //    const supplierId = getUserIdFromToken(token);
+    //    debugger
+    //    try {
+    //     const response = await dispatch2(addPurchasingGroup({ 
+    //         name: groupData.productName,
+    //         imageUrl: groupData.image,
+    //         categoryId: selectedCategory,
+    //         price: groupData.price,
+    //         closedDate: groupData.closingDate,
+    //         description: groupData.packageTerms,
+    //         supplierId: supplierId,
+    //         status: true,
+    //         scope: 0,
+    //         openingDate: new Date().toISOString(),
+    //         currentAmount: 0,
+    //         amountMin: groupData.minPeople
+    //     })).unwrap();  // כדי לוודא שהתשובה נזרקת במקרה של שגיאה
+        
+    //     alert(`הבקשה נשלחה בהצלחה!`);
+    //     navigate('/');
+    // } catch (error) {
+    //     console.error("שגיאה בשליחת הבקשה:", error);
+    //     alert("אירעה שגיאה בשליחת הבקשה. אנא נסה שנית.");
+    // }
+    //    dispatch(addPurchasingGroup({ 
+    //         name: groupData.name,
+    //         imageUrl: groupData.image,
+    //         categoryId: selectedCategory,
+    //         price: groupData.price,
+    //         closedDate: groupData.closingDate,
+    //         description: groupData.packageTerms,
+    //         supplierId:supplierId,
+    //         status:true,
+    //         scope:0,
+    //         openingDate: new Date().toISOString(),
+    //         currentAmount:0,
+    //         amountMin:groupData.minPeople
+    //     }));
+    //     alert(`הבקשה נשלחה בהצלחה!`);
+    //     navigate('/')
+    // };
     
 
     return (

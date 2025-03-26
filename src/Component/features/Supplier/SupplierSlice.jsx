@@ -79,7 +79,7 @@ export const addPurchasingGroup = createAsyncThunk("user/PurchasingGroup", async
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(PurchasingGroup),
+    body: JSON.stringify(purchasingGroup),
   });
 
   if (!response.ok) {

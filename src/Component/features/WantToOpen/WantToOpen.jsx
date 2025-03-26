@@ -6,7 +6,7 @@ import {fetchCategories} from '../Category/CategorySlice'
 import {suggestGroup} from './WantToOpenSlice'
 import { Navigate, useNavigate } from 'react-router-dom';
 
-const getUserIdFromToken = (token, user) => {
+const getUserIdFromToken = (token) => {
     if (!token) {
         console.error("טוקן לא קיים או ריק.");
         return null;
@@ -88,7 +88,6 @@ export default function WantToOpen() {
             <Typography variant="h6" gutterBottom display="flex" alignItems="center" justifyContent="right">
                 <EmojiPeople sx={{ marginLeft: 1 }} /> איזה קבוצה בא לך לפתוח? <SentimentSatisfiedAlt sx={{ marginRight: 1, color: 'orange' }} />
             </Typography>
-
             <TextField
                 fullWidth
                 label="שם המוצר"
@@ -98,7 +97,6 @@ export default function WantToOpen() {
                 onChange={(e) => setProductName(e.target.value)}
                 sx={{ textAlign: 'right', direction: 'rtl' }}
             />
-
             <TextField
                 select
                 fullWidth
@@ -115,7 +113,6 @@ export default function WantToOpen() {
               </MenuItem>
                 ))}
             </TextField>
-
             <TextField
                 fullWidth
                 label="פרטים נוספים"
@@ -127,7 +124,6 @@ export default function WantToOpen() {
                 onChange={(e) => setDetails(e.target.value)}
                 sx={{ textAlign: 'right', direction: 'rtl' }}
             />
-
             <Button
                 fullWidth
                 variant="contained"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import HomePage from './HomePage';
-import ViewPurchasingGroup from './features/PurchasingGroup/ViewpurchasingGroup';
+import ViewPurchasingGroup from './features/PurchasingGroup/ViewPurchasingGroup';
 import Cart from './features/User/Cart';
 import Fave from './features/User/Fave';
 import Profil from './features/User/Profil';

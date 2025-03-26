@@ -3,7 +3,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import NavBar from './Component/AppBarr.jsx'
-import ViewPurchasingGroup from './Component/features/PurchasingGroup/ViewpurchasingGroup.jsx'
+import ViewPurchasingGroup from './Component/features/PurchasingGroup/ViewPurchasingGroup.jsx'
 import SignIn from './Component/features/User/SignIn'
 import AddGroup from './Component/features/Supplier/AddGroup'
 import SignUp from './Component/features/User/SignUp.jsx'
@@ -16,6 +16,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import GroupModel from './Component/features/PurchasingGroup/GroupModel.jsx'
 import Routing  from './Component/Routing.jsx'
 function App() {
+
   return (
     <>
         <NavBar/>
@@ -25,7 +26,7 @@ function App() {
         {/* <SignIn/> */}
         {/* <ExistGroup/> */}
         {/* <ViewPurchasingGroup/> */}
-        <AddGroup/>
+        {/* <AddGroup/> */}
         {/* <SuggestGroup/> */}
         {/* <SignUp/> */}
         {/* <SignUpSupplier/> */}
