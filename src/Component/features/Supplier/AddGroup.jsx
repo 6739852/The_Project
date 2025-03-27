@@ -41,8 +41,7 @@ export default function AddGroup() {
     const categories = useSelector(state=>state.category.categories)
     const [selectedCategory, setselectedCategory] = useState('');
     
-        
-    React.useEffect(() => {
+   React.useEffect(() => {
     dispatch1(fetchCategories());
       }, [dispatch1]);
 
@@ -73,10 +72,8 @@ export default function AddGroup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
         const token = localStorage.getItem('token');      
         const supplierId = getUserIdFromToken(token);
-    
         const formData = new FormData();
         formData.append("name", groupData.productName);
         formData.append("categoryId", selectedCategory);
@@ -89,7 +86,6 @@ export default function AddGroup() {
         formData.append("openingDate", new Date().toISOString());
         formData.append("currentAmount", 0);
         formData.append("amountMin", groupData.minPeople);
-        
         // 🟢 וודא שהתמונה לא null
         if (groupData.image) {
             formData.append("ImageFile", groupData.image);  
@@ -97,9 +93,7 @@ export default function AddGroup() {
             console.error("🚨 שגיאה: התמונה לא נבחרה!");
             return;
         }
-    
         console.log("נשלח FormData:", formData);
-    
         try {
             const response = await fetch("https://localhost:7022/api/PurchasingGroup", {
                 method: "POST",
@@ -108,11 +102,9 @@ export default function AddGroup() {
                 },
                 body: formData, // שליחת הנתונים בפורמט FormData
             });
-    
             if (!response.ok) {
                 throw new Error("שגיאה בשליחת הבקשה");
             }
-    
             alert(`הבקשה נשלחה בהצלחה!`);
             navigate('/ExistGroups');
         } catch (error) {

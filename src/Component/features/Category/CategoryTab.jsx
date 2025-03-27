@@ -45,7 +45,7 @@ return (
             aria-label="visible arrows tabs example"
         >
             {categories.map((category, index) => (
-                <Link to={category.name}><Tab key={index} label={category.name} sx={{ minWidth: 'auto' }}/></Link>
+                <Link key={category.id} to={category.name}><Tab  label={category.name} sx={{ minWidth: 'auto' }}/></Link>
             ))}
         </Tabs>
     </Box>

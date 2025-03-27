@@ -1,48 +1,41 @@
 import React, { useState } from 'react';
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  IconButton,
-  Box,
-  Grid,
-  Container,
-  Divider,
-} from '@mui/material';
+import { Card,CardContent,CardMedia,Typography,Button,IconButton,Box,Grid,Container,Divider,} from '@mui/material';
 import { AddCircle, RemoveCircle, Delete, ShoppingCart } from '@mui/icons-material';
-
-const initialCart = [
-  { id: 1, name: 'שמלה אלגנטית', price: 277, quantity: 1, image: '.../Images/logo_1.jpg' },
-  { id: 2, name: 'חולצת קיץ אופנתית', price: 199, quantity: 1, image: '.../Images/logo_2.jpg' },
-];
+import { useDispatch, useSelector } from 'react-redux';
+import { getPurchasingGroupsById } from '../PurchasingGroup/PurchasingGroupSlice'
 
 export default function Cart() {
-  const [cart, setCart] = useState(initialCart);
-
+  
+    const userId = 4
+    const grouops = useSelector((state) => state.purchasingGroups.purchasingGroupsId);
+    const dispatch = useDispatch();
+    React.useEffect(() => {
+      dispatch(getPurchasingGroupsById(userId));
+    }, [
+    ]);
+   
   const handleIncrease = (id) => {
-    setCart(cart.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
+    setCart(grouops.map(item => item.id === id ? { ...item, quantity: item.quantity + 1 } : item));
   };
 
   const handleDecrease = (id) => {
-    setCart(cart.map(item => item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item));
+    setCart(grouops.map(item => item.id === id && item.quantity > 1 ? { ...item, quantity: item.quantity - 1 } : item));
   };
 
   const handleRemove = (id) => {
-    setCart(cart.filter(item => item.id !== id));
+    setCart(grouops.filter(item => item.id !== id));
   };
 
-  const totalPrice = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const totalPrice = grouops.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   return (
     <Container maxWidth="md" sx={{ mt: 4, direction: 'rtl' }}>
       <Typography variant="h5" gutterBottom fontWeight="bold" textAlign="center" display="flex" alignItems="center" justifyContent="center">
-        <ShoppingCart sx={{ ml: 1, color: 'primary.main' }} /> הקבוצות שלי ({cart.length})
+        <ShoppingCart sx={{ ml: 1, color: 'primary.main' }} /> הקבוצות שלי ({grouops.length})
       </Typography>
       <Divider sx={{ mb: 2 }} />
       <Grid container spacing={2}>
-        {cart.map((item) => (
+        {grouops.map((item) => (
           <Grid item xs={12} key={item.id}>
             <Card sx={{ display: 'flex', alignItems: 'center', p: 2, borderRadius: 2, backgroundColor: 'transparent', boxShadow: 'none' }}>
               <CardMedia component="img" image={item.image} alt={item.name} sx={{ width: 90, height: 90, borderRadius: 2 }} />

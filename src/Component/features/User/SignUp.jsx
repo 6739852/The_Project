@@ -85,7 +85,6 @@ const SignUp = () => {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        fullWidth
                         margin="normal"
                         required
                     />
@@ -95,7 +94,6 @@ const SignUp = () => {
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
-                        fullWidth
                         margin="normal"
                         required
                     />
@@ -105,7 +103,6 @@ const SignUp = () => {
                         type="password"
                         value={formData.password}
                         onChange={handleChange}
-                        fullWidth
                         margin="normal"
                         required
                     />
@@ -115,7 +112,6 @@ const SignUp = () => {
                         type="password"
                         value={confirmPassword}
                         onChange={handleConfirmPasswordChange}
-                        fullWidth
                         margin="normal"
                         required
                     />

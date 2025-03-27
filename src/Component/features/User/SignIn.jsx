@@ -12,8 +12,6 @@ import SignUp from './SignUp'
 import { useNavigate } from 'react-router-dom';
 import HomePage from '../../HomePage';
 
-
-
 //הגדרת משתני כניסה למערכת
 const providers = [{ id: 'credentials', name: 'Email and Password' }];
 

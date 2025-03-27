@@ -79,7 +79,6 @@ const SignUpSupplier = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            fullWidth
                             margin="normal"
                             required
                         />
@@ -89,7 +88,6 @@ const SignUpSupplier = () => {
                             type="email"
                             value={formData.email}
                             onChange={handleChange}
-                            fullWidth
                             margin="normal"
                             required
                         />
@@ -99,7 +97,6 @@ const SignUpSupplier = () => {
                             type="text"
                             value={formData.phone}
                             onChange={handleChange}
-                            fullWidth
                             margin="normal"
                             required
                         />
@@ -109,7 +106,6 @@ const SignUpSupplier = () => {
                             type="text"
                             value={formData.tz}
                             onChange={handleChange}
-                            fullWidth
                             margin="normal"
                             required
                         />
@@ -119,7 +115,6 @@ const SignUpSupplier = () => {
                             type="password"
                             value={formData.password}
                             onChange={handleChange}
-                            fullWidth
                             margin="normal"
                             required
                         />
@@ -128,8 +123,7 @@ const SignUpSupplier = () => {
                             name="confirmPassword"
                             type="password"
                             value={confirmPassword}
-                            onChange={handleConfirmPasswordChange}
-                            fullWidth
+                            onChange={handleConfirmPasswordChange}                       
                             margin="normal"
                             required
                         />

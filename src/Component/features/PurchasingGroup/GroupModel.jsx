@@ -5,7 +5,7 @@ export default function GroupModel({ product, open, onClose }){
   if (!product) return null;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
+    <Dialog open={open} onClose={onClose} maxWidth="sm" >
       <DialogTitle>{product.name}</DialogTitle>
       <DialogContent>
         <CardMedia
