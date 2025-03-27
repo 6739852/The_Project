@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import HomePage from './HomePage';
-import ViewPurchasingGroup from './features/PurchasingGroup/ViewPurchasingGroup';
+import ViewPurchasingGroup from './features/PurchasingGroup/ViewpurchasingGroup';
 import Cart from './features/User/Cart';
 import Fave from './features/User/Fave';
 import Profil from './features/User/Profil';
@@ -10,6 +10,7 @@ import SignUp from './features/User/SignUp';
 import SignUpSupplier from './features/Supplier/SignUpSupplier'
 import WantToOpen from './features/WantToOpen/WantToOpen'
 import AddGroup from './features/Supplier/AddGroup';
+import ExistGroups from './features/Supplier/ExistGroups';
 
 
 const Routing = () => {
@@ -27,6 +28,8 @@ const Routing = () => {
                     <Route path="/SignUpSupplier" element={<SignUpSupplier/>}/>
                     <Route path="/WantToOpen" element={<WantToOpen/>} />
                     <Route path="/AddGroup" element={<AddGroup/>} />
+                    <Route path="/ExistGroups" element={<ExistGroups/>} />
+
                 </Routes>
         
     );

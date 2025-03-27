@@ -18,7 +18,7 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 function MyBar() {
 
   const [searchTerm, setSearchTerm] = useState('');
-
+  const [userRole, setUserRole] = useState(localStorage.getItem("role"));
   const [numOfGroups, setnumOfGroups] = useState(localStorage.getItem('numOfGroups'));
   const [numOfWaitingGroups, setnumOfWaitingGroups] = useState(localStorage.getItem('numOfWaitingGroups'));
   
@@ -81,7 +81,7 @@ return (
                                         <PersonOutlineOutlinedIcon />
                                 </IconButton>
                                 </Link>
-                                <Link to='./WantToOpen'>
+                                <Link to={userRole === 'Supplier' ? '/AddGroup' : '/WantToOpen'}>
                                 <IconButton color="inherit" aria-label="profile"  sx={{ ml: 2 ,margin:1}}>
                                         <AddShoppingCartIcon />
                                 </IconButton>

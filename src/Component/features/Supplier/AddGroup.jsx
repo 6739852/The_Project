@@ -114,7 +114,7 @@ export default function AddGroup() {
             }
     
             alert(`הבקשה נשלחה בהצלחה!`);
-            navigate('/');
+            navigate('/ExistGroups');
         } catch (error) {
             console.error("שגיאה בשליחת הבקשה:", error);
             alert("אירעה שגיאה בשליחת הבקשה. אנא נסה שנית.");
