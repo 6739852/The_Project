@@ -10,6 +10,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import { Link } from 'react-router-dom';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
 
 function MyBar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,8 +30,11 @@ function MyBar() {
 
   const menuItems = [
     { text: 'בית', icon: <HomeIcon />, link: '/' },
-    { text: 'אודות', icon: <InfoIcon />, link: '/about' },
+    { text: 'אודות', icon: <InfoIcon />, link: '/About' },
     { text: 'צור קשר', icon: <ContactMailIcon />, link: '/contact' },
+    { text: 'ספקים', icon: <PersonOutlineOutlinedIcon />, link: '/SupplierList' },
+    { text: 'דוחות', icon: <AssessmentIcon />, link: '/SalesReports' },
+    { text: 'מנויים', icon: <SubscriptionsIcon />, link: '/SalesReports' },
   ];
 
   return (

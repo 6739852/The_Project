@@ -52,7 +52,7 @@ export default function ViewPurchasingGroup() {
       <Grid container spacing={2} justifyContent="center">
         {purchasingGroups.map((item) => (
          <Grid item key={item.id} xs={12} sm={6} md={4} lg={2.4}>
-         <Link to={`/GroupModel/${item.id}`} style={{ textDecoration: "none" }}>
+         <Link to="/GroupModel" state={{ productId: item.id }} style={{ textDecoration: "none" }}>
           <Card
             sx={{
               maxWidth: 220,  // מקטין את הרוחב

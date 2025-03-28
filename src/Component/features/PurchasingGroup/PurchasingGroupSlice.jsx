@@ -6,7 +6,7 @@ import axios from 'axios';
 const initialState = {
   purchasingGroups: [],
   purchasingGroupsId: [], 
-  purchasingGroup: {},  
+  purchasingGroupOne: {},  
   purchasingGroupFave: [],  
 
 };
@@ -65,16 +65,16 @@ export const getPurchasingGroupsById = createAsyncThunk( 'purchasingGroups/fetch
       }
     });
     //פונקציה שמקבלת ID של מוצר ומחזירה אותו
-    export const getGroupById = createAsyncThunk( 'purchasingGroups/getGroupById',
+    export const getGroupById = createAsyncThunk( 'purchasingGroupOne/getGroupById',
       async (id) => { 
         try {
-          const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/`, {
+          const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/${id}`, {
             params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
           });
           console.log(response.data)
           return response.data; // מחזיר את המידע שהתקבל מהשרת
         } catch (error) {
-          return []; // מחזיר null במקרה של שגיאה
+          return {}; // מחזיר null במקרה של שגיאה
         }
       });
 //פונקציות המטפלות בקבוצות רכישה
@@ -137,14 +137,14 @@ export const purchasingGroupSlice = createSlice({
     builder.addCase(getFaveUser.pending, (state, action) => {
     });
     builder.addCase(getGroupById.fulfilled, (state, action) => {
-      state.purchasingGroup = action.payload;
-  });
-  builder.addCase(getGroupById.rejected, (state, action) => {
-      state.purchasingGroup = {};
-  }); 
-  builder.addCase(getGroupById.pending, (state, action) => {
-  });
-}}
+      state.purchasingGroupOne = action.payload;
+    });
+    builder.addCase(getGroupById.rejected, (state, action) => {
+      state.purchasingGroupOne = {};
+    }); 
+    builder.addCase(getGroupById.pending, (state, action) => {
+    });
+  }}
 );
 //פונקציות המייצרות את הפעולות
 export const { addPurchasingGroup, deletePurchasingGroup, updatePurchasingGroup } = purchasingGroupSlice.actions;

@@ -109,14 +109,41 @@ export const registerSupplier = createAsyncThunk("supplier/register", async (sup
   }
 });
 
+export const getSupplierList = createAsyncThunk( 'purchasingGroupOne/getSupplierList',
+  async () => { 
+    try {
+      const response = await axios.get(`https://localhost:7022/api/Supplier`, {
+      });
+      console.log(response.data)
+      return response.data; // מחזיר את המידע שהתקבל מהשרת
+    } catch (error) {
+      return {}; // מחזיר null במקרה של שגיאה
+    }
+  });
+
+  export const getSupplierById = createAsyncThunk( 'SupplierOne/getSupplierById',
+    async (id) => { 
+      try {
+        const response = await axios.get(`https://localhost:7022/api/Supplier/${id}`, {
+          params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+        });
+        console.log(response.data)
+        return response.data; // מחזיר את המידע שהתקבל מהשרת
+      } catch (error) {
+        return {}; // מחזיר null במקרה של שגיאה
+      }
+    });
+
 export const supplierSlice = createSlice({
   name: 'supplier',
   initialState: {
+    supplierList:[],
     currentUser: parseJwt() || null,
     token: localStorage.getItem("token") || null,
     status: null,
     groups: [],
     message: null,
+    supplierOne:{}
   },
   reducers: {
   },
@@ -144,6 +171,26 @@ extraReducers: (builder) => {
       state.status = "failed";
       state.message = "ישנה תקלה בהתחברות";
     }).addCase(registerSupplier.pending, (state, action) => {
+      state.status = "loading";
+      state.message = "מתבצעת התחברות";
+    }).addCase(getSupplierList.fulfilled, (state, action) => {
+      state.supplierList = action.payload;
+      state.message = "התחברת בהצלחה";
+      state.status = "success";
+    }).addCase(getSupplierList.rejected, (state, action) => {
+      state.status = "failed";
+      state.message = "ישנה תקלה בהתחברות";
+    }).addCase(getSupplierList.pending, (state, action) => {
+      state.status = "loading";
+      state.message = "מתבצעת התחברות";
+    }).addCase(getSupplierById.fulfilled, (state, action) => {
+      state.supplierOne = action.payload;
+      state.message = "התחברת בהצלחה";
+      state.status = "success";
+    }).addCase(getSupplierById.rejected, (state, action) => {
+      state.status = "failed";
+      state.message = "ישנה תקלה בהתחברות";
+    }).addCase(getSupplierById.pending, (state, action) => {
       state.status = "loading";
       state.message = "מתבצעת התחברות";
     })

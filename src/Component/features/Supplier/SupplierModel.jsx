@@ -1,29 +1,29 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { getGroupById } from "./PurchasingGroupSlice";
+import { getSupplierById } from "./SupplierSlice";
 import { useLocation } from "react-router-dom";
 import { Card, CardContent, CardMedia, Typography, Button, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function GroupModel() {
+export default function SupplierModel() {
   const navigate=useNavigate();
   const location = useLocation();
-  const productId = location.state?.productId; 
-  const purchasingGroup = useSelector(state => state.purchasingGroups.purchasingGroupOne);
+  const supplierId = location.state?.supplierId; 
+  const supplierOne = useSelector(state => state.supplier.supplierOne);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (productId) {
-      dispatch(getGroupById(productId));
+    if (supplierId) {
+      dispatch(getSupplierById(supplierId));
     }
-  }, [productId, dispatch]);
+  }, [supplierId, dispatch]);
 
-  if (!purchasingGroup) {
+  if (!supplierOne) {
     return <Typography variant="h6">טוען נתונים...</Typography>;
   }
 
   const HandleJoin=()=>{
-     navigate('/Join')
+     navigate('/')
   }
 
   return (
@@ -31,26 +31,26 @@ export default function GroupModel() {
       <CardMedia
         component="img"
         height="300"
-        image={`data:image/jpeg;base64,${purchasingGroup.image}`}
-        alt={purchasingGroup.name}
+        image={`data:image/jpeg;base64,${supplierOne.image}`}
+        alt={supplierOne.name}
         sx={{ objectFit: "cover", borderRadius: "8px" }}
       />
       <CardContent>
         <Typography variant="h5" component="div" gutterBottom>
-          {purchasingGroup.name}
+          {supplierOne.name}
         </Typography>
         <Typography variant="body1" color="text.secondary" gutterBottom>
-          {purchasingGroup.description}
+          {supplierOne.description}
         </Typography>
         <Typography variant="h6" color="primary" sx={{ fontWeight: "bold", mt: 2 }}>
-          ₪{purchasingGroup.price}
+          ₪{supplierOne.price}
         </Typography>
         <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
           <Button variant="contained" color="primary" fullWidth>
             הוסף לסל
           </Button>
           <Button onClick={HandleJoin} variant="outlined" color="secondary" fullWidth>
-            קנה עכשיו
+            רשימת המוצרים של ספק זה
           </Button>
         </Box>
       </CardContent>

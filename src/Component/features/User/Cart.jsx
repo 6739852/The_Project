@@ -73,27 +73,19 @@
 //     );
 // }
 import React, { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Box,
-  Grid,
-  Container,
-  Divider,
-  CircularProgress
-} from "@mui/material";
+import {Card,CardContent,CardMedia,Typography,Box,Grid,Container,Divider,CircularProgress} from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import { getPurchasingGroupsById } from "../PurchasingGroup/PurchasingGroupSlice";
 import {Link} from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 export default function Cart() {
   const id = 4; // כאן אמור להיות ה-ID של המשתמש מהסטייט הגלובלי
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const groups = useSelector((state) => state.purchasingGroups.purchasingGroupsId);
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
@@ -140,7 +132,7 @@ export default function Cart() {
       <Grid container spacing={3} justifyContent="center">
         {groups.map((item) => (
           <Grid item key={item.id} xs={12} sm={6} md={4} lg={3}>
-            <Link to={`/group-details/${item.id}`} style={{ textDecoration: "none" }}>
+           <Link to="/GroupModel" state={{ productId: item.id }} style={{ textDecoration: "none" }}>
       <Card
         sx={{
           maxWidth: 300,

@@ -13,7 +13,12 @@ import AddGroup from './features/Supplier/AddGroup';
 import ExistGroups from './features/Supplier/ExistGroups';
 import FaveSupplier from './features/Supplier/FaveSupplier';
 import GroupModel from './features/PurchasingGroup/GroupModel'
-
+import Join from './features/PurchasingGroup/Join'
+import About from './About'
+import Contact from './Contact'
+import SupplierList from './features/Supplier/SupplierList'
+import SupplierModel from './features/Supplier/SupplierModel';
+import SalesReports from './features/Reports/SalesReports';
 
 const Routing = () => {
     return (
@@ -32,7 +37,13 @@ const Routing = () => {
                     <Route path="/WantToOpen" element={<WantToOpen/>} />
                     <Route path="/AddGroup" element={<AddGroup/>} />
                     <Route path="/ExistGroups" element={<ExistGroups/>} />
-                    <Route path="/GroupModel/:productId" element={<GroupModel />} />
+                    <Route path="/GroupModel" element={<GroupModel />} />
+                    <Route path="/Join" element={<Join />} />
+                    <Route path="/About" element={<About />} />
+                    <Route path="/Contact" element={<Contact />} />
+                    <Route path="/SupplierList" element={<SupplierList />} />
+                    <Route path="/SupplierModel" element={<SupplierModel />} />
+                    <Route path="/SalesReports" element={<SalesReports/>}/>
                 </Routes>
     );
 };
