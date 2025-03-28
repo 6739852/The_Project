@@ -89,7 +89,6 @@ export default function WantToOpen() {
                 <EmojiPeople sx={{ marginLeft: 1 }} /> איזה קבוצה בא לך לפתוח? <SentimentSatisfiedAlt sx={{ marginRight: 1, color: 'orange' }} />
             </Typography>
             <TextField
-                fullWidth
                 label="שם המוצר"
                 variant="outlined"
                 margin="normal"
@@ -99,7 +98,6 @@ export default function WantToOpen() {
             />
             <TextField
                 select
-                fullWidth
                 label="בחר קטגוריה"
                 variant="outlined"
                 margin="normal"
@@ -114,7 +112,6 @@ export default function WantToOpen() {
                 ))}
             </TextField>
             <TextField
-                fullWidth
                 label="פרטים נוספים"
                 variant="outlined"
                 margin="normal"
@@ -125,7 +122,6 @@ export default function WantToOpen() {
                 sx={{ textAlign: 'right', direction: 'rtl' }}
             />
             <Button
-                fullWidth
                 variant="contained"
                 color="primary"
                 sx={{ mt: 2 }}

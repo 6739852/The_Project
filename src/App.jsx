@@ -24,7 +24,6 @@ function App() {
         {/* <HomePage/> */}
         {/* <SignIn/> */}
         {/* <ExistGroup/> */}
-        {/* <ViewPurchasingGroup/> */}
         {/* <AddGroup/> */}
         {/* <SuggestGroup/> */}
         {/* <SignUp/> */}

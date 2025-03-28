@@ -157,9 +157,9 @@ export const userSlice = createSlice({
     currentUser: parseJwt() || null,
     token: localStorage.getItem("token") || null,
     numOfGroups: localStorage.getItem("numOfGroups") || null,
-    nupOfWaitingGroups: localStorage.getItem("nupOfWaitingGroups") || null,
+    nupOfWaitingGroups: localStorage.getItem("numOfWaitingGroup") || null,
     name: localStorage.getItem("name") || "אורח",
-    waitingGroup:[],
+    waitingGroup: [],
     status: null,
     groups: [],
     message: null,
@@ -167,10 +167,9 @@ export const userSlice = createSlice({
   reducers: {
   },
 
-extraReducers: (builder) => {
+  extraReducers: (builder) => {
     builder.addCase(signInServer.fulfilled, (state, action) => {
       state.token = action.payload.token; // שמירת הטוקן בסטור
-      // state.currentUser = parseJwt(); // חילוץ המשתמש מהטוקן ושמירתו
       const payload = parseJwt(); // חילוץ הנתונים מהטוקן
       console.log("Parsed User Payload:", payload); // ודאי שהפענוח עובד
       state.currentUser = payload; // שמירת הנתונים ב-Redux

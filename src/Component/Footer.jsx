@@ -72,7 +72,7 @@ const Footer = () => {
         <Divider sx={{ my: 3 }} />
 
         <Typography variant="body2" align="center" color="textSecondary">
-          © {new Date().getFullYear()} כל הזכויות שמורות -   נעמי וגילי
+          © {new Date().getYear()} כל הזכויות שמורות -   נעמי וגילי
         </Typography>
       </Container>
     </Box>

@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, CardMedia, Typography, Grid, Container, Box, Avatar, IconButton } from '@mui/material';
 import { Favorite, Person } from '@mui/icons-material';
 import { useSelector,useDispatch } from 'react-redux';
-import { getFaveUser } from '../PurchasingGroup/PurchasingGroupSlice';
+import { getFave } from '../PurchasingGroup/PurchasingGroupSlice';
+
 
 export default function Fave(){
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true);
   const faveArr = useSelector((state) => state.purchasingGroups.purchasingGroupFave);
-  useEffect(() => {
+   useEffect(() => {
      console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
      setLoading(true);
-     dispatch(getFaveUser(30))
+     dispatch(getFave(4))
        .then(() => setLoading(false))
        .catch(() => setLoading(false));
    }, [dispatch]);
-   
   return (
     <Container maxWidth="md" sx={{ mt: 4, direction: 'rtl' }}>
       <Typography variant="h4" component="h1" gutterBottom textAlign="center" color="primary.main">

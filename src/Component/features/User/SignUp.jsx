@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextField, Button, Checkbox, FormControlLabel, Container, Typography } from '@mui/material';
 import { register } from './UserSlice';
-import ViewPurchasingGroup from '../PurchasingGroup/ViewpurchasingGroup';
+import ViewPurchasingGroup from '../PurchasingGroup/ViewPurchasingGroup'
 import {Link} from 'react-router-dom'
 
 const SignUp = () => {
@@ -65,6 +65,7 @@ const SignUp = () => {
                     variant="h4" 
                     component="h1" 
                     gutterBottom 
+                    fullWidth
                     style={{ color: 'gray', marginTop: '20px', textAlign: 'center' }}
                 >
                     הרשמה
@@ -73,6 +74,7 @@ const SignUp = () => {
                     variant="body2" 
                     component="p" 
                     gutterBottom 
+                    fullWidth
                     style={{ color: 'blue', textAlign: 'right', marginBottom: '20px' }}
                 >
                     <Link to="/SignUpSupplier" style={{ textDecoration: 'none', color: 'blue' }}>
@@ -87,6 +89,7 @@ const SignUp = () => {
                         onChange={handleChange}
                         margin="normal"
                         required
+                        fullWidth
                     />
                     <TextField
                         label="Email"
@@ -96,6 +99,7 @@ const SignUp = () => {
                         onChange={handleChange}
                         margin="normal"
                         required
+                        fullWidth
                     />
                     <TextField
                         label="Password"
@@ -105,6 +109,7 @@ const SignUp = () => {
                         onChange={handleChange}
                         margin="normal"
                         required
+                        fullWidth
                     />
                     <TextField
                         label="Confirm Password"
@@ -114,6 +119,7 @@ const SignUp = () => {
                         onChange={handleConfirmPasswordChange}
                         margin="normal"
                         required
+                        fullWidth
                     />
                     <FormControlLabel
                         control={

@@ -4,11 +4,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 //כל המשתנים שקשורים לקבוצות רכישה הקיימות
 const initialState = {
-  purchasingGroups: [], 
-  //קבוצת רכישה ספציפית 
+  purchasingGroups: [],
   purchasingGroupsId: [], 
-  purchasingGroup: {
-       },  
+  purchasingGroup: {},  
+  purchasingGroupFave: [],  
+
 };
 
 // פונקציה שמביאה את כל קבוצות הרכישה מהשרת
@@ -30,14 +30,53 @@ export const getPurchasingGroupsById = createAsyncThunk( 'purchasingGroups/fetch
   async (id) => { 
     try {
       const response = await axios.get(`https://localhost:7022/api/Supplier/GetPurchasingGroup`, {
-        params: { id: id }, // שולח את ה-ID בפרמטרים של ה-URL
+        params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
       });
+      console.log(response.data)
       return response.data; // מחזיר את המידע שהתקבל מהשרת
     } catch (error) {
-      console.error("Error fetching purchasing groups:", error);
-      return null; // מחזיר null במקרה של שגיאה
+      return []; // מחזיר null במקרה של שגיאה
     }
   });
+  //פונקציה שמביאה את כל הקבוצות שמחכות במועדפים
+  export const getFave = createAsyncThunk( 'purchasingGroups/fetchFave',
+    async (id) => { 
+      try {
+        const response = await axios.get(`https://localhost:7022/api/Supplier/GetWantToOpen`, {
+          params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+        });
+        console.log(response.data)
+        return response.data; // מחזיר את המידע שהתקבל מהשרת
+      } catch (error) {
+        return []; // מחזיר null במקרה של שגיאה
+      }
+    });
+      //פונקציה שמביאה את כל הקבוצות שמחכות במועדפים לפי משתמש
+  export const getFaveUser = createAsyncThunk( 'purchasingGroups/getFaveUser',
+    async (id) => { 
+      try {
+        const response = await axios.get(`https://localhost:7022/api/User/GetWantToOpen`, {
+          params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+        });
+        console.log(response.data)
+        return response.data; // מחזיר את המידע שהתקבל מהשרת
+      } catch (error) {
+        return []; // מחזיר null במקרה של שגיאה
+      }
+    });
+    //פונקציה שמקבלת ID של מוצר ומחזירה אותו
+    export const getGroupById = createAsyncThunk( 'purchasingGroups/getGroupById',
+      async (id) => { 
+        try {
+          const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/`, {
+            params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+          });
+          console.log(response.data)
+          return response.data; // מחזיר את המידע שהתקבל מהשרת
+        } catch (error) {
+          return []; // מחזיר null במקרה של שגיאה
+        }
+      });
 //פונקציות המטפלות בקבוצות רכישה
 export const purchasingGroupSlice = createSlice({
     
@@ -74,13 +113,37 @@ export const purchasingGroupSlice = createSlice({
     builder.addCase(fetchPurchasingGroups.pending, (state, action) => {
     });
     builder.addCase(getPurchasingGroupsById.fulfilled, (state, action) => {
-        state.purchasingGroups = action.payload;
+        state.purchasingGroupsId = action.payload;
     });
     builder.addCase(getPurchasingGroupsById.rejected, (state, action) => {
-        state.purchasingGroups = [];
+        state.purchasingGroupsId = [];
     }); 
     builder.addCase(getPurchasingGroupsById.pending, (state, action) => {
     });
+    builder.addCase(getFave.fulfilled, (state, action) => {
+        state.purchasingGroupFave = action.payload;
+    });
+    builder.addCase(getFave.rejected, (state, action) => {
+        state.purchasingGroupFave = [];
+    }); 
+    builder.addCase(getFave.pending, (state, action) => {
+    });
+    builder.addCase(getFaveUser.fulfilled, (state, action) => {
+        state.purchasingGroupFave = action.payload;
+    });
+    builder.addCase(getFaveUser.rejected, (state, action) => {
+        state.purchasingGroupFave = [];
+    }); 
+    builder.addCase(getFaveUser.pending, (state, action) => {
+    });
+    builder.addCase(getGroupById.fulfilled, (state, action) => {
+      state.purchasingGroup = action.payload;
+  });
+  builder.addCase(getGroupById.rejected, (state, action) => {
+      state.purchasingGroup = {};
+  }); 
+  builder.addCase(getGroupById.pending, (state, action) => {
+  });
 }}
 );
 //פונקציות המייצרות את הפעולות

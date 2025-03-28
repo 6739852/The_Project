@@ -69,6 +69,7 @@ const SignUpSupplier = () => {
                         variant="h4" 
                         component="h1" 
                         gutterBottom 
+                        fullWidth
                         style={{ color: 'gray', marginTop: '20px', textAlign: 'center' }}
                     >
                         הרשמה לספקים
@@ -81,6 +82,7 @@ const SignUpSupplier = () => {
                             onChange={handleChange}
                             margin="normal"
                             required
+                            fullWidth
                         />
                         <TextField
                             label="Email"
@@ -90,6 +92,7 @@ const SignUpSupplier = () => {
                             onChange={handleChange}
                             margin="normal"
                             required
+                            fullWidth
                         />
                         <TextField
                             label="Phone"
@@ -99,6 +102,7 @@ const SignUpSupplier = () => {
                             onChange={handleChange}
                             margin="normal"
                             required
+                            fullWidth
                         />
                         <TextField
                             label="Tz (ID)"
@@ -108,6 +112,7 @@ const SignUpSupplier = () => {
                             onChange={handleChange}
                             margin="normal"
                             required
+                            fullWidth
                         />
                           <TextField
                             label="Password"
@@ -117,6 +122,7 @@ const SignUpSupplier = () => {
                             onChange={handleChange}
                             margin="normal"
                             required
+                            fullWidth
                         />
                         <TextField
                             label="Confirm Password"
@@ -126,6 +132,7 @@ const SignUpSupplier = () => {
                             onChange={handleConfirmPasswordChange}                       
                             margin="normal"
                             required
+                            fullWidth
                         />
                            <FormControlLabel
                             control={

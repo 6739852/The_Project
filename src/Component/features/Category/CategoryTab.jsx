@@ -1,53 +1,85 @@
 import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
-import Tabs, { tabsClasses } from '@mui/material/Tabs';
+import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchCategories } from './CategorySlice';
-import {Link} from 'react-router-dom'
-import { bgcolor } from '@mui/system';
+import { Link } from 'react-router-dom';
 
 export default function CategoryTab() {
- 
     const dispatch = useDispatch();
-    // קבלת נתונים מה-Redux store
-    const categories = useSelector(state => state.category.categories);
-  
-    React.useEffect(() => {
-    dispatch(fetchCategories());
-}, [dispatch]);
-    
-  const [value, setValue] = React.useState(0);
+    const categories = useSelector((state) => state.category.categories);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    useEffect(() => {
+        dispatch(fetchCategories());
+    }, [dispatch]);
 
-return (
-    <Box
-        sx={{
-            flexGrow: 1,
-            width: '100%',
-            bgcolor: 'background.paper',
-            position: 'sticky',
-            top: 64, // Adjusted to stick below the toolbar (assuming toolbar height is 64px)
-            width: '100%', // Set width to 100% of the viewport width
-            left: 0, // Align to the left edge of the viewport
-            marginBottom: 6,
-            bgcolor: 'white', 
-        }}
-    >
-        <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="scrollable"
-            scrollButtons
-            aria-label="visible arrows tabs example"
+    const [value, setValue] = React.useState(0);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    return (
+        <Box
+            sx={{
+                marginBottom:7,
+                width: '100%',
+                position: 'sticky',
+                top: 64,
+                left: 0,
+                zIndex: 1000,
+                backgroundColor: '#ffffff',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                padding: '8px 0',
+                display: 'flex',
+                justifyContent: 'center',
+            }}
         >
-            {categories.map((category, index) => (
-                <Link key={category.id} to={category.name}><Tab  label={category.name} sx={{ minWidth: 'auto' }}/></Link>
-            ))}
-        </Tabs>
-    </Box>
-);
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                variant="scrollable"
+                scrollButtons="auto"
+                allowScrollButtonsMobile
+                aria-label="קטגוריות מוצרים"
+                sx={{
+                    '& .MuiTabs-indicator': {
+                        display: 'none', // הסרת הקו התחתון
+                    },
+                }}
+            >
+                {categories.map((category, index) => (
+                    <Link
+                        key={category.id}
+                        to="/ViewPurchasingGroup"
+                        style={{
+                            textDecoration: 'none',
+                        }}
+                    >
+                        <Tab
+                            label={category.name}
+                            sx={{
+                                fontWeight: value === index ? 'bold' : 'normal',
+                                color: value === index ? '#ffffff' : '#333',
+                                backgroundColor: value === index ? '#007BFF' : 'transparent',
+                                transition: 'all 0.3s ease',
+                                padding: '10px 16px',
+                                minWidth: '120px',
+                                textTransform: 'none',
+                                whiteSpace: 'nowrap',
+                                '&:hover': {
+                                    backgroundColor: '#f0f0f0', // שינוי רקע במעבר
+                                },
+                                '&.Mui-selected': {
+                                    color: '#ffffff',
+                                    backgroundColor: '#007BFF', // צבע רקע לבחירה
+                                },
+                            }}
+                        />
+                    </Link>
+                ))}
+            </Tabs>
+        </Box>
+    );
 }

@@ -112,8 +112,7 @@ export default function AddGroup() {
             alert("אירעה שגיאה בשליחת הבקשה. אנא נסה שנית.");
         }
     };
-    
-    
+     
     //פונקציה שמתרחשת כאשר לוחצים על כפתור השליחה ומוסיפה את הקבוצה
     // const handleSubmit = async(e) => {
     //    e.preventDefault();
@@ -160,7 +159,6 @@ export default function AddGroup() {
     //     alert(`הבקשה נשלחה בהצלחה!`);
     //     navigate('/')
     // };
-    
 
     return (
         <Box component="form" sx={{ maxWidth: 500, mx: 'auto', p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'white' }}>
