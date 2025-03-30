@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import HomePage from './HomePage';
-import ViewPurchasingGroup from './features/PurchasingGroup/ViewPurchasingGroup'
+import ViewPurchasingGroup from './features/PurchasingGroup/ViewpurchasingGroup';
 import Cart from './features/User/Cart';
 import Fave from './features/User/Fave';
 import Profil from './features/User/Profil';
@@ -19,13 +19,14 @@ import Contact from './Contact'
 import SupplierList from './features/Supplier/SupplierList'
 import SupplierModel from './features/Supplier/SupplierModel';
 import SalesReports from './features/Reports/SalesReports';
+import Deals from './Deals'
 
 const Routing = () => {
     return (
            <Routes>
                     {/* <Route exact path="/" component={<Home/>} /> */}
                     <Route path="/" element={<HomePage/>}/>
-                     <Route path="/SignUp" element={<SignUp/>} />
+                    <Route path="/SignUp" element={<SignUp/>} />
                     <Route path="/SignIn" element={<SignIn/>} />
                     <Route path="/Profil" element={<Profil/>} />
                     <Route path="/Fave" element={<Fave/>} />
@@ -44,6 +45,7 @@ const Routing = () => {
                     <Route path="/SupplierList" element={<SupplierList />} />
                     <Route path="/SupplierModel" element={<SupplierModel />} />
                     <Route path="/SalesReports" element={<SalesReports/>}/>
+                    <Route path="/Deals" element={<Deals/>}/>
                 </Routes>
     );
 };

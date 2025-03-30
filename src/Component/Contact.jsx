@@ -14,10 +14,10 @@ export default function Contact() {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" >
       <Box
         sx={{
-          mt: 5,
+          mt: 15,
           p: 3,
           boxShadow: 3,
           borderRadius: 2,

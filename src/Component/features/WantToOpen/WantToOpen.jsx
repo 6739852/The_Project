@@ -74,6 +74,7 @@ export default function WantToOpen() {
 
     return (
         <Box
+            fullWidth
             sx={{
                 maxWidth: 400,
                 margin: 'auto',
@@ -85,10 +86,12 @@ export default function WantToOpen() {
                 direction: 'rtl'
             }}
         >
-            <Typography variant="h6" gutterBottom display="flex" alignItems="center" justifyContent="right">
-                <EmojiPeople sx={{ marginLeft: 1 }} /> איזה קבוצה בא לך לפתוח? <SentimentSatisfiedAlt sx={{ marginRight: 1, color: 'orange' }} />
+            <br />
+            <Typography variant="h6" gutterBottom display="flex" alignItems="center" justifyContent="right" fullWidth>
+                <EmojiPeople fullWidth sx={{ marginLeft: 1 }} /> איזה קבוצה בא לך לפתוח? <SentimentSatisfiedAlt sx={{ marginRight: 1, color: 'orange' }} />
             </Typography>
             <TextField
+                fullwidth
                 label="שם המוצר"
                 variant="outlined"
                 margin="normal"
@@ -96,7 +99,9 @@ export default function WantToOpen() {
                 onChange={(e) => setProductName(e.target.value)}
                 sx={{ textAlign: 'right', direction: 'rtl' }}
             />
+            <br />
             <TextField
+                fullwidth
                 select
                 label="בחר קטגוריה"
                 variant="outlined"
@@ -106,12 +111,13 @@ export default function WantToOpen() {
                 sx={{ textAlign: 'right', direction: 'rtl' }}
             >
                 {categories.map((category) => (
-                  <MenuItem key={category.id} value={category.id}>
+                  <MenuItem key={category.id} value={category.id} fullWidth>
                   {category.name}
               </MenuItem>
                 ))}
             </TextField>
             <TextField
+                fullWidth
                 label="פרטים נוספים"
                 variant="outlined"
                 margin="normal"
@@ -122,6 +128,7 @@ export default function WantToOpen() {
                 sx={{ textAlign: 'right', direction: 'rtl' }}
             />
             <Button
+                fullwidth
                 variant="contained"
                 color="primary"
                 sx={{ mt: 2 }}

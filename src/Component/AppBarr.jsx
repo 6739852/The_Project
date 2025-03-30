@@ -39,7 +39,7 @@ function MyBar() {
 
   return (
     <>
-     <AppBar position="fixed" sx={{ backgroundColor: '#2C3E50' }}>
+     <AppBar position="fixed" sx={{ backgroundColor: '#000000' }}>
      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {/* אייקון תפריט */}
         <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
@@ -47,14 +47,14 @@ function MyBar() {
         </IconButton>
 
         <Link to="/Cart">
-            <IconButton color="inherit" sx={{ color: 'white', mx: 1 }}>
+            <IconButton color="inherit" sx={{ color: 'white', mx: 1}}>
               <Badge badgeContent={numOfGroups} color="error">
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
           </Link>
           <Link to={userRole === 'Supplier' ? '/FaveSupplier' : '/Fave'}>
-            <IconButton color="inherit" sx={{ color: 'white', margin:1 }}>
+            <IconButton color="inherit" sx={{ color: 'white' }}>
               <Badge badgeContent={numOfWaitingGroups} color="error">
                 <FavoriteBorderOutlinedIcon />
               </Badge>
@@ -79,9 +79,10 @@ function MyBar() {
                 alignItems: 'center',
                 backgroundColor: '#f5f5f5',
                 borderRadius: '20px',
-                maxWidth: '300px',
-                justifyContent: 'space-between',
-                marginRight: 2, // ריווח בין החיפוש לשאר האלמנטים
+                width: '700px',
+                // justifyContent: 'space-between',
+                marginRight: 6, // ריווח בין החיפוש לשאר האלמנטים
+                marginLeft:15
         }}
         >
         <IconButton onClick={handleSearch} sx={{ color: 'action.active', mr: 14 }}>
@@ -90,7 +91,7 @@ function MyBar() {
         <InputBase
                 placeholder="חיפוש מוצר או מותג"
                 inputProps={{ 'aria-label': 'search' }}
-                sx={{ mr: 1, flex: 1, textAlign: 'right' }}
+                sx={{ marginLeft: 'auto', flex: 1, textAlign: 'right' ,paddingLeft:50 }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
         />

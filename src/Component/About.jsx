@@ -4,7 +4,7 @@ import InfoIcon from "@mui/icons-material/Info";
 
 export default function AboutPage() {
   return (
-    <Container maxWidth="md" sx={{ mt: 5, textAlign: "right", direction: "rtl" }}>
+    <Container maxWidth="md" sx={{ mt: 15, textAlign: "right", direction: "rtl" }}>
       <Card sx={{ p: 3, boxShadow: 3 }}>
         <CardContent>
           <Avatar sx={{ bgcolor: "primary.main", mx: "auto", mb: 2 }}>
@@ -14,7 +14,7 @@ export default function AboutPage() {
             אודותינו – לקנות חכם יותר, יחד!
           </Typography>
           <Typography variant="body1" paragraph>
-            ברוכים הבאים ל-[שם האתר], הפלטפורמה החדשנית שמחברת בין אנשים שרוצים לקנות חכם ולחסוך כסף דרך כוח הקנייה הקבוצתי!
+            ברוכים הבאים ל-POWERBUY, הפלטפורמה החדשנית שמחברת בין אנשים שרוצים לקנות חכם ולחסוך כסף דרך כוח הקנייה הקבוצתי!
           </Typography>
           <Typography variant="h6" color="primary" gutterBottom>
             איך זה עובד?

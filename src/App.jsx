@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -16,11 +16,25 @@ import GroupModel from './Component/features/PurchasingGroup/GroupModel.jsx'
 import Routing  from './Component/Routing.jsx'
 function App() {
 
+    useEffect(() => {
+      document.title = "POWERBUY"
+      const favicon = document.createElement('link');
+      favicon.rel = 'icon';
+      favicon.href = '../Images/logo_1.jpg'; // Replace with the path to your image
+      const existingFavicon = document.querySelector('link[rel="icon"]');
+      if (existingFavicon) {
+        document.head.removeChild(existingFavicon);
+      }
+      document.head.appendChild(favicon);
+    }, []); 
+
   return (
     <>
         <NavBar/>
         <CategoryTab/>
-        <Routing/>
+        <div style={{ marginTop: '100px' }}>
+          <Routing />
+        </div>
         {/* <HomePage/> */}
         {/* <SignIn/> */}
         {/* <ExistGroup/> */}

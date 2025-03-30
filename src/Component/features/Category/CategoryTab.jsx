@@ -21,19 +21,18 @@ export default function CategoryTab() {
     };
 
     return (
-        <Box
+        <Box 
             sx={{
-                marginBottom:7,
-                width: '100%',
-                position: 'sticky',
+                position: 'fixed',
                 top: 64,
                 left: 0,
                 zIndex: 1000,
-                backgroundColor: '#ffffff',
-                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-                padding: '8px 0',
+                backgroundColor: '#444444',
+                boxShadow: '0 2px 8px rgb(255, 255, 255)',
+                padding: '1px 0',
                 display: 'flex',
-                justifyContent: 'center',
+                // justifyContent: 'center',
+                // color: '#ffffff',
             }}
         >
             <Tabs
@@ -60,16 +59,18 @@ export default function CategoryTab() {
                         <Tab
                             label={category.name}
                             sx={{
-                                fontWeight: value === index ? 'bold' : 'normal',
-                                color: value === index ? '#ffffff' : '#333',
-                                backgroundColor: value === index ? '#007BFF' : 'transparent',
-                                transition: 'all 0.3s ease',
+                                // fontWeight: value === index ? 'bold' : 'normal',
+                                // color: value === index ? '#ffffff' : '#ffffff',
+                                // backgroundColor: value === index ? '#007BFF' : 'transparent',
+                                transition: 'all 0.8s ease',
                                 padding: '10px 16px',
-                                minWidth: '120px',
+                                minWidth: '110px',
                                 textTransform: 'none',
                                 whiteSpace: 'nowrap',
+                                color: 'white',
                                 '&:hover': {
-                                    backgroundColor: '#f0f0f0', // שינוי רקע במעבר
+                                    backgroundColor: 'white', // שינוי רקע במעבר
+                                    color:'black'
                                 },
                                 '&.Mui-selected': {
                                     color: '#ffffff',
