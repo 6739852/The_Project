@@ -12,6 +12,7 @@ import ContactMailIcon from '@mui/icons-material/ContactMail';
 import { Link } from 'react-router-dom';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 function MyBar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -46,20 +47,22 @@ function MyBar() {
         <MenuIcon />
         </IconButton>
 
-        <Link to="/Cart">
+        <Link to={userRole === 'Supplier' ? '/ExistGroups' : '/Cart'}>
             <IconButton color="inherit" sx={{ color: 'white', mx: 1}}>
               <Badge badgeContent={numOfGroups} color="error">
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
           </Link>
+
           <Link to={userRole === 'Supplier' ? '/FaveSupplier' : '/Fave'}>
             <IconButton color="inherit" sx={{ color: 'white' }}>
               <Badge badgeContent={numOfWaitingGroups} color="error">
-                <FavoriteBorderOutlinedIcon />
+                <AccessTimeIcon />
               </Badge>
             </IconButton>
-          </Link>
+           </Link>
+
           <Link to="./SignIn">
             <IconButton color="inherit" sx={{ color: 'white', mx: 1 }}>
               <PersonOutlineOutlinedIcon />

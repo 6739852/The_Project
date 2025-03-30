@@ -1,6 +1,20 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-// תפקיד: להוסיף משתמש חדש למערכת
+//פוקנציה שמקבלת ID של הצעה לקבוצת רכישה ומחזירה אותו
+    export const getFaveById = createAsyncThunk( 'wantToOpen/getFaveById',
+      async (id) => {
+        try {
+          const response = await axios.get(`https://localhost:7022/api/WantToOpen/${id}`, {
+            // params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+          });
+          console.log(response.data)
+          return response.data; // מחזיר את המידע שהתקבל מהשרת
+        } catch (error) {
+          return {}; // מחזיר null במקרה של שגיאה
+        }
+      });
+
 export const suggestGroup = createAsyncThunk("user/WantToOpen", async (wantToOpen, thunkApi) => {
   const response = await fetch("https://localhost:7022/api/WantToOpen", {
     method: "POST",
@@ -22,6 +36,7 @@ export const wantToOpenSlice = createSlice({
   initialState: {
     currentUser: null,
     wantToOpens: [],
+    wantToOpen:{},
     message: null,
     status: null
   },
@@ -39,6 +54,20 @@ export const wantToOpenSlice = createSlice({
         state.message = action.payload || "ישנה תקלה בשליחת הבקשה";
       })
       .addCase(suggestGroup.pending, (state) => {
+        state.status = "loading";
+        state.message = "שולח בקשה...";
+      })
+      .addCase(getFaveById.fulfilled, (state, action) => {
+        console.log("Parsed User Payload:", action.payload); // הצגת הנתונים בקונסול
+        state.wantToOpen = action.payload; // שמירת הנתונים ב-Redux
+        state.message = "הבקשה נשלחה בהצלחה";
+        state.status = "success";
+      })
+      .addCase(getFaveById.rejected, (state, action) => {
+        state.status = "failed";
+        state.message = action.payload || "ישנה תקלה בשליחת הבקשה";
+      })
+      .addCase(getFaveById.pending, (state) => {
         state.status = "loading";
         state.message = "שולח בקשה...";
       });

@@ -1,14 +1,13 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getGroupById } from "./PurchasingGroupSlice";
-import { useLocation } from "react-router-dom";
-import { Card, CardContent, CardMedia, Typography, Button, Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Typography, Button, Box, Grid } from "@mui/material";
 
 export default function GroupModel() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const location = useLocation();
-  const productId = location.state?.productId; 
+  const productId = location.state?.productId;
   const purchasingGroup = useSelector(state => state.purchasingGroups.purchasingGroupOne);
   const dispatch = useDispatch();
 
@@ -19,41 +18,46 @@ export default function GroupModel() {
   }, [productId, dispatch]);
 
   if (!purchasingGroup) {
-    return <Typography variant="h6">טוען נתונים...</Typography>;
+    return <Typography variant="h6" textAlign="center">טוען נתונים...</Typography>;
   }
 
-  const HandleJoin=()=>{
-     navigate('/Join')
-  }
+  const HandleJoin = () => {
+    navigate("/join", { state: { productId } });
+  };
 
   return (
-    <Card sx={{ maxWidth: 800, mx: "auto", mt: 4, p: 2, boxShadow: 3 }}>
-      <CardMedia
-        component="img"
-        height="300"
-        image={`data:image/jpeg;base64,${purchasingGroup.image}`}
-        alt={purchasingGroup.name}
-        sx={{ objectFit: "cover", borderRadius: "8px" }}
-      />
-      <CardContent>
-        <Typography variant="h5" component="div" gutterBottom>
-          {purchasingGroup.name}
-        </Typography>
-        <Typography variant="body1" color="text.secondary" gutterBottom>
-          {purchasingGroup.description}
-        </Typography>
-        <Typography variant="h6" color="primary" sx={{ fontWeight: "bold", mt: 2 }}>
-          ₪{purchasingGroup.price}
-        </Typography>
-        <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
-          <Button variant="contained" color="primary" fullWidth>
-            הוסף לסל
-          </Button>
-          <Button onClick={HandleJoin} variant="outlined" color="secondary" fullWidth>
-            קנה עכשיו
-          </Button>
-        </Box>
-      </CardContent>
-    </Card>
+    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 3 }}>
+      <Grid container spacing={4} direction="row-reverse">
+        {/* צד ימין - תמונת מוצר */}
+        <Grid item xs={12} md={6}>
+          <Box
+            component="img"
+            src={`data:image/jpeg;base64,${purchasingGroup.image}`}
+            alt={purchasingGroup.name}
+            sx={{ objectFit: "cover", width: "100%", height: 400, borderRadius: "8px" }}
+          />
+        </Grid>
+        {/* צד שמאל - פרטי מוצר */}
+        <Grid item xs={12} md={6}>
+          <Typography variant="h4" fontWeight="bold" gutterBottom>
+            {purchasingGroup.name}
+          </Typography>
+          <Typography variant="body1" color="text.secondary" gutterBottom>
+            {purchasingGroup.description}
+          </Typography>
+          <Typography variant="h5" color="primary" fontWeight="bold" sx={{ mt: 2 }}>
+            ₪{purchasingGroup.price}
+          </Typography>
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 3 }}>
+            <Button variant="contained" color="primary" fullWidth>
+              הוסף לסל
+            </Button>
+            <Button onClick={HandleJoin} variant="contained" color="secondary" fullWidth>
+              קנה עכשיו
+            </Button>
+          </Box>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }

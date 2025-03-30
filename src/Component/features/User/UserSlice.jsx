@@ -1,5 +1,6 @@
 import { LineAxisOutlined } from "@mui/icons-material";
 import { createAsyncThunk, current, createSlice } from "@reduxjs/toolkit";
+// import { jwtDecode } from "jwt-decode";
 import axios from 'axios';
 
 
@@ -60,7 +61,8 @@ export const signInServer = createAsyncThunk(
 
       if (data) {
         saveUserData(data);
-        return data;
+        // const decoded = jwtDecode(data); // פענוח הטוקן
+        // return {data,decoded};
       } else {
         console.log("User not found in main SignIn. Trying supplier SignIn...");
       }
@@ -123,6 +125,19 @@ function parseJwt() {
     return null;
   }
 }
+// function parseJwt(token) {
+//   const base64Url = token.split(".")[1];
+//   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+//   const jsonPayload = decodeURIComponent(
+//     atob(base64)
+//       .split("")
+//       .map(function (c) {
+//         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+//       })
+//       .join("")
+//   );
+//   return JSON.parse(jsonPayload);
+// }
 
 //תפקיד: להוציא את המשתמש שיצא מהמערכת
 // export const logout = createAsyncThunk("user/logout", async () => {

@@ -38,6 +38,19 @@ export const getPurchasingGroupsById = createAsyncThunk( 'purchasingGroups/fetch
       return []; // מחזיר null במקרה של שגיאה
     }
   });
+//פונקציה שמחזירה את הקבוצות רכישה של אותו משתמש שהוא משתמש בהם
+  export const getPurchasingGroupsByIdUser = createAsyncThunk( 'purchasingGroups/fetchByUserId',
+    async (id) => { 
+      try {
+        const response = await axios.get(`https://localhost:7022/api/User/GetPurchasingGroup`, {
+          params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+        });
+        console.log(response.data)
+        return response.data; // מחזיר את המידע שהתקבל מהשרת
+      } catch (error) {
+        return []; // מחזיר null במקרה של שגיאה
+      }
+    });
   //פונקציה שמביאה את כל הקבוצות שמחכות במועדפים
   export const getFave = createAsyncThunk( 'purchasingGroups/fetchFave',
     async (id) => { 

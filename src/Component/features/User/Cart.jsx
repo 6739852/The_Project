@@ -76,12 +76,33 @@ import React, { useState, useEffect } from "react";
 import {Card,CardContent,CardMedia,Typography,Box,Grid,Container,Divider,CircularProgress} from "@mui/material";
 import { ShoppingCart } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { getPurchasingGroupsById } from "../PurchasingGroup/PurchasingGroupSlice";
+import { getPurchasingGroupsByIdUser } from "../PurchasingGroup/PurchasingGroupSlice";
 import {Link} from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 
+//פונקציה שמחלצת את הנתונים מהטוקן
+function parseJwt(token) {
+  try {
+    const base64Url = token.split(".")[1]; // לוקח את החלק האמצעי של ה-JWT
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // מתקנן תווים
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload); // מחזיר אובייקט JSON עם הנתונים
+  } catch (error) {
+    console.error("Error parsing token:", error);
+    return null;
+  }
+}
+
 export default function Cart() {
-  const id = 4; // כאן אמור להיות ה-ID של המשתמש מהסטייט הגלובלי
+  const token=localStorage.getItem("token");
+  const parsedData = parseJwt(token);
+  const userId = parsedData["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+  console.log("User ID:", userId);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const groups = useSelector((state) => state.purchasingGroups.purchasingGroupsId);
@@ -90,10 +111,10 @@ export default function Cart() {
   useEffect(() => {
     console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
     setLoading(true);
-    dispatch(getPurchasingGroupsById(id))
+    dispatch(getPurchasingGroupsByIdUser(userId))
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
-  }, [dispatch, id]);
+  }, [dispatch, userId]);
 
   console.log("📦 קבוצות רכישה מה-Redux:", groups);
 

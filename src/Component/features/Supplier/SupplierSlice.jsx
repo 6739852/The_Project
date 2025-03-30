@@ -91,8 +91,8 @@ export const addPurchasingGroup = createAsyncThunk("user/PurchasingGroup", async
 
 // תפקיד: להוסיף משתמש חדש למערכת
 export const registerSupplier = createAsyncThunk("supplier/register", async (supplier, thunkApi) => {
-    debugger
-    const response = await fetch("https://localhost:7022/api/Supplier/SignUp", {
+  debugger
+  const response = await fetch("https://localhost:7022/api/Supplier/SignUp", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -100,17 +100,17 @@ export const registerSupplier = createAsyncThunk("supplier/register", async (sup
     body: JSON.stringify(supplier),
   });
   if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("name", data.name);
-        localStorage.setItem("numOfGroup", data.numOfGroup);
-        localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
-        return data;
+    const data = await response.json();
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("name", data.name);
+    localStorage.setItem("numOfGroup", data.numOfGroup);
+    localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+    return data;
   }
 });
 
-export const getSupplierList = createAsyncThunk( 'purchasingGroupOne/getSupplierList',
-  async () => { 
+export const getSupplierList = createAsyncThunk('purchasingGroupOne/getSupplierList',
+  async () => {
     try {
       const response = await axios.get(`https://localhost:7022/api/Supplier`, {
       });
@@ -121,34 +121,34 @@ export const getSupplierList = createAsyncThunk( 'purchasingGroupOne/getSupplier
     }
   });
 
-  export const getSupplierById = createAsyncThunk( 'SupplierOne/getSupplierById',
-    async (id) => { 
-      try {
-        const response = await axios.get(`https://localhost:7022/api/Supplier/${id}`, {
-          params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
-        });
-        console.log(response.data)
-        return response.data; // מחזיר את המידע שהתקבל מהשרת
-      } catch (error) {
-        return {}; // מחזיר null במקרה של שגיאה
-      }
-    });
+export const getSupplierById = createAsyncThunk('SupplierOne/getSupplierById',
+  async (id) => {
+    try {
+      const response = await axios.get(`https://localhost:7022/api/Supplier/${id}`, {
+        params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+      });
+      console.log(response.data)
+      return response.data; // מחזיר את המידע שהתקבל מהשרת
+    } catch (error) {
+      return {}; // מחזיר null במקרה של שגיאה
+    }
+  });
 
 export const supplierSlice = createSlice({
   name: 'supplier',
   initialState: {
-    supplierList:[],
+    supplierList: [],
     currentUser: parseJwt() || null,
     token: localStorage.getItem("token") || null,
     status: null,
     groups: [],
     message: null,
-    supplierOne:{}
+    supplierOne: {}
   },
   reducers: {
   },
 
-extraReducers: (builder) => {
+  extraReducers: (builder) => {
     builder.addCase(signInSupplier.fulfilled, (state, action) => {
       state.token = action.payload.token; // שמירת הטוקן בסטור
       // state.currentUser = parseJwt(); // חילוץ המשתמש מהטוקן ושמירתו
@@ -194,7 +194,7 @@ extraReducers: (builder) => {
       state.status = "loading";
       state.message = "מתבצעת התחברות";
     })
-  } 
+  }
 });
 export const { login } = supplierSlice.actions
 export default supplierSlice.reducer

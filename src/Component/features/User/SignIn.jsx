@@ -5,7 +5,7 @@ import { SignInPage } from '@toolpad/core/SignInPage';
 import { useTheme } from '@mui/material/styles';
 import { login, signInServer } from './UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import ViewPurchasingGroup from '../PurchasingGroup/ViewpurchasingGroup';
+import ViewPurchasingGroup from '../PurchasingGroup/ViewPurchasingGroup';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom'; 
 import SignUp from './SignUp'

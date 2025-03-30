@@ -44,7 +44,13 @@ export default function ViewPurchasingGroup() {
     );
   }
   return (
-    <div style={{ paddingTop: '50px' }}>
+    <>
+    <CardMedia
+              component="img"
+              sx={{ height: 280, borderRadius: "10px 10px 0 0" }} // מקטין את התמונה
+              image={'..../Images/logo_1.jpg'}
+         />
+    <div style={{ paddingTop: '5px' }}>
       <Grid container spacing={2} justifyContent="center">
         {purchasingGroups.map((item) => (
          <Grid item key={item.id} xs={12} sm={6} md={4} lg={2.4}>
@@ -81,5 +87,6 @@ export default function ViewPurchasingGroup() {
         ))}
       </Grid>
     </div>
+    </>
   );
 }

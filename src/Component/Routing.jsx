@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes, Link } from 'react-router-dom';
 import HomePage from './HomePage';
-import ViewPurchasingGroup from './features/PurchasingGroup/ViewpurchasingGroup';
+import ViewPurchasingGroup from './features/PurchasingGroup/ViewPurchasingGroup'
 import Cart from './features/User/Cart';
 import Fave from './features/User/Fave';
 import Profil from './features/User/Profil';
@@ -20,6 +20,7 @@ import SupplierList from './features/Supplier/SupplierList'
 import SupplierModel from './features/Supplier/SupplierModel';
 import SalesReports from './features/Reports/SalesReports';
 import Deals from './Deals'
+import FaveModel from './features/Supplier/FaveModel'
 
 const Routing = () => {
     return (
@@ -46,6 +47,7 @@ const Routing = () => {
                     <Route path="/SupplierModel" element={<SupplierModel />} />
                     <Route path="/SalesReports" element={<SalesReports/>}/>
                     <Route path="/Deals" element={<Deals/>}/>
+                    <Route path="/FaveModel" element={<FaveModel/>}/>
                 </Routes>
     );
 };

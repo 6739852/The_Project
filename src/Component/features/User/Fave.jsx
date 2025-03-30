@@ -4,14 +4,39 @@ import { Favorite, Person } from '@mui/icons-material';
 import { useSelector,useDispatch } from 'react-redux';
 import { getFaveUser } from '../PurchasingGroup/PurchasingGroupSlice';
 
+//פונקציה שמחלצת את הנתונים מהטוקן
+function parseJwt(token) {
+  try {
+    const base64Url = token.split(".")[1]; // לוקח את החלק האמצעי של ה-JWT
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // מתקנן תווים
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
+        .join("")
+    );
+    return JSON.parse(jsonPayload); // מחזיר אובייקט JSON עם הנתונים
+  } catch (error) {
+    console.error("Error parsing token:", error);
+    return null;
+  }
+}
+
 export default function Fave(){
+
+  const token=localStorage.getItem("token");
+  const parsedData = parseJwt(token);
+
+  const userId = parsedData["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+  console.log("User ID:", userId);
+
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(true);
   const faveArr = useSelector((state) => state.purchasingGroups.purchasingGroupFave);
   useEffect(() => {
      console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
      setLoading(true);
-     dispatch(getFaveUser(30))
+     dispatch(getFaveUser(userId))
        .then(() => setLoading(false))
        .catch(() => setLoading(false));
    }, [dispatch]);
