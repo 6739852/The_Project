@@ -22,11 +22,11 @@ export default function FaveModel() {
   }
 
   const HandleGet = () => {
-    navigate("/join", { state: { faveId } });
+    navigate("/GetAndOpenGroup", { state: { faveId, ...wantToOpen } });
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 3 }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 3 ,marginTop: '150px'}}>
       <Grid container spacing={4} direction="row-reverse">
         <Grid item xs={12} md={6}>
           <Typography variant="h4" fontWeight="bold" gutterBottom>

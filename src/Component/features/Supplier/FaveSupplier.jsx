@@ -13,21 +13,22 @@ export default function FaveSupplier() {
   useEffect(() => {
     console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
     setLoading(true);
+    window.scrollTo(0, 0);
     dispatch(getFave(4))
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
   }, [dispatch]);
 
   return (
-    <Container maxWidth="md" sx={{ mt: 4, direction: 'rtl' }}>
-      <Typography variant="h4" component="h1" gutterBottom textAlign="center" color="primary.main" fontWeight="bold">
-        מה שבאלך שיפתח - ואנחנו עובדים על זה בשבילך...
+    <Container maxWidth="lg" sx={{ mt: 4, direction: 'rtl', marginTop: '150px' }}>
+      <Typography variant="h4" component="h1" gutterBottom textAlign="center" color="black" fontWeight="bold">
+         קבוצות שמחכות לך.. 
       </Typography>
-      <Grid container spacing={3}>
+      <Grid container spacing={2}>
         {faveArr.map((item) => (
-          <Grid item xs={12} sm={6} md={4} key={item.id}>
+          <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
             <Link to="/FaveModel" state={{ faveId: item.id }} style={{ textDecoration: "none", color: "inherit" }}>
-              <Card sx={{ boxShadow: 4, borderRadius: 3, transition: "0.3s", '&:hover': { transform: "scale(1.05)" } }}>
+              <Card sx={{ boxShadow: 4, borderRadius: 0, transition: "0.3s", '&:hover': { transform: "scale(1.05)" } }}>
                 <CardContent>
                   <Typography variant="h6" fontWeight="bold" gutterBottom>
                     {item.name}
@@ -40,9 +41,6 @@ export default function FaveSupplier() {
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                     <IconButton color="error" size="small">
-                      <Favorite />
-                    </IconButton>
-                    <IconButton color="default" size="small">
                       <Favorite />
                     </IconButton>
                   </Box>

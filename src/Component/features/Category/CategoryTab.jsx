@@ -30,9 +30,7 @@ export default function CategoryTab() {
                 backgroundColor: '#444444',
                 boxShadow: '0 2px 8px rgb(255, 255, 255)',
                 padding: '1px 0',
-                display: 'flex',
-                // justifyContent: 'center',
-                // color: '#ffffff',
+                display: 'flex'
             }}
         >
             <Tabs
@@ -59,9 +57,6 @@ export default function CategoryTab() {
                         <Tab
                             label={category.name}
                             sx={{
-                                // fontWeight: value === index ? 'bold' : 'normal',
-                                // color: value === index ? '#ffffff' : '#ffffff',
-                                // backgroundColor: value === index ? '#007BFF' : 'transparent',
                                 transition: 'all 0.8s ease',
                                 padding: '10px 16px',
                                 minWidth: '110px',
@@ -70,7 +65,7 @@ export default function CategoryTab() {
                                 color: 'white',
                                 '&:hover': {
                                     backgroundColor: 'white', // שינוי רקע במעבר
-                                    color:'black'
+                                    color: 'black',
                                 },
                                 '&.Mui-selected': {
                                     color: '#ffffff',

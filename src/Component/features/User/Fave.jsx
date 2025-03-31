@@ -36,13 +36,14 @@ export default function Fave(){
   useEffect(() => {
      console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
      setLoading(true);
+     window.scrollTo(0, 0);
      dispatch(getFaveUser(userId))
        .then(() => setLoading(false))
        .catch(() => setLoading(false));
    }, [dispatch]);
    
   return (
-    <Container maxWidth="md" sx={{ mt: 4, direction: 'rtl' }}>
+    <Container maxWidth="md" sx={{ mt: 4, direction: 'rtl' ,marginTop: '150px'}}>
       <Typography variant="h4" component="h1" gutterBottom textAlign="center" color="primary.main">
         מה שבאלך שיפתח- ואנחנו עובדים של זה בשבילך...
       </Typography>

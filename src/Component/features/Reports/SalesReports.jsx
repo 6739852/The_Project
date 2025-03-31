@@ -12,7 +12,7 @@ const data = [
 
 export default function SalesReports() {
   return (
-    <Card sx={{ maxWidth: 600, mx: "auto", mt: 4, p: 2, boxShadow: 3, borderRadius: 2, direction: "rtl" }}>
+    <Card sx={{ maxWidth: 600, mx: "auto", mt: 4, p: 2, boxShadow: 3, borderRadius: 2, direction: "rtl" ,marginTop: '150px'}}>
       <CardContent>
         <Typography variant="h5" align="center" gutterBottom>
           דוח מכירות חודשי

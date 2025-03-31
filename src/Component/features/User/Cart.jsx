@@ -111,6 +111,7 @@ export default function Cart() {
   useEffect(() => {
     console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
     setLoading(true);
+    window.scrollTo(0, 0);
     dispatch(getPurchasingGroupsByIdUser(userId))
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
@@ -136,7 +137,7 @@ export default function Cart() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, direction: "rtl" }}>
+    <Container maxWidth="lg" sx={{ mt: 4, direction: "rtl",marginTop: '150px' }}>
       <Typography
         variant="h5"
         gutterBottom

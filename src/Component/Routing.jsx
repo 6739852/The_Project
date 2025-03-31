@@ -21,6 +21,7 @@ import SupplierModel from './features/Supplier/SupplierModel';
 import SalesReports from './features/Reports/SalesReports';
 import Deals from './Deals'
 import FaveModel from './features/Supplier/FaveModel'
+import GetAndOpenGroup from './features/PurchasingGroup/GetAndOpenGroup'
 
 const Routing = () => {
     return (
@@ -48,6 +49,7 @@ const Routing = () => {
                     <Route path="/SalesReports" element={<SalesReports/>}/>
                     <Route path="/Deals" element={<Deals/>}/>
                     <Route path="/FaveModel" element={<FaveModel/>}/>
+                    <Route path="/GetAndOpenGroup" element={<GetAndOpenGroup/>}/>
                 </Routes>
     );
 };

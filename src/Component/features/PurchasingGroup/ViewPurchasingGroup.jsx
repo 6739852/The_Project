@@ -22,6 +22,7 @@ export default function ViewPurchasingGroup() {
     useEffect(() => {
       console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
       setLoading(true);
+      window.scrollTo(0, 0);
       dispatch(fetchPurchasingGroups())
         .then(() => setLoading(false))
         .catch(() => setLoading(false));
@@ -47,7 +48,7 @@ export default function ViewPurchasingGroup() {
     <>
     <CardMedia
               component="img"
-              sx={{ height: 280, borderRadius: "10px 10px 0 0" }} // מקטין את התמונה
+              sx={{ height: 280, borderRadius: "10px 10px 0 0",marginTop: '150px' }} // מקטין את התמונה
               image={'..../Images/logo_1.jpg'}
          />
     <div style={{ paddingTop: '5px' }}>

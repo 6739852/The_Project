@@ -2,13 +2,14 @@ import { Category } from '@mui/icons-material';
 import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+
 //כל המשתנים שקשורים לקבוצות רכישה הקיימות
 const initialState = {
   purchasingGroups: [],
   purchasingGroupsId: [], 
   purchasingGroupOne: {},  
   purchasingGroupFave: [],  
-
+  RankPurchasingGroup: [], 
 };
 
 // פונקציה שמביאה את כל קבוצות הרכישה מהשרת
@@ -90,6 +91,28 @@ export const getPurchasingGroupsById = createAsyncThunk( 'purchasingGroups/fetch
           return {}; // מחזיר null במקרה של שגיאה
         }
       });
+//פונקציה שמוסיפה ניקוד לקבוצת רכישה      
+const API_BASE_URL = 'https://localhost:7022/api/PurchasingGroup'; 
+
+export const addScope = async (id) => {
+    try {
+        const response = await axios.post(`${API_BASE_URL}/AddScope/${id}`);
+        console.log('Scope updated successfully:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error updating scope:', error.response?.data || error.message);
+        throw error;
+    }
+};
+//פונקציה שמחזירה את הקבוצה מספר X מבחינת הניקוד
+export const getPurchaseGroupByRank = async (rank) => {
+  try {
+    const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/rank/${rank}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching group:", error);
+  }
+};
 //פונקציות המטפלות בקבוצות רכישה
 export const purchasingGroupSlice = createSlice({
     
@@ -157,6 +180,14 @@ export const purchasingGroupSlice = createSlice({
     }); 
     builder.addCase(getGroupById.pending, (state, action) => {
     });
+    // builder.addCase(getPurchaseGroupByRank.fulfilled, (state, action) => {
+    //   state.RankPurchasingGroup = action.payload;
+    // });
+    // builder.addCase(getPurchaseGroupByRank.rejected, (state, action) => {
+    //   state.RankPurchasingGroup = {};
+    // }); 
+    // builder.addCase(getPurchaseGroupByRank.pending, (state, action) => {
+    // });
   }}
 );
 //פונקציות המייצרות את הפעולות

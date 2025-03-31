@@ -160,7 +160,7 @@ function parseJwt(token) {
 }
 
 export default function ExistGroup() {
-  
+
   const token=localStorage.getItem("token");
   const parsedData = parseJwt(token);
   const userId = parsedData["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
@@ -173,6 +173,7 @@ export default function ExistGroup() {
   useEffect(() => {
     console.log("🔄 useEffect מופעל! מנסה להביא נתונים...");
     setLoading(true);
+    window.scrollTo(0, 0);
     dispatch(getPurchasingGroupsById(userId))
       .then(() => setLoading(false))
       .catch(() => setLoading(false));
@@ -198,7 +199,7 @@ export default function ExistGroup() {
   }
 
   return (
-    <Container maxWidth="lg" sx={{ mt: 4, direction: "rtl" }}>
+    <Container maxWidth="lg" sx={{ mt: 4, direction: "rtl" ,marginTop: '150px'}}>
       <Typography
         variant="h5"
         gutterBottom
@@ -220,7 +221,7 @@ export default function ExistGroup() {
         sx={{
           maxWidth: 300,
           height: 420,
-          borderRadius: 3,
+          borderRadius: 0,
           boxShadow: 3,
           transition: "transform 0.3s",
           "&:hover": { transform: "scale(1.05)" },

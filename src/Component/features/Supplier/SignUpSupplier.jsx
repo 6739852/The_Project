@@ -70,7 +70,7 @@ const SignUpSupplier = () => {
                         component="h1" 
                         gutterBottom 
                         fullWidth
-                        style={{ color: 'gray', marginTop: '20px', textAlign: 'center' }}
+                        style={{ color: 'gray', marginTop: '20px', textAlign: 'center',marginTop: '150px' }}
                     >
                         הרשמה לספקים
                     </Typography>

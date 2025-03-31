@@ -161,7 +161,7 @@ export default function AddGroup() {
     // };
 
     return (
-        <Box component="form" sx={{ maxWidth: 500, mx: 'auto', p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'white' }}>
+        <Box component="form" sx={{ maxWidth: 500, mx: 'auto', p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'white',marginTop: '150px' }}>
             <Typography variant="h5" sx={{ mb: 2, textAlign: 'center', fontWeight: 'bold' }}>הצעה לקבוצת רכישה</Typography>
             <TextField label="שם מוצר" name="productName" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
             <TextField label="תיאור" name="description" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />

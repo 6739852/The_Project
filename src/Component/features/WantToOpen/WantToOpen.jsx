@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useSelector,useDispatch } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Box, TextField, MenuItem, Button, Typography } from '@mui/material';
 import { EmojiPeople, SentimentSatisfiedAlt } from '@mui/icons-material';
-import {fetchCategories} from '../Category/CategorySlice'
-import {suggestGroup} from './WantToOpenSlice'
-import { Navigate, useNavigate } from 'react-router-dom';
+import { fetchCategories } from '../Category/CategorySlice';
+import { suggestGroup } from './WantToOpenSlice';
+import { useNavigate } from 'react-router-dom';
 
 const getUserIdFromToken = (token) => {
     if (!token) {
@@ -15,66 +15,53 @@ const getUserIdFromToken = (token) => {
     try {
         const payloadBase64 = token.split('.')[1]; 
         const decodedPayload = atob(payloadBase64);
-
-        // המרת ה-JSON הקריא לאובייקט JavaScript
         const payload = JSON.parse(decodedPayload);
-
-        // שליפת ה-Claim של NameIdentifier (userId)
         const userId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-        if (userId) {
-            return userId; // החזרת מזהה המשתמש
-        } else {
-            console.warn("לא נמצא NameIdentifier בטוקן.");
-            return null;
-        }
+        return userId || null;
     } catch (error) {
         console.error("שגיאה בניתוח הטוקן:", error);
-        return null; // במקרה של טוקן לא תקין או שגיאה
+        return null;
     }
 };
 
 export default function WantToOpen() { 
+    const navigate = useNavigate();
+    const user = useSelector(state => state.user.currentUser);
+    const dispatch = useDispatch();
+    const categories = useSelector(state => state.category.categories);
 
-    const navigate=useNavigate()
-    const user=useSelector(state=>state.user.currentUser)
-    const dispatch=useDispatch();
-    const categories = useSelector(state=>state.category.categories)
-      
-        React.useEffect(() => {
+    useEffect(() => {
         dispatch(fetchCategories());
+        window.scrollTo(0, 0); // גלילה לראש הדף בכל טעינה
     }, [dispatch]);
 
     const [productName, setProductName] = useState('');
     const [selectedCategory, setselectedCategory] = useState('');
     const [details, setDetails] = useState('');
 
-       const handleSubmit = (e) => {
-            e.preventDefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-            // שליחת הנתונים ל- Redux
-            const token = localStorage.getItem('token'); // שליפת הטוקן מה- localStorage
-            console.log(token);
-            
-            const userId = getUserIdFromToken(token,user );
-            console.log(userId);
-            
-            // const userId = token ? JSON.parse(atob(token.split('.')[1])).userId : null;
-            
-            dispatch(suggestGroup({ 
-                categoryId: selectedCategory,
-                approvalDate: new Date().toISOString(),
-                userId: userId,
-                name: productName, 
-                description: details
-            }));
-    
-            alert(`הבקשה נשלחה בהצלחה!`);
-            navigate('/Fave')
-        };
+        const token = localStorage.getItem('token');
+        console.log(token);
+        
+        const userId = getUserIdFromToken(token, user);
+        console.log(userId);
+        
+        dispatch(suggestGroup({ 
+            categoryId: selectedCategory,
+            approvalDate: new Date().toISOString(),
+            userId: userId,
+            name: productName, 
+            description: details
+        }));
+
+        alert(`הבקשה נשלחה בהצלחה!`);
+        navigate('/Fave');
+    };
 
     return (
         <Box
-            fullWidth
             sx={{
                 maxWidth: 400,
                 margin: 'auto',
@@ -83,37 +70,34 @@ export default function WantToOpen() {
                 borderRadius: 2,
                 bgcolor: 'white',
                 textAlign: 'right',
-                direction: 'rtl'
+                direction: 'rtl',
+                marginTop: '150px' // מוסיף מרווח בין הסרגל לתוכן
             }}
         >
-            <br />
-            <Typography variant="h6" gutterBottom display="flex" alignItems="center" justifyContent="right" fullWidth>
-                <EmojiPeople fullWidth sx={{ marginLeft: 1 }} /> איזה קבוצה בא לך לפתוח? <SentimentSatisfiedAlt sx={{ marginRight: 1, color: 'orange' }} />
+            <Typography variant="h6" gutterBottom display="flex" alignItems="center" justifyContent="right">
+                <EmojiPeople sx={{ marginLeft: 1 }} /> איזה קבוצה בא לך לפתוח? <SentimentSatisfiedAlt sx={{ marginRight: 1, color: 'orange' }} />
             </Typography>
             <TextField
-                fullwidth
+                fullWidth
                 label="שם המוצר"
                 variant="outlined"
                 margin="normal"
                 value={productName}
                 onChange={(e) => setProductName(e.target.value)}
-                sx={{ textAlign: 'right', direction: 'rtl' }}
             />
-            <br />
             <TextField
-                fullwidth
+                fullWidth
                 select
                 label="בחר קטגוריה"
                 variant="outlined"
                 margin="normal"
                 value={selectedCategory}
                 onChange={(e) => setselectedCategory(e.target.value)}
-                sx={{ textAlign: 'right', direction: 'rtl' }}
             >
                 {categories.map((category) => (
-                  <MenuItem key={category.id} value={category.id} fullWidth>
-                  {category.name}
-              </MenuItem>
+                  <MenuItem key={category.id} value={category.id}>
+                      {category.name}
+                  </MenuItem>
                 ))}
             </TextField>
             <TextField
@@ -125,10 +109,9 @@ export default function WantToOpen() {
                 rows={3}
                 value={details}
                 onChange={(e) => setDetails(e.target.value)}
-                sx={{ textAlign: 'right', direction: 'rtl' }}
             />
             <Button
-                fullwidth
+                fullWidth
                 variant="contained"
                 color="primary"
                 sx={{ mt: 2 }}

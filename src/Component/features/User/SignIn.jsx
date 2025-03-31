@@ -75,7 +75,7 @@ export default function Login() {
             ) : ( */}
     <AppProvider theme={theme} branding={BRANDING} >
       <SignInPage
-      sx={{marginTop:0}}
+      sx={{marginTop: '0px'}}
       //מקבל את הפונקציה handleSignIn לטיפול באירוע הכניסה למערכת
         signIn={handleSignIn}
         slotProps={{

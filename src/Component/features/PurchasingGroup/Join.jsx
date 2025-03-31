@@ -85,6 +85,7 @@ export default function Join() {
         component="form" 
         onSubmit={handleSubmit}
         sx={{ 
+          marginTop: '150px',
           display: 'flex', 
           flexDirection: 'column', 
           gap: 2, 

@@ -27,7 +27,7 @@ export default function SupplierModel() {
   }
 
   return (
-    <Card sx={{ maxWidth: 800, mx: "auto", mt: 4, p: 2, boxShadow: 3 }}>
+    <Card sx={{ maxWidth: 800, mx: "auto", mt: 4, p: 2, boxShadow: 3 ,marginTop: '150px'}}>
       <CardMedia
         component="img"
         height="300"

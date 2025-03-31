@@ -47,7 +47,7 @@ function MyBar() {
         <MenuIcon />
         </IconButton>
 
-        <Link to={userRole === 'Supplier' ? '/ExistGroups' : '/Cart'}>
+        <Link to={userRole === 'Supplier' ? '/ExistGroups' : userRole === 'User' ? '/Cart' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white', mx: 1}}>
               <Badge badgeContent={numOfGroups} color="error">
                 <ShoppingCartOutlinedIcon />
@@ -55,7 +55,7 @@ function MyBar() {
             </IconButton>
           </Link>
 
-          <Link to={userRole === 'Supplier' ? '/FaveSupplier' : '/Fave'}>
+<Link to={userRole === 'Supplier' ? '/FaveSupplier' : userRole === 'User' ? '/Fave' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white' }}>
               <Badge badgeContent={numOfWaitingGroups} color="error">
                 <AccessTimeIcon />
@@ -68,7 +68,7 @@ function MyBar() {
               <PersonOutlineOutlinedIcon />
             </IconButton>
           </Link>
-          <Link to={userRole === 'Supplier' ? '/AddGroup' : '/WantToOpen'}>
+          <Link to={userRole === 'Supplier' ? '/AddGroup' : userRole === 'User' ? '/WantToOpen' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white', mx: 1 }}>
               <AddShoppingCartIcon />
             </IconButton>

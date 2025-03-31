@@ -78,6 +78,7 @@ function Profil({ pathname }) {
   return (
     <Box
       sx={{
+        marginTop: '150px',
         py: 4,
         display: 'flex',
         flexDirection: 'column',

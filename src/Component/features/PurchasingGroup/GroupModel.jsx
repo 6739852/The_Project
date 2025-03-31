@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getGroupById } from "./PurchasingGroupSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Typography, Button, Box, Grid } from "@mui/material";
+import { addScope } from "./PurchasingGroupSlice";
 
 export default function GroupModel() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function GroupModel() {
   useEffect(() => {
     if (productId) {
       dispatch(getGroupById(productId));
+      addScope(productId);
     }
   }, [productId, dispatch]);
 
@@ -26,7 +28,8 @@ export default function GroupModel() {
   };
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 3 }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", mt: 4, p: 3 ,marginTop: '150px'
+    }}>
       <Grid container spacing={4} direction="row-reverse">
         {/* צד ימין - תמונת מוצר */}
         <Grid item xs={12} md={6}>

@@ -19,6 +19,7 @@ export default function SupplierList() {
     useEffect(() => {
         console.log("🔄 useEffect activated! Fetching data...");
         setLoading(true);
+        window.scrollTo(0, 0);
         dispatch(getSupplierList())
             .unwrap()
             .then(() => setLoading(false))
@@ -44,7 +45,7 @@ export default function SupplierList() {
 
     return (
         <>
-            <div style={{ paddingTop: "50px" }}>
+            <div style={{ paddingTop: "50px" ,marginTop: '150px'}}>
                 <Grid container spacing={2} justifyContent="center">
                     <Grid item xs={12}>
                         <Typography
