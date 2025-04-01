@@ -2,6 +2,18 @@ import { LineAxisOutlined } from "@mui/icons-material";
 import { createAsyncThunk, current, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
 
+const saveUserData = (data) => {
+  if (data && data.token) {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("name", data.name);
+    localStorage.setItem("numOfGroup", data.numOfGroup);
+    localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+    localStorage.setItem("role", data.role);
+  } else {
+    console.error("⚠️ שגיאה: לא התקבל טוקן!", data);
+  }
+};
+
 export const signInSupplier = createAsyncThunk(
   "supplier-SignIn",
   async (supplier, thunkApi) => {
@@ -13,7 +25,8 @@ export const signInSupplier = createAsyncThunk(
       );
       console.log(data);
       if (data) {
-        localStorage.setItem("token", data.token);
+        // localStorage.setItem("token", data.token);
+        saveUserData(data);
       } else {
         console.log("Token not received:", data);
       }
@@ -28,7 +41,7 @@ export const signInSupplier = createAsyncThunk(
 function parseJwt() {
   const t = localStorage.getItem("token");
   if (!t) {
-    console.error("No token found in localStorage");
+    // console.error("No token found in localStorage");
     return null;
   }
 
@@ -105,6 +118,7 @@ export const registerSupplier = createAsyncThunk("supplier/register", async (sup
     localStorage.setItem("name", data.name);
     localStorage.setItem("numOfGroup", data.numOfGroup);
     localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+    localStorage.setItem("role", data.role);
     return data;
   }
 });
@@ -133,13 +147,15 @@ export const getSupplierById = createAsyncThunk('SupplierOne/getSupplierById',
       return {}; // מחזיר null במקרה של שגיאה
     }
   });
-
 export const supplierSlice = createSlice({
   name: 'supplier',
   initialState: {
     supplierList: [],
     currentUser: parseJwt() || null,
-    token: localStorage.getItem("token") || null,
+    // token: localStorage.getItem("token") || null,
+    token: null,
+    numOfCurrentGroups: null,
+    numOfWaitingGroups: null,
     status: null,
     groups: [],
     message: null,
@@ -151,6 +167,9 @@ export const supplierSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signInSupplier.fulfilled, (state, action) => {
       state.token = action.payload.token; // שמירת הטוקן בסטור
+      state.role = action.payload.role; // שמירת הטוקן בסטור
+      state.numOfCurrentGroups=action.payload.numOfCurrentGroups;
+      state.numOfWaitingGroups=action.payload.numOfWaitingGroups;
       // state.currentUser = parseJwt(); // חילוץ המשתמש מהטוקן ושמירתו
       const payload = parseJwt(); // חילוץ הנתונים מהטוקן
       console.log("Parsed Supplier Payload:", payload); // ודאי שהפענוח עובד

@@ -4,7 +4,6 @@ import { Box, TextField, MenuItem, FormControl, Button, Typography, Checkbox, Fo
 import { useNavigate, useLocation } from 'react-router-dom';
 import { fetchCategories } from '../Category/CategorySlice';
 
-//פונקציה שמחלצץ את הטוקן
 const getUserIdFromToken = (token) => {
     if (!token) {
         console.error("טוקן לא קיים או ריק.");
@@ -13,32 +12,21 @@ const getUserIdFromToken = (token) => {
     try {
         const payloadBase64 = token.split('.')[1]; 
         const decodedPayload = atob(payloadBase64);
-  
-        // המרת ה-JSON הקריא לאובייקט JavaScript
         const payload = JSON.parse(decodedPayload);
-  
-        // שליפת ה-Claim של NameIdentifier (userId)
-        const supplierId = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-        if (supplierId) {
-            return supplierId; // החזרת מזהה המשתמש
-        } else {
-            console.warn("לא נמצא NameIdentifier בטוקן.");
-            return null;
-        }
+        return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"] || null;
     } catch (error) {
         console.error("שגיאה בניתוח הטוקן:", error);
-        return null; // במקרה של טוקן לא תקין או שגיאה
+        return null;
     }
-  };
+};
 
 export default function AddAndOpenGroup() {
-    
     const location = useLocation();
-    const { faveId, ...wantToOpen } = location.state || {}; // קבלת הנתונים מהניווט
+    const { faveId, ...wantToOpen } = location.state || {}; 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const categories = useSelector(state => state.category.categories);
-    
+
     const [groupData, setGroupData] = useState({
         productName: wantToOpen.name || '',
         description: wantToOpen.description || '',
@@ -50,6 +38,7 @@ export default function AddAndOpenGroup() {
     });
 
     const [selectedCategory, setSelectedCategory] = useState(wantToOpen.categoryId || '');
+    
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
@@ -59,7 +48,6 @@ export default function AddAndOpenGroup() {
             setSelectedCategory(wantToOpen.categoryId);
         }
     }, [categories, wantToOpen.categoryId]);
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -77,15 +65,10 @@ export default function AddAndOpenGroup() {
         formData.append("openingDate", new Date().toISOString());
         formData.append("currentAmount", 0);
         formData.append("amountMin", groupData.minPeople);
-    
+
         if (groupData.image) {
             formData.append("ImageFile", groupData.image);  
-        } else {
-            console.error("🚨 שגיאה: התמונה לא נבחרה!");
-            return;
         }
-    
-        console.log("📤 שולח FormData:", formData);
     
         try {
             const response = await fetch("https://localhost:7022/api/PurchasingGroup", {
@@ -102,7 +85,6 @@ export default function AddAndOpenGroup() {
     
             alert(`✅ הבקשה נשלחה בהצלחה!`);
     
-            // 🟢 מחיקת הפריט רק אם faveId קיים
             if (faveId) {
                 await deleteItem(faveId);
             }
@@ -115,10 +97,8 @@ export default function AddAndOpenGroup() {
         }
     };
     
-    // 🛑 פונקציה למחיקת הפריט
     const deleteItem = async (faveId) => {
         try {
-            console.log(`🗑️ מוחק פריט עם ID: ${faveId}`);
             const response = await fetch(`https://localhost:7022/api/WantToOpen/${faveId}`, {
                 method: "DELETE",
             });
@@ -126,62 +106,37 @@ export default function AddAndOpenGroup() {
             if (!response.ok) {
                 throw new Error("שגיאה במחיקת הפריט");
             }
-    
-            console.log("✅ הפריט נמחק בהצלחה!");
         } catch (error) {
             console.error("❌ שגיאה במחיקת הפריט:", error);
         }
     };
     
-
     const handleChange = (event) => {
         const { name, value } = event.target;
         setGroupData(prev => ({ ...prev, [name]: value }));
     };
 
-   //פונקציה של טעינת התמונה
     const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-      if (file) {
-        setGroupData(prev => ({ ...prev, image: file }));
-      }
-   };
+        const file = event.target.files[0];
+        if (file) {
+            setGroupData(prev => ({ ...prev, image: file }));
+        }
+    };
 
     return (
-        <Box component="form" sx={{ maxWidth: 500, mx: 'auto', p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'white', marginTop: '150px'
-        }}>
-        <Typography variant="h5" sx={{ mb: 2, textAlign: 'center', fontWeight: 'bold' }}>הצעה לקבוצת רכישה</Typography>
-        <TextField label="שם מוצר" name="productName" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
-        <TextField label="תיאור" name="description" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
-        <TextField label="מחיר" name="price" type="number" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
-        <TextField label="כמות אנשים מינימלית" name="minPeople" type="number" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
-        <TextField label="תאריך סגירה" name="closingDate" type="date" variant="outlined" fullWidth InputLabelProps={{ shrink: true }} onChange={handleChange} sx={{ mb: 2 }} />
-        <TextField label="תנאי החבילה" name="packageTerms" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
-        <FormControl fullWidth sx={{ mb: 2 }}>
-            <TextField
-                       select
-                       fullWidth
-                       label="בחר קטגוריה"
-                       variant="outlined"
-                       margin="normal"
-                       value={selectedCategory}
-                       onChange={(e) => setselectedCategory(e.target.value)}
-                       sx={{ textAlign: 'right', direction: 'rtl' }}
-                      >
-                      {categories.map((category) => (
-                      <MenuItem key={category.id} value={category.id}>
-                      {category.name}
-                      </MenuItem>
-                      ))}
-                  </TextField>
-        </FormControl>
-        <Button variant="contained" component="label" fullWidth sx={{ mb: 2 }}>
-            הוספת תמונה
-            <input type="file" hidden accept="image/*" onChange={handleImageUpload} />
-        </Button>
-        {groupData.image && <Typography variant="body2" sx={{ color: 'green', mb: 2 }}>תמונה נבחרה: {groupData.image.name}</Typography>}
-        <FormControlLabel control={<Checkbox onChange={(e) => setGroupData(prev => ({ ...prev, agreeToTerms: e.target.checked }))} />} label="אני מאשר את מדיניות האתר" sx={{ mb: 2 }} />
-        <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>שלח בקשה</Button>
-    </Box>
+        <Box component="form" sx={{ maxWidth: 500, mx: 'auto', p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'white', marginTop: '150px' }}>
+            <Typography variant="h5" sx={{ mb: 2, textAlign: 'center', fontWeight: 'bold' }}>הצעה לקבוצת רכישה</Typography>
+            <TextField label="שם מוצר" name="productName" value={groupData.productName} variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
+            <TextField label="תיאור" name="description" value={groupData.description} variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
+            <TextField label="מחיר" name="price" value={groupData.price} type="number" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
+            <TextField label="כמות אנשים מינימלית" name="minPeople" value={groupData.minPeople} type="number" variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
+            <TextField label="תאריך סגירה" name="closingDate" type="date" value={groupData.closingDate} variant="outlined" fullWidth InputLabelProps={{ shrink: true }} onChange={handleChange} sx={{ mb: 2 }} />
+            <TextField label="תנאי החבילה" name="packageTerms" value={groupData.packageTerms} variant="outlined" fullWidth onChange={handleChange} sx={{ mb: 2 }} />
+            <Button variant="contained" component="label" fullWidth sx={{ mb: 2 }}>
+                הוספת תמונה
+                <input type="file" hidden accept="image/*" onChange={handleImageUpload} />
+            </Button>
+            <Button variant="contained" color="primary" fullWidth onClick={handleSubmit}>שלח בקשה</Button>
+        </Box>
     );
 }

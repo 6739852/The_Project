@@ -10,6 +10,11 @@ export default function CategoryTab() {
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.category.categories);
 
+    // const handleClick=(e)=>{
+    //     const categoryId = e.currentTarget.getAttribute('data-category-id');
+    //     window.location.href = `/ViewPurchasingGroup?categoryId=${categoryId}`;
+    // }
+    
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
@@ -48,6 +53,7 @@ export default function CategoryTab() {
             >
                 {categories.map((category, index) => (
                     <Link
+                        state={{ categoryId: category.id }}
                         key={category.id}
                         to="/ViewPurchasingGroup"
                         style={{
@@ -55,11 +61,13 @@ export default function CategoryTab() {
                         }}
                     >
                         <Tab
+                            // onClick={handleClick}
                             label={category.name}
                             sx={{
                                 transition: 'all 0.8s ease',
                                 padding: '10px 16px',
-                                minWidth: '110px',
+                                // minWidth: '110px',
+                                minWidth:'12.5vw',
                                 textTransform: 'none',
                                 whiteSpace: 'nowrap',
                                 color: 'white',

@@ -1,8 +1,9 @@
 import { LineAxisOutlined } from "@mui/icons-material";
 import { createAsyncThunk, current, createSlice } from "@reduxjs/toolkit";
 // import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
-
+// import { signInSupplier } from "../Supplier/SupplierSlice";
 
 // תפקיד: להכניס את המשתמש שנכנס למערכת
 // export const signInServer = createAsyncThunk("user/login", async (user, thunkApi) => {
@@ -50,6 +51,69 @@ import axios from 'axios';
 //     }
 //   }
 // );
+// export const signInServer = createAsyncThunk(
+//   "user-SignIn",
+//   async (user, thunkApi) => {
+//     try {
+//       debugger
+//       let { data } = await axios.post(
+//         "https://localhost:7022/api/User/SignIn",
+//         user
+//       );
+//       if (data) {
+//         saveUserData(data);
+//         // const decoded = jwtDecode(data); // פענוח הטוקן
+//         // return {data,decoded};
+//       } else {
+//         signInSupplier(user);
+//         console.log("User not found in main SignIn. Trying supplier SignIn...");
+//       }
+//     } catch (error) {
+//       signInSupplier(user);
+//       console.error("Error during User SignIn:", error);
+//     }
+//   }
+// );
+const saveUserData = (data) => {
+  if (data && data.token) {
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("name", data.name);
+    localStorage.setItem("numOfGroup", data.numOfGroup);
+    localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+    localStorage.setItem("role", data.role);
+  } else {
+    console.error("⚠️ שגיאה: לא התקבל טוקן!", data);
+  }
+};
+
+export const signInSupplier = createAsyncThunk(
+  "supplier-SignIn",
+  async (supplier, thunkApi) => {
+    try {
+      let { data } = await axios.post(
+        "https://localhost:7022/api/Supplier/SignIn",
+        supplier
+      );
+      if (data) {
+        saveUserData(data);
+        alert(
+          `Hello "${data.name}"`,
+        );
+        return data;
+      } else {
+        console.log("⚠️ לא התקבל מידע על ספק", data);
+        return thunkApi.rejectWithValue("ספק לא נמצא");
+      }
+    } catch (error) {
+      const navigate=useNavigate();
+      alert("אינך משתמש רשום עליך להירשם למערכת")
+      navigate('/SignUp')
+      console.error("❌ שגיאה בהתחברות ספק:", error);
+      return thunkApi.rejectWithValue(error.response?.data || "שגיאת התחברות");
+    }
+  }
+);
+
 export const signInServer = createAsyncThunk(
   "user-SignIn",
   async (user, thunkApi) => {
@@ -58,53 +122,32 @@ export const signInServer = createAsyncThunk(
         "https://localhost:7022/api/User/SignIn",
         user
       );
-
       if (data) {
         saveUserData(data);
-        // const decoded = jwtDecode(data); // פענוח הטוקן
-        // return {data,decoded};
-      } else {
-        console.log("User not found in main SignIn. Trying supplier SignIn...");
-      }
-    } catch (error) {
-      console.error("Error during User SignIn:", error);
-    }
-
-    // ניסיון נוסף עבור ספקים אם הכניסה הרגילה נכשלה
-    try {
-      let { data } = await axios.post(
-        "https://localhost:7022/api/Supplier/SignIn",
-        user
-      );
-
-      if (data) {
-        saveUserData(data);
+        alert(
+          `Hello "${data.name}"`,
+        );
         return data;
       } else {
-        console.log("Supplier not found either.");
-        return thunkApi.rejectWithValue("User or Supplier not found");
+        console.log("⚠️ משתמש לא נמצא, מנסה ספק...");
+        return thunkApi.dispatch(signInSupplier(user));
       }
     } catch (error) {
-      console.error("Error during Supplier SignIn:", error);
-      return thunkApi.rejectWithValue("Error during SignIn process");
+      // const navigate=useNavigate();
+      // alert("אינך משתמש רשום עליך להירשם למערכת")
+      // navigate('/SignUp')
+      console.error("❌ שגיאה בהתחברות משתמש:", error);
+      return thunkApi.dispatch(signInSupplier(user));
     }
   }
 );
 
-// פונקציה לשמירת הנתונים ב-localStorage
-const saveUserData = (data) => {
-  localStorage.setItem("token", data.token);
-  localStorage.setItem("name", data.name);
-  localStorage.setItem("numOfGroup", data.numOfGroup);
-  localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
-  localStorage.setItem("role", data.role);
-};
 
 //פונקציה שמחלצת את הנתונים מהטוקן
 function parseJwt() {
   const t = localStorage.getItem("token");
   if (!t) {
-    console.error("No token found in localStorage");
+    // console.error("No token found in localStorage");
     return null;
   }
 
@@ -160,8 +203,9 @@ export const register = createAsyncThunk("user/register", async (user, thunkApi)
     const data = await response.json();
     localStorage.setItem("token", data.token);
     localStorage.setItem("name", data.name);
-    localStorage.setItem("numOfGroup", data.numOfGroup);
-    localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
+    localStorage.setItem("role", data.role);
+    localStorage.setItem("numOfCurrentGroups", data.numOfCurrentGroups);
+    localStorage.setItem("numOfWaitingGroups", data.numOfWaitingGroups);
     return data;
   }
 });
@@ -170,10 +214,14 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     currentUser: parseJwt() || null,
-    token: localStorage.getItem("token") || null,
-    numOfGroups: localStorage.getItem("numOfGroups") || null,
-    nupOfWaitingGroups: localStorage.getItem("numOfWaitingGroup") || null,
+    // token: localStorage.getItem("token") || null,
+    // numOfGroups: localStorage.getItem("numOfGroups") || null,
+    // nupOfWaitingGroups: localStorage.getItem("numOfWaitingGroup") || null,
+    token: null,
+    numOfCurrentGroups: null,
+    numOfWaitingGroups: null,
     name: localStorage.getItem("name") || "אורח",
+    role: localStorage.getItem("role") || null,
     waitingGroup: [],
     status: null,
     groups: [],
@@ -185,6 +233,9 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signInServer.fulfilled, (state, action) => {
       state.token = action.payload.token; // שמירת הטוקן בסטור
+      state.role = action.payload.role; // שמירת הטוקן בסטור
+      state.numOfCurrentGroups=action.payload.numOfCurrentGroups;
+      state.numOfWaitingGroups=action.payload.numOfWaitingGroups;
       const payload = parseJwt(); // חילוץ הנתונים מהטוקן
       console.log("Parsed User Payload:", payload); // ודאי שהפענוח עובד
       state.currentUser = payload; // שמירת הנתונים ב-Redux

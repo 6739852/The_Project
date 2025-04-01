@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from "react-router-dom";
 
 
+
 const addUserToGroup = async (groupId, userId) => {
   try {
       const response = await fetch(`https://localhost:7022/api/PurchasingGroup/${groupId}/add-user/${userId}`, {
@@ -16,6 +17,7 @@ const addUserToGroup = async (groupId, userId) => {
       const data = await response.json();
       if (response.ok) {
           alert("User added successfully");
+
       } else {
           alert("Failed to add user: " + data.message);
       }

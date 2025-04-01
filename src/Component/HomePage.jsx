@@ -3,9 +3,10 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import {Grid} from '@mui/material';
+import CardMedia from '@mui/material/CardMedia';
 import { Typography, Button, Container } from "@mui/material";
 import {getPurchaseGroupByRank } from './features/PurchasingGroup/PurchasingGroupSlice'
-// import { useSelector,useDispatch } from 'react-redux';
+import {Link} from 'react-router-dom'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -19,72 +20,34 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function HomePage() {
-  // const top1 = getPurchaseGroupByRank(1);
-  // const top2 = getPurchaseGroupByRank(2);
-  // const top3 = getPurchaseGroupByRank(3);
-  // const top4 = getPurchaseGroupByRank(4);
-  // const topGroups=[top1, top2, top3, top4];
-  // const  nm= topGroups.map((response) => response.data);
 
-  // console.log(nm)
-  // // disputch=useDispatch();
-  // // const TopGroups = useState(state=> state.purchasingGroups.RankPurchasingGroup)
-  // const [topGroups, setTopGroups] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
-
+  const [topGroup1, setTopGroup1] = useState({});
+  const [topGroup2, setTopGroup2] = useState({});
+  const [topGroup3, setTopGroup3] = useState({});
+  const [topGroup4, setTopGroup4] = useState({});
   const [topGroups, setTopGroups] = useState([]);
-  // const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // const fetchTopGroups = async () => {
-      // try {
-      //   setLoading(true);
-      //   setError(null);
-  
-        // שליחה של 4 בקשות, אחת לכל דירוג (1, 2, 3, 4)
-        // const groupPromises = [1, 2, 3, 4].map(rank =>
-          setTopGroups( getPurchaseGroupByRank(1)) // שליחה של הבקשה
-        // );
+useEffect(() => {
+  const fetchTopGroups = async () => {
+    try {
+      // מחכים לכל הבקשות במקביל
+      const data1 = await getPurchaseGroupByRank(1);
+      const data2 = await getPurchaseGroupByRank(2);
+      const data3 = await getPurchaseGroupByRank(3);
+      const data4 = await getPurchaseGroupByRank(4);
 
-        // מחכים לכל הקריאות להסתיים תוך שמירה על כל התוצאות
-        // const results = await Promise.allSettled(groupPromises); // חכה לכל ה-Promises
-  
-        // סינון התשובות המוצלחות
-        // const successfulResults = results.filter(result => result.status === 'fulfilled')
-        //                                  .map(result => result.value?.data); // גישה לנתונים מתוך ה-Promise
-  
-      //   // בדיקה אם כל התשובות תקינות
-      //   if (successfulResults.length < 4) {
-      //     setError('אחת התשובות לא תקינה');
-      //   } else {
-      //     setTopGroups(successfulResults); // עדכון הסטייט עם התוצאות
-      //   }
-  
-      // } catch (err) {
-      //   setError('לא הצלחנו לשלוף את הקבוצות.');
-      //   console.error('Error fetching groups:', err);
-      // } finally {
-      //   setLoading(false);
-      // }
-    // };
-  
-    // fetchTopGroups();
+      // עדכון הסטייט עם כל הנתונים יחד
+      setTopGroups([data1, data2, data3, data4]);
+
+      console.log("Top groups data:", [data1, data2, data3, data4]); // הדפסה לבדיקת הנתונים
+
+    } catch (error) {
+      console.error("Error fetching group:", error);
+    }
+  };
+
+  fetchTopGroups();
 }, []);
-
-  
-  
-
-  // if (loading) {
-  //   return <p>טוען...</p>;
-  // }
-
-  // if (error) {
-  //   return <p>{error}</p>;
-  // }
-  console.log(topGroups)
-
 
   return (
     <Box
@@ -105,11 +68,9 @@ export default function HomePage() {
         width: "100",
       }}
     >
-      <Typography variant="h6" fontWeight="bold">
-        Due to freight restrictions, we are currently unable to provide our
-        valued customers in Israel the fast delivery service that they are
-        used to. Shipping dates will be correct at checkout.
-      </Typography>
+      <Link to='/ViewPurchasingGroup' state={{ condition: "date" }}><Typography variant="h6" fontWeight="bold">
+        מהרו להצטרף! קבוצות לפני סגירה
+      </Typography></Link>
     </Box>
 
     {/* באנר עם קוד קופון */}
@@ -128,13 +89,15 @@ export default function HomePage() {
       }}
     >
       <Typography variant="h4" fontWeight="bold" gutterBottom>
-        20% OFF OCCASIONWEAR
+      הנחה לרשומים 10%
       </Typography>
       <Typography variant="h6" gutterBottom>
-        With code: <Button variant="outlined" sx={{ color: "#fff", borderColor: "#fff" }}>DRESSUP</Button>
+        <Link to='./SignIn'>
+     <Button variant="outlined" sx={{ color: "#fff", borderColor: "#fff" }}>SUBSCRIPTIONS</Button>
+      </Link>
       </Typography>
-      <Typography variant="body2">
-        Valid on selected products only. See website banner for full T&Cs.
+      <Typography variant="body3">
+       🎁 הרשמו עכשיו וקבלו הטבות 
       </Typography>
     </Box>
     <Box
@@ -144,31 +107,34 @@ export default function HomePage() {
     gap: 2,
     padding: 2,
     width: "100vw",
-    height: "30vh"
+    height: "60vh",
+    overflowY: 'hidden' 
   }}
 >
-  {/* {topGroups.map((group, index) => ( */}
-    <Paper
-      key={topGroups.id}
-      sx={{
-        padding: 1,
-        textAlign: "center",
-        backgroundColor: "#f5f5f5",
-        boxShadow: 3,
-      }}
-    >
-      {/* גישה לפרטי הקבוצה */}
-      <Typography variant="h6" fontWeight="bold">
-        {topGroups.name} {/* מציג את שם הקבוצה */}
-      </Typography>
-      <Typography variant="body2">
-        Description: {topGroups.description} {/* מציג את תיאור הקבוצה */}
-      </Typography>
-      <Typography variant="body2">
-        Score: {topGroups.score} {/* מציג את הניקוד של הקבוצה */}
-      </Typography>
-    </Paper>
-  {/* ))} */}
+  { topGroups.map((group, index) => (
+      <Paper
+        key={index}
+        sx={{
+          padding: 1,
+          textAlign: "center",
+          backgroundColor: "#f5f5f5",
+          boxShadow: 3,
+        }}
+      >
+        {/* <Typography variant="h6" fontWeight="bold">
+          {group?.name || "No Name"} 
+        </Typography> */}
+         <Link to='/GroupModel' state={{ productId: group.id }}>
+         <CardMedia
+                  component="img"
+                  sx={{  borderRadius: "10px 10px 0 0" }} 
+                  image={`data:image/jpeg;base64,${group.image}`}
+                  alt={group.name}
+           />
+           </Link>
+      </Paper>
+    ))
+  }
 </Box>
 </Box>
 

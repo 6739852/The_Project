@@ -49,13 +49,7 @@ export default function Login() {
     setUser({ email, password});
     //שליחת המשתמש לסטור
     dispatch(signInServer({ email, password })) 
-    //הצגת המשתמש בקונסול
-    alert(
-      `Signing in with "${provider.name}" and credentials: ${email}, ${password}`,
-    );
-    // //העלמת הקומפוננטה וטעינת קומפוננטה של הקבוצות רכישה
-    // document.getElementById("login").style.display="none"
-    // document.getElementById("view-purchasing-group").style.display="block"
+    
     if (localStorage.getItem("token")) {
       navigate('/HomePage'); // ניתוב לדף החדש
     }

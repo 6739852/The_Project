@@ -65,7 +65,7 @@ export const getPurchasingGroupsById = createAsyncThunk( 'purchasingGroups/fetch
         return []; // מחזיר null במקרה של שגיאה
       }
     });
-      //פונקציה שמביאה את כל הקבוצות שמחכות במועדפים לפי משתמש
+  //פונקציה שמביאה את כל הקבוצות שמחכות במועדפים לפי משתמש
   export const getFaveUser = createAsyncThunk( 'purchasingGroups/getFaveUser',
     async (id) => { 
       try {
@@ -78,8 +78,10 @@ export const getPurchasingGroupsById = createAsyncThunk( 'purchasingGroups/fetch
         return []; // מחזיר null במקרה של שגיאה
       }
     });
-    //פונקציה שמקבלת ID של מוצר ומחזירה אותו
-    export const getGroupById = createAsyncThunk( 'purchasingGroupOne/getGroupById',
+//פונקציה שמעדכנת את הנתונים של הקבוצת רכישה
+
+//פונקציה שמקבלת ID של מוצר ומחזירה אותו
+export const getGroupById = createAsyncThunk( 'purchasingGroupOne/getGroupById',
       async (id) => { 
         try {
           const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/${id}`, {
@@ -93,7 +95,6 @@ export const getPurchasingGroupsById = createAsyncThunk( 'purchasingGroups/fetch
       });
 //פונקציה שמוסיפה ניקוד לקבוצת רכישה      
 const API_BASE_URL = 'https://localhost:7022/api/PurchasingGroup'; 
-
 export const addScope = async (id) => {
     try {
         const response = await axios.post(`${API_BASE_URL}/AddScope/${id}`);
@@ -104,15 +105,61 @@ export const addScope = async (id) => {
         throw error;
     }
 };
+//פונקציה שמחזירה קבוצות רכישה לפי קטגוריות
+// export const getGroupByIdGroup = async (id) => {
+//   try {
+//       const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/category/${id}`);
+//       console.log('Data fetched successfully:', response.data);
+//       return response.data;
+//   } catch (error) {
+//       console.error('Error fetching data:', error.response?.data || error.message);
+//       throw error;
+//   }
+// };
+//פונקציה שמחזירה את הקבוצות רכישה לפי קטגוריה
+export const getGroupByIdGroup = createAsyncThunk( 'purchasingGroups/getGroupByIdGroup',
+  async (id) => { 
+    try {
+      const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/category/${id}`, {
+        params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+      });
+      console.log(response.data)
+      return response.data; // מחזיר את המידע שהתקבל מהשרת
+    } catch (error) {
+      return {}; // מחזיר null במקרה של שגיאה
+    }
+  });
+//פונקציה שמחזירה מהשרת את הקבוצות רכישה לפי חיפוש של מה שמוכל בשם או בתאור 
+  export const searchProducts = createAsyncThunk(
+    "purchasingGroups/searchProducts",
+    async (searchQuery) => {
+      const response = await fetch(`https://localhost:7022/api/PurchasingGroup/search?query=${searchQuery}`);
+      if (!response.ok) throw new Error("לא נמצאו תוצאות");
+      return await response.json();
+    }
+  );
+  //פונקציה שמחזירה את הקבוצות רכישה שנסגרות היום
+  export const GetGroupsClosingToday = createAsyncThunk(
+    "purchasingGroups/GetGroupsClosingToday",
+    async () => {
+      debugger
+      const response = await fetch(`https://localhost:7022/api/PurchasingGroup/closing-today`);
+      if (!response.ok) throw new Error("לא נמצאו תוצאות");
+      return await response.json();
+    }
+  );
+  
 //פונקציה שמחזירה את הקבוצה מספר X מבחינת הניקוד
 export const getPurchaseGroupByRank = async (rank) => {
   try {
     const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/rank/${rank}`);
+    console.log(response.data)
     return response.data;
   } catch (error) {
     console.error("Error fetching group:", error);
   }
 };
+
 //פונקציות המטפלות בקבוצות רכישה
 export const purchasingGroupSlice = createSlice({
     
@@ -180,14 +227,30 @@ export const purchasingGroupSlice = createSlice({
     }); 
     builder.addCase(getGroupById.pending, (state, action) => {
     });
-    // builder.addCase(getPurchaseGroupByRank.fulfilled, (state, action) => {
-    //   state.RankPurchasingGroup = action.payload;
-    // });
-    // builder.addCase(getPurchaseGroupByRank.rejected, (state, action) => {
-    //   state.RankPurchasingGroup = {};
-    // }); 
-    // builder.addCase(getPurchaseGroupByRank.pending, (state, action) => {
-    // });
+    builder.addCase(getGroupByIdGroup.fulfilled, (state, action) => {
+      state.purchasingGroups = action.payload;
+    });
+    builder.addCase(getGroupByIdGroup.rejected, (state, action) => {
+      state.purchasingGroups = [];
+    }); 
+    builder.addCase(getGroupByIdGroup.pending, (state, action) => {
+    });
+    builder.addCase(searchProducts.fulfilled, (state, action) => {
+      state.purchasingGroups = action.payload;
+    });
+    builder.addCase(searchProducts.rejected, (state, action) => {
+      state.purchasingGroups = [];
+    }); 
+    builder.addCase(searchProducts.pending, (state, action) => {
+    });
+    builder.addCase(GetGroupsClosingToday.fulfilled, (state, action) => {
+      state.purchasingGroups = action.payload;
+    });
+    builder.addCase(GetGroupsClosingToday.rejected, (state, action) => {
+      state.purchasingGroups = [];
+    }); 
+    builder.addCase(GetGroupsClosingToday.pending, (state, action) => {
+    });
   }}
 );
 //פונקציות המייצרות את הפעולות

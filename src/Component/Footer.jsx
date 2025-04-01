@@ -27,7 +27,7 @@ const Footer = () => {
               </Box>
             </Box>
 
-            {/* בחר שפה */}
+         
         <Box display="flex" justifyContent="center" alignItems="center" mb={2}>
           <Language sx={{ mr: 1 }} />
           <Typography variant="body1" fontWeight="bold" sx={{ cursor: "pointer" }}>

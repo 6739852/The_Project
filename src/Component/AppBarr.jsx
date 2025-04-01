@@ -11,18 +11,24 @@ import InfoIcon from '@mui/icons-material/Info';
 import ContactMailIcon from '@mui/icons-material/ContactMail';
 import { Link } from 'react-router-dom';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import SubscriptionsIcon from '@mui/icons-material/Subscriptions';
+import SubscriptiosIcon from '@mui/icons-material/Subscriptions';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { useDispatch, useSelector } from 'react-redux';
+import { searchProducts } from './features/PurchasingGroup/PurchasingGroupSlice';
 
 function MyBar() {
+
+  const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
-  const [userRole, setUserRole] = useState(localStorage.getItem('role'));
-  const [numOfGroups, setNumOfGroups] = useState(localStorage.getItem('numOfGroups'));
-  const [numOfWaitingGroups, setNumOfWaitingGroups] = useState(localStorage.getItem('numOfWaitingGroups'));
+  const numOfCurrentGroups = useSelector(state => state.user.numOfCurrentGroups) ?? useSelector(state =>state.supplier.numOfCurrentGroups);
+  const numOfWaitingGroups = useSelector(state => state.user.numOfWaitingGroups) ?? useSelector(state=>state.supplier.numOfWaitingGroups);  
+  // const role =useSelector(state=>state.user.role)
+  const role = localStorage.getItem('role');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleSearch = () => {
-    console.log('חיפוש:', searchTerm);
+    window.location.href = `/ViewPurchasingGroup?search=${encodeURIComponent(searchTerm)}`;
+    dispatch(searchGroups(searchTerm)); // שולח את החיפוש ל-Redux
   };
 
   const toggleDrawer = (open) => () => {
@@ -35,7 +41,7 @@ function MyBar() {
     { text: 'צור קשר', icon: <ContactMailIcon />, link: '/contact' },
     { text: 'ספקים', icon: <PersonOutlineOutlinedIcon />, link: '/SupplierList' },
     { text: 'דוחות', icon: <AssessmentIcon />, link: '/SalesReports' },
-    { text: 'מנויים', icon: <SubscriptionsIcon />, link: '/SalesReports' },
+    { text: 'מנויים', icon: <SubscriptiosIcon />, link: '/SalesReports' },
   ];
 
   return (
@@ -47,15 +53,15 @@ function MyBar() {
         <MenuIcon />
         </IconButton>
 
-        <Link to={userRole === 'Supplier' ? '/ExistGroups' : userRole === 'User' ? '/Cart' : '/SignIn'}>
+        <Link to={role === 'Supplier' ? '/ExistGroups' : role === 'User' ? '/Cart' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white', mx: 1}}>
-              <Badge badgeContent={numOfGroups} color="error">
+              <Badge badgeContent={numOfCurrentGroups} color="error">
                 <ShoppingCartOutlinedIcon />
               </Badge>
             </IconButton>
           </Link>
 
-<Link to={userRole === 'Supplier' ? '/FaveSupplier' : userRole === 'User' ? '/Fave' : '/SignIn'}>
+          <Link to={role === 'Supplier' ? '/FaveSupplier' : role === 'User' ? '/Fave' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white' }}>
               <Badge badgeContent={numOfWaitingGroups} color="error">
                 <AccessTimeIcon />
@@ -68,7 +74,7 @@ function MyBar() {
               <PersonOutlineOutlinedIcon />
             </IconButton>
           </Link>
-          <Link to={userRole === 'Supplier' ? '/AddGroup' : userRole === 'User' ? '/WantToOpen' : '/SignIn'}>
+          <Link to={role === 'Supplier' ? '/AddGroup' : role === 'User' ? '/WantToOpen' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white', mx: 1 }}>
               <AddShoppingCartIcon />
             </IconButton>
@@ -92,12 +98,15 @@ function MyBar() {
                 <SearchIcon style={{ transform: 'scaleX(-1)' }} />
         </IconButton>
         <InputBase
-                placeholder="חיפוש מוצר או מותג"
-                inputProps={{ 'aria-label': 'search' }}
-                sx={{ marginLeft: 'auto', flex: 1, textAlign: 'right' ,paddingLeft:50 }}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-        />
+              placeholder="חיפוש מוצר או מותג"
+              inputProps={{ "aria-label": "search" }}
+              sx={{ marginLeft: "auto", flex: 1, textAlign: "right", paddingLeft: 50 }}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") handleSearch();
+              }}
+            />
         </Box>
 
         {/* שם האתר */}

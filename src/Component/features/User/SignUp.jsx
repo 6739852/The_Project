@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { TextField, Button, Checkbox, FormControlLabel, Container, Typography } from '@mui/material';
 import { register } from './UserSlice';
-import ViewPurchasingGroup from '../PurchasingGroup/ViewPurchasingGroup'
-import {Link} from 'react-router-dom'
+import ViewPurchasingGroup from '../PurchasingGroup/ViewPurchasingGroup';
+import { Link } from 'react-router-dom';
 
 const SignUp = () => {
-
-    const [flag, setFlag] = useState(false)
-
+    const [flag, setFlag] = useState(false);
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         name: '',
@@ -17,6 +15,37 @@ const SignUp = () => {
         confirmPassword: '',
         alert: false
     });
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        let tempErrors = {};
+        let isValid = true;
+
+        if (formData.name.length < 3) {
+            tempErrors.name = "השם חייב להיות לפחות 3 תווים";
+            isValid = false;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(formData.email)) {
+            tempErrors.email = "האימייל אינו תקין";
+            isValid = false;
+        }
+
+        if (formData.password.length < 3) {
+            tempErrors.password = "הסיסמה חייבת להיות לפחות 3 תווים";
+            isValid = false;
+        }
+
+        if (formData.password !== confirmPassword) {
+            tempErrors.confirmPassword = "הסיסמאות אינן תואמות";
+            isValid = false;
+        }
+
+        setErrors(tempErrors);
+        return isValid;
+    };
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -26,18 +55,15 @@ const SignUp = () => {
         });
     };
 
-     //פונקציה לקבלת פרטי המשתמש והכנסתם לסטור
- 
-     const handleSubmit = (e) => {
+    const handleConfirmPasswordChange = (e) => {
+        setConfirmPassword(e.target.value);
+    };
+
+    const handleSubmit = (e) => {
         e.preventDefault();
 
-        // בדיקה אם הסיסמאות תואמות
-        if (formData.password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
+        if (!validateForm()) return;
 
-        // שליחת הנתונים ל- Redux
         dispatch(register({ 
             name: formData.name, 
             email: formData.email, 
@@ -46,13 +72,18 @@ const SignUp = () => {
         }));
 
         alert(`User ${formData.name} registered successfully!`);
-        setFlag(true)
-    };
+        setFlag(true);
 
-    const [confirmPassword, setConfirmPassword] = useState('');
-
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
+        // ניקוי הטופס
+        setFormData({
+            name: '',
+            email: '',
+            password: '',
+            confirmPassword: '',
+            alert: false
+        });
+        setConfirmPassword('');
+        setErrors({});
     };
 
     return (
@@ -90,6 +121,8 @@ const SignUp = () => {
                         margin="normal"
                         required
                         fullWidth
+                        error={!!errors.name}
+                        helperText={errors.name}
                     />
                     <TextField
                         label="Email"
@@ -100,6 +133,8 @@ const SignUp = () => {
                         margin="normal"
                         required
                         fullWidth
+                        error={!!errors.email}
+                        helperText={errors.email}
                     />
                     <TextField
                         label="Password"
@@ -110,6 +145,8 @@ const SignUp = () => {
                         margin="normal"
                         required
                         fullWidth
+                        error={!!errors.password}
+                        helperText={errors.password}
                     />
                     <TextField
                         label="Confirm Password"
@@ -120,6 +157,8 @@ const SignUp = () => {
                         margin="normal"
                         required
                         fullWidth
+                        error={!!errors.confirmPassword}
+                        helperText={errors.confirmPassword}
                     />
                     <FormControlLabel
                         control={
@@ -141,5 +180,4 @@ const SignUp = () => {
         </>
     );
 };
-
 export default SignUp;
