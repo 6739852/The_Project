@@ -35,16 +35,8 @@ function App() {
         <div style={{ marginTop: '100px' }}>
           <Routing />
         </div>
-        {/* <HomePage/> */}
-        {/* <SignIn/> */}
-        {/* <ExistGroup/> */}
-        {/* <AddGroup/> */}
-        {/* <SuggestGroup/> */}
-        {/* <SignUp/> */}
-        {/* <SignUpSupplier/> */}
         <Footer/>
     </>
   )
 }
-
 export default App

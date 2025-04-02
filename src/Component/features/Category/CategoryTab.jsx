@@ -10,11 +10,6 @@ export default function CategoryTab() {
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.category.categories);
 
-    // const handleClick=(e)=>{
-    //     const categoryId = e.currentTarget.getAttribute('data-category-id');
-    //     window.location.href = `/ViewPurchasingGroup?categoryId=${categoryId}`;
-    // }
-    
     useEffect(() => {
         dispatch(fetchCategories());
     }, [dispatch]);
@@ -61,7 +56,6 @@ export default function CategoryTab() {
                         }}
                     >
                         <Tab
-                            // onClick={handleClick}
                             label={category.name}
                             sx={{
                                 transition: 'all 0.8s ease',

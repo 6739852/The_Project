@@ -18,6 +18,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
 
+    //פונקציה של בדיקות תקינות
     const validateForm = () => {
         let tempErrors = {};
         let isValid = true;
@@ -46,7 +47,8 @@ const SignUp = () => {
         setErrors(tempErrors);
         return isValid;
     };
-
+    
+    //פונקציה שמעדכנת את הנתונים בטופס
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
@@ -59,6 +61,7 @@ const SignUp = () => {
         setConfirmPassword(e.target.value);
     };
 
+    //פונקציה ששולחת את הטופס
     const handleSubmit = (e) => {
         e.preventDefault();
 

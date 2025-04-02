@@ -2,19 +2,20 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 //פוקנציה שמקבלת ID של הצעה לקבוצת רכישה ומחזירה אותו
-    export const getFaveById = createAsyncThunk( 'wantToOpen/getFaveById',
-      async (id) => {
-        try {
-          const response = await axios.get(`https://localhost:7022/api/WantToOpen/${id}`, {
-            // params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
-          });
-          console.log(response.data)
-          return response.data; // מחזיר את המידע שהתקבל מהשרת
-        } catch (error) {
-          return {}; // מחזיר null במקרה של שגיאה
-        }
+export const getFaveById = createAsyncThunk( 'wantToOpen/getFaveById',
+  async (id) => {
+    try {
+      const response = await axios.get(`https://localhost:7022/api/WantToOpen/${id}`, {
+      // params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
       });
+      console.log(response.data)
+      return response.data; // מחזיר את המידע שהתקבל מהשרת
+      } catch (error) {
+      return {}; // מחזיר null במקרה של שגיאה
+    }
+});
 
+//פונקציה שמחזירה את כל ההצעות לקבוצות רכישה
 export const suggestGroup = createAsyncThunk("user/WantToOpen", async (wantToOpen, thunkApi) => {
   const response = await fetch("https://localhost:7022/api/WantToOpen", {
     method: "POST",
@@ -23,11 +24,9 @@ export const suggestGroup = createAsyncThunk("user/WantToOpen", async (wantToOpe
     },
     body: JSON.stringify(wantToOpen),
   });
-
   if (!response.ok) {
     return thunkApi.rejectWithValue("שגיאה בשליחת הבקשה");
   }
-
   return response.json(); // החזרת הנתונים
 });
 
@@ -73,5 +72,4 @@ export const wantToOpenSlice = createSlice({
       });
   },
 });
-
 export default wantToOpenSlice.reducer;

@@ -2,10 +2,10 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Box, TextField, InputLabel, MenuItem, FormControl, Select, Button, Typography, Checkbox, FormControlLabel } from '@mui/material';
-import { addPurchasingGroup } from './SupplierSlice';
 import { useNavigate } from 'react-router-dom';
 import {fetchCategories} from '../Category/CategorySlice'
 
+//פונקציה שמחלצת את ה ID של המשתמש הנוכחי מהטוקן
 const getUserIdFromToken = (token) => {
   if (!token) {
       console.error("טוקן לא קיים או ריק.");
@@ -25,14 +25,13 @@ const getUserIdFromToken = (token) => {
 
 export default function AddGroup() {
     const navigate=useNavigate()
-    const dispatch1=useDispatch();
-    const dispatch2=useDispatch();
+    const dispatch=useDispatch();
     const categories = useSelector(state=>state.category.categories)
     const [selectedCategory, setselectedCategory] = useState('');
     
     React.useEffect(() => {
-        dispatch1(fetchCategories());
-    }, [dispatch1]);
+        dispatch(fetchCategories());
+    }, [dispatch]);
 
     const [groupData, setGroupData] = useState({
         productName: '',
@@ -45,11 +44,13 @@ export default function AddGroup() {
         imagePreview: ''
     });
 
+    //פונקציה שצעדכנת את השינויים
     const handleChange = (event) => {
         const { name, value } = event.target;
         setGroupData(prev => ({ ...prev, [name]: value }));
     };
 
+    //פונקציה של טעינת התמונה
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {
@@ -61,10 +62,28 @@ export default function AddGroup() {
         }
     };
 
+    //פונקציה של שליחת הטופס
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');      
         const supplierId = getUserIdFromToken(token);
+
+        // בדיקת תקינות כמות אנשים מינימלית
+        if (groupData.minPeople <= 1) {
+            alert("כמות האנשים המינימלית חייבת להיות יותר מ-1.");
+            return;
+        }
+
+        // בדיקת תקינות תאריך סגירה
+        const closingDate = new Date(groupData.closingDate);
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        
+        if (closingDate < tomorrow) {
+            alert("תאריך הסגירה חייב להיות לפחות יום אחד מהיום.");
+            return;
+        }
+
         const formData = new FormData();
         formData.append("name", groupData.productName);
         formData.append("categoryId", selectedCategory);

@@ -4,6 +4,7 @@ import { Box, TextField, MenuItem, FormControl, Button, Typography, Checkbox, Fo
 import { useNavigate, useLocation } from 'react-router-dom';
 import { fetchCategories } from '../Category/CategorySlice';
 
+//פונקציה של חילוץ מהטוקן
 const getUserIdFromToken = (token) => {
     if (!token) {
         console.error("טוקן לא קיים או ריק.");
@@ -49,6 +50,7 @@ export default function AddAndOpenGroup() {
         }
     }, [categories, wantToOpen.categoryId]);
 
+    //הפונקציה של שליחת הטופס
     const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');      
@@ -69,7 +71,7 @@ export default function AddAndOpenGroup() {
         if (groupData.image) {
             formData.append("ImageFile", groupData.image);  
         }
-    
+        //קריאה לשרת להוספת הקבוצת רכישה
         try {
             const response = await fetch("https://localhost:7022/api/PurchasingGroup", {
                 method: "POST",
@@ -97,12 +99,12 @@ export default function AddAndOpenGroup() {
         }
     };
     
+    //מוחקת את ההצעה כאשר הספק מקבל אותה
     const deleteItem = async (faveId) => {
         try {
             const response = await fetch(`https://localhost:7022/api/WantToOpen/${faveId}`, {
                 method: "DELETE",
             });
-    
             if (!response.ok) {
                 throw new Error("שגיאה במחיקת הפריט");
             }
@@ -111,11 +113,13 @@ export default function AddAndOpenGroup() {
         }
     };
     
+    //מעדכנת את כל השינויים
     const handleChange = (event) => {
         const { name, value } = event.target;
         setGroupData(prev => ({ ...prev, [name]: value }));
     };
 
+    //פונקציה של טעינת התמונה
     const handleImageUpload = (event) => {
         const file = event.target.files[0];
         if (file) {

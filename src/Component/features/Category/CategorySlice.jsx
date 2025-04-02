@@ -6,7 +6,7 @@ const initialState={
     error: null 
 }
 
-// קריאה נכונה עם try-catch וכתובת API תקינה
+//פונקציה שמביאה את כל הקטגוריות
 export const fetchCategories = createAsyncThunk(
     'category/fetchCategories',
     async (_, thunkAPI) => {
@@ -24,16 +24,6 @@ const categorySlice = createSlice({
     name: 'category',
     initialState,
     reducers: {
-        // fetchCategories: (state, action) => {
-        //     fetch('http://localhost:7022/api/Category')
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         state.categories = data;
-        //     })
-        //     .catch(error => {
-        //         console.error('Error fetching category', error);
-        //     });
-        // }
     },
     extraReducers: (builder) => {
         builder

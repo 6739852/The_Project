@@ -6,12 +6,12 @@ import { fetchCategories } from '../Category/CategorySlice';
 import { suggestGroup } from './WantToOpenSlice';
 import { useNavigate } from 'react-router-dom';
 
+//פונקציה שמקבלת את המשתמש מהטוקן
 const getUserIdFromToken = (token) => {
     if (!token) {
         console.error("טוקן לא קיים או ריק.");
         return null;
     }
-
     try {
         const payloadBase64 = token.split('.')[1]; 
         const decodedPayload = atob(payloadBase64);
@@ -39,6 +39,7 @@ export default function WantToOpen() {
     const [selectedCategory, setselectedCategory] = useState('');
     const [details, setDetails] = useState('');
 
+    //פונקציה ששולחת את הטופס
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -55,7 +56,6 @@ export default function WantToOpen() {
             name: productName, 
             description: details
         }));
-
         alert(`הבקשה נשלחה בהצלחה!`);
         navigate('/Fave');
     };
@@ -71,7 +71,7 @@ export default function WantToOpen() {
                 bgcolor: 'white',
                 textAlign: 'right',
                 direction: 'rtl',
-                marginTop: '150px' // מוסיף מרווח בין הסרגל לתוכן
+                marginTop: '150px' 
             }}
         >
             <Typography variant="h6" gutterBottom display="flex" alignItems="center" justifyContent="right">

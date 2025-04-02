@@ -20,6 +20,7 @@ const SignUpSupplier = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [errors, setErrors] = useState({});
 
+    //בדיקת תקינות הטופס לפני השליחה
     const validateForm = () => {
         let tempErrors = {};
         let isValid = true;
@@ -61,6 +62,7 @@ const SignUpSupplier = () => {
         return isValid;
     };
 
+    //פונקציה שמעדכנת את הנתונים בטופס
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData({
@@ -73,9 +75,11 @@ const SignUpSupplier = () => {
         setConfirmPassword(e.target.value);
     };
 
+    //שולחת את הטופס
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        //אם חזר שקר מהפונקציה לא שולחת את הטופס - יוצא מהפונקציה
         if (!validateForm()) return;
 
         dispatch(registerSupplier({ 
@@ -129,5 +133,4 @@ const SignUpSupplier = () => {
         </Container>
     );
 };
-
 export default SignUpSupplier;

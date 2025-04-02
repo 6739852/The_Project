@@ -5,7 +5,6 @@ export default function parseJwt() {
       console.error("No token found in localStorage");
       return null;
     }
-  
     try {
       const base64Url = t.split(".")[1];
       const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");

@@ -1,79 +1,9 @@
-import { LineAxisOutlined } from "@mui/icons-material";
 import { createAsyncThunk, current, createSlice } from "@reduxjs/toolkit";
-// import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
+import { signInSupplier } from "../Supplier/SupplierSlice";
 import axios from 'axios';
-// import { signInSupplier } from "../Supplier/SupplierSlice";
 
-// תפקיד: להכניס את המשתמש שנכנס למערכת
-// export const signInServer = createAsyncThunk("user/login", async (user, thunkApi) => {
-//   const response = await fetch("https://localhost:7022/api/User/SignIn", {
-//     // : "include", // חובה כדי לשלוח ולהחזיר Cookies
-//     method: "POST",
-//     headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify(user),
-//   });
-//   if (response.ok) {
-//      const data = await response.json();
-//      console.log("data",data)
-//      return data;
-//   }
-
-//     // let {data}=await axios.post("https://localhost:7022/api/User/SignIn",user)
-//     // console.log("data",data)
-//     // return data
-// });
-
-// export const signInServer = createAsyncThunk(
-//   "user-SignIn",
-//   async (user, thunkApi) => {
-//     try {
-//       let { data } = await axios.post(
-//         "https://localhost:7022/api/User/SignIn",
-//         user
-//       );
-//       console.log(data);
-//       if (data) {
-//         localStorage.setItem("token", data.token);
-//         localStorage.setItem("name", data.name);
-//         localStorage.setItem("numOfGroup", data.numOfGroup);
-//         localStorage.setItem("numOfWaitingGroup", data.numOfWaitingGroup);
-//         localStorage.setItem("role", data.role);
-//       } else {
-//         console.log("Token not received:", data);
-//       }
-//       return data;
-//     } catch (error) {
-//       console.error("Error during SignIn:", error);
-//       throw error;
-//     }
-//   }
-// );
-// export const signInServer = createAsyncThunk(
-//   "user-SignIn",
-//   async (user, thunkApi) => {
-//     try {
-//       debugger
-//       let { data } = await axios.post(
-//         "https://localhost:7022/api/User/SignIn",
-//         user
-//       );
-//       if (data) {
-//         saveUserData(data);
-//         // const decoded = jwtDecode(data); // פענוח הטוקן
-//         // return {data,decoded};
-//       } else {
-//         signInSupplier(user);
-//         console.log("User not found in main SignIn. Trying supplier SignIn...");
-//       }
-//     } catch (error) {
-//       signInSupplier(user);
-//       console.error("Error during User SignIn:", error);
-//     }
-//   }
-// );
+//פונקציה ששומרת את הנתונים בלוקאלסטוראג
 const saveUserData = (data) => {
   if (data && data.token) {
     localStorage.setItem("token", data.token);
@@ -86,37 +16,11 @@ const saveUserData = (data) => {
   }
 };
 
-export const signInSupplier = createAsyncThunk(
-  "supplier-SignIn",
-  async (supplier, thunkApi) => {
-    try {
-      let { data } = await axios.post(
-        "https://localhost:7022/api/Supplier/SignIn",
-        supplier
-      );
-      if (data) {
-        saveUserData(data);
-        alert(
-          `Hello "${data.name}"`,
-        );
-        return data;
-      } else {
-        console.log("⚠️ לא התקבל מידע על ספק", data);
-        return thunkApi.rejectWithValue("ספק לא נמצא");
-      }
-    } catch (error) {
-      const navigate=useNavigate();
-      alert("אינך משתמש רשום עליך להירשם למערכת")
-      navigate('/SignUp')
-      console.error("❌ שגיאה בהתחברות ספק:", error);
-      return thunkApi.rejectWithValue(error.response?.data || "שגיאת התחברות");
-    }
-  }
-);
-
+//פונקציה של התחברות משתמש
 export const signInServer = createAsyncThunk(
   "user-SignIn",
   async (user, thunkApi) => {
+    debugger
     try {
       let { data } = await axios.post(
         "https://localhost:7022/api/User/SignIn",
@@ -136,12 +40,11 @@ export const signInServer = createAsyncThunk(
       // const navigate=useNavigate();
       // alert("אינך משתמש רשום עליך להירשם למערכת")
       // navigate('/SignUp')
-      console.error("❌ שגיאה בהתחברות משתמש:", error);
+      // console.error("❌ שגיאה בהתחברות משתמש:", error);
       return thunkApi.dispatch(signInSupplier(user));
     }
   }
 );
-
 
 //פונקציה שמחלצת את הנתונים מהטוקן
 function parseJwt() {
@@ -150,7 +53,6 @@ function parseJwt() {
     // console.error("No token found in localStorage");
     return null;
   }
-
   try {
     const base64Url = t.split(".")[1];
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -168,27 +70,6 @@ function parseJwt() {
     return null;
   }
 }
-// function parseJwt(token) {
-//   const base64Url = token.split(".")[1];
-//   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-//   const jsonPayload = decodeURIComponent(
-//     atob(base64)
-//       .split("")
-//       .map(function (c) {
-//         return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-//       })
-//       .join("")
-//   );
-//   return JSON.parse(jsonPayload);
-// }
-
-//תפקיד: להוציא את המשתמש שיצא מהמערכת
-// export const logout = createAsyncThunk("user/logout", async () => {
-//   const response = await fetch("http://localhost:5173/user/logout");
-//   if (response.ok) {
-//     return null;
-//   }
-// });
 
 // תפקיד: להוסיף משתמש חדש למערכת
 export const register = createAsyncThunk("user/register", async (user, thunkApi) => {
@@ -214,9 +95,6 @@ export const userSlice = createSlice({
   name: 'user',
   initialState: {
     currentUser: parseJwt() || null,
-    // token: localStorage.getItem("token") || null,
-    // numOfGroups: localStorage.getItem("numOfGroups") || null,
-    // nupOfWaitingGroups: localStorage.getItem("numOfWaitingGroup") || null,
     token: null,
     numOfCurrentGroups: null,
     numOfWaitingGroups: null,
@@ -229,7 +107,6 @@ export const userSlice = createSlice({
   },
   reducers: {
   },
-
   extraReducers: (builder) => {
     builder.addCase(signInServer.fulfilled, (state, action) => {
       state.token = action.payload.token; // שמירת הטוקן בסטור
@@ -260,6 +137,5 @@ export const userSlice = createSlice({
     })
   } 
 });
-
 export const { login } = userSlice.actions
 export default userSlice.reducer

@@ -2,16 +2,13 @@ import React,{useState, useEffect} from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getSupplierList } from "./SupplierSlice";
-import { SupportOutlined } from "@mui/icons-material";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import { Grid, Card, CardContent } from "@mui/material";
 import { Link } from "react-router-dom";
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
 
-
 export default function SupplierList() {
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const suppliers = useSelector((state) => state.supplier.supplierList);
     const [loading, setLoading] = useState(true);
@@ -45,7 +42,7 @@ export default function SupplierList() {
 
     return (
         <>
-            <div style={{ paddingTop: "50px" ,marginTop: '150px'}}>
+            <div style={{ paddingTop: "50px", marginTop: '150px' }}>
                 <Grid container spacing={2} justifyContent="center">
                     <Grid item xs={12}>
                         <Typography
@@ -66,18 +63,31 @@ export default function SupplierList() {
                             >
                                 <Card
                                     sx={{
-                                        maxWidth: 220,
-                                        height: 350,
+                                        maxWidth: "18vw",
+                                        height: "30vh",
                                         borderRadius: 3,
                                         boxShadow: 3,
                                         transition: "transform 0.3s",
                                         "&:hover": { transform: "scale(1.05)" },
-                                        textAlign: "center",
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        justifyContent: "center",
+                                        alignItems: "center",
                                         backgroundColor: "#f9f9f9",
                                         cursor: "pointer",
                                     }}
                                 >
-                                    <CardContent>
+                                    <CardContent
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                            textAlign: "center",
+                                            height: "100%",
+                                            width: "100%",
+                                        }}
+                                    >
                                         <Typography
                                             variant="h6"
                                             fontWeight="bold"
@@ -97,15 +107,7 @@ export default function SupplierList() {
                                             fontWeight="bold"
                                             sx={{ mt: 2, fontSize: 14 }}
                                         >
-                                            Minimum Quantity: {supplier.email}
-                                        </Typography>
-                                        <Typography
-                                            variant="body2"
-                                            color="primary"
-                                            fontWeight="bold"
-                                            sx={{ mt: 2, fontSize: 14 }}
-                                        >
-                                            Price: {supplier.authorized}
+                                            {supplier.email} :מייל ספק
                                         </Typography>
                                         <Typography
                                             variant="body2"
@@ -115,8 +117,13 @@ export default function SupplierList() {
                                         >
                                             Rating: {supplier.rating}
                                         </Typography>
-                                        <Stack spacing={1} sx={{textAlign: 'center'}}>
-                                        <Rating name="half-rating-read" defaultValue={supplier.rating} precision={0.5} readOnly />
+                                        <Stack spacing={1} sx={{ mt: 2 }}>
+                                            <Rating
+                                                name="half-rating-read"
+                                                defaultValue={supplier.rating}
+                                                precision={0.5}
+                                                readOnly
+                                            />
                                         </Stack>
                                     </CardContent>
                                 </Card>

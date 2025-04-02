@@ -4,10 +4,11 @@ import { TextField, Button, Container, Typography, Box } from "@mui/material";
 export default function Contact() {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
+  //פונקציה שמעדכנת את הנתונים מהטופס
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  //פונקציה של שליחת הטופס
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("הטופס נשלח:", formData);

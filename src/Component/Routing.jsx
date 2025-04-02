@@ -22,36 +22,36 @@ import SalesReports from './features/Reports/SalesReports';
 import Deals from './Deals'
 import FaveModel from './features/Supplier/FaveModel'
 import GetAndOpenGroup from './features/PurchasingGroup/GetAndOpenGroup'
+import Gemini from './features/PurchasingGroup/Gemini'
 
 const Routing = () => {
     return (
-           <Routes>
-                    {/* <Route exact path="/" component={<Home/>} /> */}
-                    <Route path="/" element={<HomePage/>}/>
-                    <Route path="/SignUp" element={<SignUp/>} />
-                    <Route path="/SignIn" element={<SignIn/>} />
-                    <Route path="/Profil" element={<Profil/>} />
-                    <Route path="/Fave" element={<Fave/>} />
-                    <Route path="/FaveSupplier" element={<FaveSupplier/>} />
-                    <Route path="/Cart" element={<Cart/>} />
-                    <Route path="/ViewPurchasingGroup" element={<ViewPurchasingGroup/>} />
-                    <Route path="/HomePage" element={<HomePage/>} />
-                    <Route path="/SignUpSupplier" element={<SignUpSupplier/>}/>
-                    <Route path="/WantToOpen" element={<WantToOpen/>} />
-                    <Route path="/AddGroup" element={<AddGroup/>} />
-                    <Route path="/ExistGroups" element={<ExistGroups/>} />
-                    <Route path="/GroupModel" element={<GroupModel />} />
-                    <Route path="/Join" element={<Join />} />
-                    <Route path="/About" element={<About />} />
-                    <Route path="/Contact" element={<Contact />} />
-                    <Route path="/SupplierList" element={<SupplierList />} />
-                    <Route path="/SupplierModel" element={<SupplierModel />} />
-                    <Route path="/SalesReports" element={<SalesReports/>}/>
-                    <Route path="/Deals" element={<Deals/>}/>
-                    <Route path="/FaveModel" element={<FaveModel/>}/>
-                    <Route path="/GetAndOpenGroup" element={<GetAndOpenGroup/>}/>
-                </Routes>
-    );
+        <Routes>
+               <Route path="/" element={<HomePage/>}/>
+               <Route path="/SignUp" element={<SignUp/>} />
+               <Route path="/SignIn" element={<SignIn/>} />
+               <Route path="/Profil" element={<Profil/>} />
+               <Route path="/Fave" element={<Fave/>} />
+               <Route path="/FaveSupplier" element={<FaveSupplier/>} />
+               <Route path="/Cart" element={<Cart/>} />
+               <Route path="/ViewPurchasingGroup" element={<ViewPurchasingGroup/>} />
+               <Route path="/HomePage" element={<HomePage/>} />
+               <Route path="/SignUpSupplier" element={<SignUpSupplier/>}/>
+               <Route path="/WantToOpen" element={<WantToOpen/>} />
+               <Route path="/AddGroup" element={<AddGroup/>} />
+               <Route path="/ExistGroups" element={<ExistGroups/>} />
+               <Route path="/GroupModel" element={<GroupModel />} />
+               <Route path="/Join" element={<Join />} />
+               <Route path="/About" element={<About />} />
+               <Route path="/Contact" element={<Contact />} />
+               <Route path="/SupplierList" element={<SupplierList />} />
+               <Route path="/SupplierModel" element={<SupplierModel />} />
+               <Route path="/SalesReports" element={<SalesReports/>}/>
+               <Route path="/Deals" element={<Deals/>}/>
+               <Route path="/FaveModel" element={<FaveModel/>}/>
+               <Route path="/GetAndOpenGroup" element={<GetAndOpenGroup/>}/>
+               <Route path="/Gemini" element={<Gemini/>}/>
+          </Routes>
+    )
 };
-
 export default Routing;

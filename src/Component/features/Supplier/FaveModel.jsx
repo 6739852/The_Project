@@ -16,11 +16,11 @@ export default function FaveModel() {
       dispatch(getFaveById(faveId));
     }
   }, [faveId, dispatch]);
-
+  //אם עדיין לא הביא את הקבוצות רכישה
   if (!wantToOpen) {
     return <Typography variant="h6" textAlign="center">טוען נתונים...</Typography>;
   }
-
+  //העברה לקומפוננטה המשך
   const HandleGet = () => {
     navigate("/GetAndOpenGroup", { state: { faveId, ...wantToOpen } });
   };

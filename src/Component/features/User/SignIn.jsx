@@ -1,27 +1,16 @@
 import React, { useState } from 'react';
-import Checkbox from '@mui/material/Checkbox';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { SignInPage } from '@toolpad/core/SignInPage';
 import { useTheme } from '@mui/material/styles';
-import { login, signInServer } from './UserSlice';
+import { signInServer } from './UserSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import ViewPurchasingGroup from '../PurchasingGroup/ViewPurchasingGroup';
-import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom'; 
-import SignUp from './SignUp'
 import { useNavigate } from 'react-router-dom';
-import HomePage from '../../HomePage';
 
 //הגדרת משתני כניסה למערכת
 const providers = [{ id: 'credentials', name: 'Email and Password' }];
 
-//הגדרת פונקציה לכניסה למערכת
 export default function Login() {
-  //הגדרת משתנה לקבלת הטוקן מהסטור
-  // const token=useSelector(s=>s.user.token)
-  //הגדרת משתנה לניווט בין הדפים
-  // const navigate = useNavigate();
-  //הגדרת משתנה לקבלת הודעות מהסטור
   const navigate = useNavigate();
   const message=useSelector(s=>s.user.message)
   //הגדרת משתנה לשליחת פעולות לסטור
@@ -34,15 +23,9 @@ export default function Login() {
     password: '',
   });
 
-  // React.useEffect(() => {
-  //   if (userToken) {
-  //     navigate('/products'); // ניתוב לדף המוצרים אם המשתמש מחובר
-  //   }
-  // }, [userToken, navigate]);
-
   //פונקציה לקבלת פרטי המשתמש והכנסתם לסטור
   const handleSignIn = (provider, formData) => {
-    //הגדרת משתנים לקבלת פרטי המשתמש
+    debugger
     const email = formData.get('email');
     const password = formData.get('password');
     //הכנסת המשתמש לסטור
@@ -58,15 +41,12 @@ export default function Login() {
   const BRANDING = {
     logo: (
       <Link to="/SignUp" style={{ textDecoration: 'none', color: '#1976d2' }}>
-      להרשמה
+       משתמש חדש? - לחץ פה להרשמה
     </Link>
     ),
   };
   return (
     <>
-     {/* {flag ? (
-                <ViewPurchasingGroup />
-            ) : ( */}
     <AppProvider theme={theme} branding={BRANDING} >
       <SignInPage
       sx={{marginTop: '0px'}}
@@ -81,14 +61,7 @@ export default function Login() {
         }}
         providers={providers}
       />
-       {/* הוספת קישור להרשמה
-       <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-        <Link to="/sign-up" style={{ textDecoration: 'none', color: '#1976d2' }}>
-          אין לך חשבון? הירשם כאן
-        </Link>
-      </Typography> */}
     </AppProvider>
-    {/* )} */}
     </>
   );
 }

@@ -18,6 +18,7 @@ export default function SupplierModel() {
     }
   }, [supplierId, dispatch]);
 
+  //אם עדיין לא הביא את הנתונים מהשרת
   if (!supplierOne) {
     return <Typography variant="h6">טוען נתונים...</Typography>;
   }

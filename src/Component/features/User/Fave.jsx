@@ -7,15 +7,15 @@ import { getFaveUser } from '../PurchasingGroup/PurchasingGroupSlice';
 //פונקציה שמחלצת את הנתונים מהטוקן
 function parseJwt(token) {
   try {
-    const base64Url = token.split(".")[1]; // לוקח את החלק האמצעי של ה-JWT
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); // מתקנן תווים
+    const base64Url = token.split(".")[1]; 
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/"); 
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split("")
         .map(c => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
         .join("")
     );
-    return JSON.parse(jsonPayload); // מחזיר אובייקט JSON עם הנתונים
+    return JSON.parse(jsonPayload); 
   } catch (error) {
     console.error("Error parsing token:", error);
     return null;
@@ -26,7 +26,7 @@ export default function Fave(){
 
   const token=localStorage.getItem("token");
   const parsedData = parseJwt(token);
-
+  
   const userId = parsedData["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
   console.log("User ID:", userId);
 
@@ -43,7 +43,7 @@ export default function Fave(){
    }, [dispatch]);
    
   return (
-    <Container maxWidth="md" sx={{ mt: 4, direction: 'rtl' ,marginTop: '150px'}}>
+    <Container maxWidth="md" sx={{ mt: 4, direction: 'rtl', marginTop: '150px' }}>
       <Typography variant="h4" component="h1" gutterBottom textAlign="center" color="primary.main">
         מה שבאלך שיפתח- ואנחנו עובדים של זה בשבילך...
       </Typography>
@@ -54,14 +54,17 @@ export default function Fave(){
               <CardContent sx={{ flex: 1 }}>
                 <Typography variant="h6" fontWeight="bold">{item.name}</Typography>
                 <Typography variant="body2" color="textSecondary">{item.description}</Typography>
-                <Typography variant="body2" color="textSecondary">{item.approvalDate}</Typography>
+                <Typography variant="body2" color="textSecondary">
+                  {new Date(item.approvalDate).toLocaleDateString('he-IL', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center', mt: 1 }}>
-                    <IconButton color="error" size="small">
-                      <Favorite />
-                    </IconButton>
-                    <IconButton color="default" size="small">
-                      <Favorite />
-                    </IconButton>
+                  <IconButton color="error" size="small">
+                    <Favorite />
+                  </IconButton>
                 </Box>
               </CardContent>
             </Card>

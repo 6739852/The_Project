@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-//כל המשתנים שקשורים לקבוצות רכישה הקיימות
+//כל המשתנים שקשורים לקבוצות רכישה 
 const initialState = {
   purchasingGroups: [],
   purchasingGroupsId: [], 
@@ -26,74 +26,78 @@ export const fetchPurchasingGroups = createAsyncThunk(
         }
     }
 );
-//פונקציה שמחזירה את הקבוצות רכישה של אותו משתמש
+
+//פונקציה שמחזירה את כל הקבוצות רכישה של אותו ספק
 export const getPurchasingGroupsById = createAsyncThunk( 'purchasingGroups/fetchByUserId',
   async (id) => { 
     try {
       const response = await axios.get(`https://localhost:7022/api/Supplier/GetPurchasingGroup`, {
-        params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+        params: { id: id },
       });
       console.log(response.data)
-      return response.data; // מחזיר את המידע שהתקבל מהשרת
+      return response.data; 
     } catch (error) {
-      return []; // מחזיר null במקרה של שגיאה
+      return []; 
     }
   });
-//פונקציה שמחזירה את הקבוצות רכישה של אותו משתמש שהוא משתמש בהם
+
+//פונקציה שמחזירה את כל הקבוצות רכיהש של אותו משתמש
   export const getPurchasingGroupsByIdUser = createAsyncThunk( 'purchasingGroups/fetchByUserId',
     async (id) => { 
       try {
         const response = await axios.get(`https://localhost:7022/api/User/GetPurchasingGroup`, {
-          params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+          params: { id: id },
         });
         console.log(response.data)
-        return response.data; // מחזיר את המידע שהתקבל מהשרת
+        return response.data; 
       } catch (error) {
-        return []; // מחזיר null במקרה של שגיאה
+        return [];
       }
     });
+
   //פונקציה שמביאה את כל הקבוצות שמחכות במועדפים
   export const getFave = createAsyncThunk( 'purchasingGroups/fetchFave',
     async (id) => { 
       try {
         const response = await axios.get(`https://localhost:7022/api/Supplier/GetWantToOpen`, {
-          params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+          params: { id: id },
         });
         console.log(response.data)
-        return response.data; // מחזיר את המידע שהתקבל מהשרת
+        return response.data; 
       } catch (error) {
-        return []; // מחזיר null במקרה של שגיאה
+        return []; 
       }
     });
+
   //פונקציה שמביאה את כל הקבוצות שמחכות במועדפים לפי משתמש
   export const getFaveUser = createAsyncThunk( 'purchasingGroups/getFaveUser',
     async (id) => { 
       try {
         const response = await axios.get(`https://localhost:7022/api/User/GetWantToOpen`, {
-          params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+          params: { id: id },
         });
         console.log(response.data)
-        return response.data; // מחזיר את המידע שהתקבל מהשרת
+        return response.data; 
       } catch (error) {
-        return []; // מחזיר null במקרה של שגיאה
+        return []; 
       }
     });
-//פונקציה שמעדכנת את הנתונים של הקבוצת רכישה
 
-//פונקציה שמקבלת ID של מוצר ומחזירה אותו
-export const getGroupById = createAsyncThunk( 'purchasingGroupOne/getGroupById',
+  //פונקציה שמחזירה קבוצת רכישה לפי ID
+  export const getGroupById = createAsyncThunk( 'purchasingGroupOne/getGroupById',
       async (id) => { 
         try {
           const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/${id}`, {
-            params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+            params: { id: id },
           });
           console.log(response.data)
-          return response.data; // מחזיר את המידע שהתקבל מהשרת
+          return response.data;
         } catch (error) {
-          return {}; // מחזיר null במקרה של שגיאה
+          return {}; 
         }
       });
-//פונקציה שמוסיפה ניקוד לקבוצת רכישה      
+
+//פונקציה שמוסיפה ניקוד לקבוצת רכישה כאשר נכנסים אליה      
 const API_BASE_URL = 'https://localhost:7022/api/PurchasingGroup'; 
 export const addScope = async (id) => {
     try {
@@ -105,30 +109,21 @@ export const addScope = async (id) => {
         throw error;
     }
 };
-//פונקציה שמחזירה קבוצות רכישה לפי קטגוריות
-// export const getGroupByIdGroup = async (id) => {
-//   try {
-//       const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/category/${id}`);
-//       console.log('Data fetched successfully:', response.data);
-//       return response.data;
-//   } catch (error) {
-//       console.error('Error fetching data:', error.response?.data || error.message);
-//       throw error;
-//   }
-// };
+
 //פונקציה שמחזירה את הקבוצות רכישה לפי קטגוריה
 export const getGroupByIdGroup = createAsyncThunk( 'purchasingGroups/getGroupByIdGroup',
   async (id) => { 
     try {
       const response = await axios.get(`https://localhost:7022/api/PurchasingGroup/category/${id}`, {
-        params: { id: id },// שולח את ה-ID בפרמטרים של ה-URL
+        params: { id: id },
       });
       console.log(response.data)
-      return response.data; // מחזיר את המידע שהתקבל מהשרת
+      return response.data; 
     } catch (error) {
-      return {}; // מחזיר null במקרה של שגיאה
+      return {}; 
     }
   });
+
 //פונקציה שמחזירה מהשרת את הקבוצות רכישה לפי חיפוש של מה שמוכל בשם או בתאור 
   export const searchProducts = createAsyncThunk(
     "purchasingGroups/searchProducts",
@@ -138,6 +133,7 @@ export const getGroupByIdGroup = createAsyncThunk( 'purchasingGroups/getGroupByI
       return await response.json();
     }
   );
+
   //פונקציה שמחזירה את הקבוצות רכישה שנסגרות היום
   export const GetGroupsClosingToday = createAsyncThunk(
     "purchasingGroups/GetGroupsClosingToday",
@@ -160,12 +156,9 @@ export const getPurchaseGroupByRank = async (rank) => {
   }
 };
 
-//פונקציות המטפלות בקבוצות רכישה
 export const purchasingGroupSlice = createSlice({
-    
     name: 'purchasingGroup',
     initialState,
-
     reducers:{
         updatePurchasingGroup(state, action) {
             const index = state.purchasingGroups.findIndex((purchasingGroup) => purchasingGroup.id === action.payload.id);
@@ -253,7 +246,5 @@ export const purchasingGroupSlice = createSlice({
     });
   }}
 );
-//פונקציות המייצרות את הפעולות
 export const { addPurchasingGroup, deletePurchasingGroup, updatePurchasingGroup } = purchasingGroupSlice.actions;
-//פונקציות המחזירות את הקבוצות רכישה
 export default purchasingGroupSlice.reducer;

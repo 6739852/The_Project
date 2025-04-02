@@ -20,12 +20,17 @@ function MyBar() {
 
   const dispatch = useDispatch();
   const [searchTerm, setSearchTerm] = useState('');
-  const numOfCurrentGroups = useSelector(state => state.user.numOfCurrentGroups) ?? useSelector(state =>state.supplier.numOfCurrentGroups);
-  const numOfWaitingGroups = useSelector(state => state.user.numOfWaitingGroups) ?? useSelector(state=>state.supplier.numOfWaitingGroups);  
-  // const role =useSelector(state=>state.user.role)
+  const userNumOfCurrentGroups = useSelector(state => state.user?.numOfCurrentGroups);
+  const supplierNumOfCurrentGroups = useSelector(state => state.supplier?.numOfCurrentGroups);
+  const numOfCurrentGroups = userNumOfCurrentGroups ?? supplierNumOfCurrentGroups;
+  const userNumOfWaitingGroups = useSelector(state => state.user?.numOfWaitingGroups);
+  const supplierNumOfWaitingGroups = useSelector(state => state.supplier?.numOfWaitingGroups);
+  const numOfWaitingGroups = userNumOfWaitingGroups ?? supplierNumOfWaitingGroups;
+  
   const role = localStorage.getItem('role');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  //פונקציה של החיפוש
   const handleSearch = () => {
     window.location.href = `/ViewPurchasingGroup?search=${encodeURIComponent(searchTerm)}`;
     dispatch(searchGroups(searchTerm)); // שולח את החיפוש ל-Redux
@@ -52,20 +57,16 @@ function MyBar() {
         <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(true)}>
         <MenuIcon />
         </IconButton>
-
+  
         <Link to={role === 'Supplier' ? '/ExistGroups' : role === 'User' ? '/Cart' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white', mx: 1}}>
-              <Badge badgeContent={numOfCurrentGroups} color="error">
                 <ShoppingCartOutlinedIcon />
-              </Badge>
             </IconButton>
           </Link>
 
           <Link to={role === 'Supplier' ? '/FaveSupplier' : role === 'User' ? '/Fave' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white' }}>
-              <Badge badgeContent={numOfWaitingGroups} color="error">
                 <AccessTimeIcon />
-              </Badge>
             </IconButton>
            </Link>
 
@@ -74,14 +75,14 @@ function MyBar() {
               <PersonOutlineOutlinedIcon />
             </IconButton>
           </Link>
+
           <Link to={role === 'Supplier' ? '/AddGroup' : role === 'User' ? '/WantToOpen' : '/SignIn'}>
             <IconButton color="inherit" sx={{ color: 'white', mx: 1 }}>
               <AddShoppingCartIcon />
             </IconButton>
           </Link>
-        {/* אלמנטים מימין */}
+
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        {/* שדה חיפוש */}
         <Box
         sx={{
                 display: 'flex',
@@ -89,8 +90,7 @@ function MyBar() {
                 backgroundColor: '#f5f5f5',
                 borderRadius: '20px',
                 width: '700px',
-                // justifyContent: 'space-between',
-                marginRight: 6, // ריווח בין החיפוש לשאר האלמנטים
+                marginRight: 6, 
                 marginLeft:15
         }}
         >
@@ -108,20 +108,25 @@ function MyBar() {
               }}
             />
         </Box>
-
-        {/* שם האתר */}
-        <Typography
+        {/* <Typography
         variant="h6"
         component="a"
         href="/"
         sx={{ textDecoration: 'none', color: 'inherit', marginRight: 2 }}
         >
+
         POWERBUY
-        </Typography>
+        </Typography> */}
+        <Box  sx={{ marginLeft: 5 }}>
+          <img 
+            src="/Images/logoo.png" 
+            alt="Logo" 
+            style={{ height: '58px',width: '100px', borderRadius: '8px' }} 
+          />
+        </Box>
   </Box>
 </Toolbar>
       </AppBar>
-      {/* Drawer */}
       <Drawer
         anchor="left"
         open={isDrawerOpen}
@@ -153,5 +158,4 @@ function MyBar() {
     </>
   );
 }
-
 export default MyBar;
