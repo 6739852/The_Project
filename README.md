@@ -32,13 +32,6 @@ src/ ├── components/ # Reusable components (e.g. GroupCard, JoinForm) ├�
 
 ---
 
-## 📷 Screenshots
-
-> *(Add screenshots here to showcase the app's UI)*  
-> You can use `![Screenshot](link)` format to embed images.
-
----
-
 ## 📦 Getting Started
 
 To run the app locally:
